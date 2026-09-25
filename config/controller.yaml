@@ -1,0 +1,14 @@
+controller:
+  target_speed: 2.0
+  goal_tolerance: 0.5
+  lookahead_distance: 1.5
+  max_linear_speed: 3.0
+  max_angular_speed: 1.0
+
+waypoints:
+  frame_id: map
+  points:
+    - {x: 0.0, y: 0.0}
+    - {x: 5.0, y: 0.0}
+    - {x: 10.0, y: 0.0}
+

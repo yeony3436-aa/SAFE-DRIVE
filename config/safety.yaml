@@ -1,0 +1,18 @@
+safety:
+  ttc:
+    invalid_value: .inf
+
+risk:
+  collision_score: 100
+
+  ttc_critical_threshold: 1.0
+  ttc_critical_score: 50
+
+  ttc_warning_threshold: 2.0
+  ttc_warning_score: 30
+
+  minimum_distance_threshold: 1.0
+  minimum_distance_score: 30
+
+  emergency_braking_score: 20
+

@@ -1,0 +1,25 @@
+experiment:
+  id: adaptive_grid_001
+  method: adaptive_grid_refinement
+  budget: 100
+  seed: 42
+  output_dir: data/experiments
+
+parameter_space:
+  ego_speed:
+    min: 2.78
+    max: 8.33
+    unit: m/s
+  pedestrian_spawn_distance:
+    min: 5.0
+    max: 20.0
+    unit: m
+  pedestrian_speed:
+    min: 0.5
+    max: 2.0
+    unit: m/s
+
+adaptive:
+  initial_grid_divisions: 3
+  refinement_factor: 2
+

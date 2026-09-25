@@ -1,0 +1,6 @@
+vehicle:
+  frame_id: base_link
+  odom_frame_id: odom
+  cmd_vel_topic: /safe_drive/ego/cmd_vel
+  odom_topic: /safe_drive/ego/odom
+
