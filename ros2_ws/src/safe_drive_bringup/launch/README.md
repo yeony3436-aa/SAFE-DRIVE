@@ -5,13 +5,13 @@ This package provides launch entry points for SAFE-Drive.
 Available now:
 
 - `simulation.launch.py`: start the Gazebo world and spawn the ego vehicle
+- `vehicle.launch.py`: start the simulation and follow the configured route
 
-Run it with:
+Run the complete vehicle baseline with:
 
 ```bash
-ros2 launch safe_drive_bringup simulation.launch.py
+ros2 launch safe_drive_bringup vehicle.launch.py
 ```
 
-Future launch files will be added after their corresponding packages are
-implemented: `vehicle.launch.py` for control, then `demo.launch.py` once the
-end-to-end MVP is stable.
+`demo.launch.py` will be added after the parameterized hazard scenario is
+stable.

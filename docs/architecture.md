@@ -49,3 +49,7 @@ plugins or control logic. This keeps the model reusable while the next package,
 `safe_drive_bringup/simulation.launch.py` is the current one-command entry
 point. It delegates to `safe_drive_sim`, which starts the minimal road world,
 publishes the ego vehicle description, and spawns `safe_drive_ego`.
+
+`safe_drive_bringup/vehicle.launch.py` adds `safe_drive_control`. The waypoint
+follower consumes `/safe_drive/ego/odom`, publishes `/safe_drive/ego/cmd_vel`,
+and commands a persistent stop after reaching the final configured waypoint.

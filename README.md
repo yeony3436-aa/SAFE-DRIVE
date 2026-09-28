@@ -22,10 +22,11 @@ This project does not initially depend on YOLO, lane detection, LLMs, voice inpu
 ## Current Status
 
 - Implemented: initial project structure, `safe_drive_bringup`, the
-  simulator-independent ego vehicle URDF/Xacro, and minimal Gazebo road world
-  with ego-vehicle spawning
-- In progress: MVP-01 ROS 2 vehicle control and odometry
-- Planned next: `safe_drive_control` with a simple command interface
+  simulator-independent ego vehicle URDF/Xacro, minimal Gazebo road world,
+  ego-vehicle spawning, ROS 2 velocity commands, odometry, waypoint following,
+  and destination stop
+- Completed: MVP-01 vehicle baseline
+- Planned next: MVP-02 configurable sudden-pedestrian scenario
 
 ## MVP-01 Target
 
@@ -35,7 +36,16 @@ Required behavior:
 
 - Gazebo launches. — Implemented
 - Ego vehicle spawns. — Implemented
-- ROS 2 control command works. — Planned
-- Odometry is published. — Planned
-- Vehicle follows several waypoints. — Planned
-- Vehicle stops at the final waypoint. — Planned
+- ROS 2 control command works. — Implemented
+- Odometry is published. — Implemented
+- Vehicle follows several waypoints. — Implemented
+- Vehicle stops at the final waypoint. — Implemented
+
+Run the MVP-01 baseline:
+
+```bash
+cd ros2_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch safe_drive_bringup vehicle.launch.py
+```

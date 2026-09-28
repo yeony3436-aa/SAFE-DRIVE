@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="safe_drive_ego" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find safe_drive_description)/urdf/ego_vehicle_core.xacro"/>
+  <xacro:safe_drive_ego_vehicle/>
+
+  <!-- Prefer rolling in the vehicle x direction while allowing enough
+       lateral slip for stable skid-steer turns. -->
+  <xacro:macro name="wheel_surface" params="name">
+    <gazebo reference="${name}">
+      <mu1>1.0</mu1>
+      <mu2>0.1</mu2>
+      <fdir1>1 0 0</fdir1>
+      <kp>1000000.0</kp>
+      <kd>10.0</kd>
+      <minDepth>0.001</minDepth>
+      <maxVel>0.1</maxVel>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:wheel_surface name="front_left_wheel"/>
+  <xacro:wheel_surface name="front_right_wheel"/>
+  <xacro:wheel_surface name="rear_left_wheel"/>
+  <xacro:wheel_surface name="rear_right_wheel"/>
+
+  <!-- Four-wheel skid-steer drive keeps the MVP deterministic and exposes the
+       standard Twist/Odometry interface needed by the waypoint controller. -->
+  <gazebo>
+    <plugin name="safe_drive_diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <namespace>/safe_drive/ego</namespace>
+      </ros>
+
+      <update_rate>50</update_rate>
+      <num_wheel_pairs>2</num_wheel_pairs>
+
+      <left_joint>front_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+
+      <wheel_separation>0.56</wheel_separation>
+      <wheel_separation>0.56</wheel_separation>
+      <wheel_diameter>0.20</wheel_diameter>
+      <wheel_diameter>0.20</wheel_diameter>
+
+      <max_wheel_torque>10.0</max_wheel_torque>
+      <max_wheel_acceleration>2.0</max_wheel_acceleration>
+
+      <command_topic>cmd_vel</command_topic>
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>false</publish_wheel_tf>
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
+    </plugin>
+  </gazebo>
+</robot>

@@ -34,9 +34,9 @@ def generate_launch_description() -> LaunchDescription:
     )
 
     vehicle_xacro = PathJoinSubstitution([
-        FindPackageShare('safe_drive_description'),
+        FindPackageShare('safe_drive_sim'),
         'urdf',
-        'ego_vehicle.urdf.xacro',
+        'ego_vehicle.gazebo.urdf.xacro',
     ])
     robot_description = Command(['xacro ', vehicle_xacro])
 
