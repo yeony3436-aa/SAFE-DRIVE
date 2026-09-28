@@ -30,7 +30,7 @@
           <name>safe_drive_ego</name>
           <static>true</static>
           <use_model_frame>true</use_model_frame>
-          <xyz>-5 0 3</xyz>
+          <xyz>-7 0 4</xyz>
         </track_visual>
       </camera>
     </gui>
