@@ -7,8 +7,10 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 import rclpy
 from rclpy.node import Node
+from std_msgs.msg import String
 
 from safe_drive_control.controller import WaypointController
+from safe_drive_control.signal_stop import signal_speed_limit
 
 
 def quaternion_to_yaw(x: float, y: float, z: float, w: float) -> float:
@@ -34,6 +36,11 @@ class WaypointFollower(Node):
         self.declare_parameter('odom_timeout', 0.5)
         self.declare_parameter('waypoint_x', [-10.0, 0.0, 10.0])
         self.declare_parameter('waypoint_y', [-1.75, -1.75, -1.75])
+        self.declare_parameter('signal_enabled', False)
+        self.declare_parameter('stop_line_x', -9.25)
+        self.declare_parameter('vehicle_front_offset', 2.1)
+        self.declare_parameter('stop_line_margin', 0.6)
+        self.declare_parameter('signal_timeout', 1.0)
 
         waypoint_x = list(self.get_parameter('waypoint_x').value)
         waypoint_y = list(self.get_parameter('waypoint_y').value)
@@ -68,6 +75,14 @@ class WaypointFollower(Node):
         self._last_reported_waypoint = -1
         self._completion_reported = False
         self._waiting_for_odom_reported = False
+        self._signal_enabled = bool(self.get_parameter('signal_enabled').value)
+        self._signal_state: Optional[str] = None
+        self._last_signal_time = None
+        self._last_signal_log: Optional[str] = None
+        if self._signal_enabled:
+            self.create_subscription(
+                String, '/safe_drive/vehicle_signal/state', self._on_signal, 10
+            )
 
         self._command_publisher = self.create_publisher(
             Twist,
@@ -99,6 +114,10 @@ class WaypointFollower(Node):
         self._position = (position.x, position.y, yaw)
         self._last_odom_time = self.get_clock().now()
 
+    def _on_signal(self, message: String) -> None:
+        self._signal_state = message.data
+        self._last_signal_time = self.get_clock().now()
+
     def _control_step(self) -> None:
         if self._position is None or self._last_odom_time is None:
             self._publish_stop()
@@ -117,9 +136,33 @@ class WaypointFollower(Node):
             return
 
         command = self._controller.calculate_command(*self._position)
+        linear = command.linear
+        angular = command.angular
+        if self._signal_enabled and not self._controller.completed:
+            signal_state = self._signal_state
+            if self._last_signal_time is None or (
+                self.get_clock().now() - self._last_signal_time
+            ).nanoseconds / 1e9 > float(self.get_parameter('signal_timeout').value):
+                signal_state = None
+            limit = signal_speed_limit(
+                x=self._position[0],
+                signal_state=signal_state,
+                stop_line_x=float(self.get_parameter('stop_line_x').value),
+                front_offset=float(self.get_parameter('vehicle_front_offset').value),
+                safety_margin=float(self.get_parameter('stop_line_margin').value),
+                deceleration=float(self.get_parameter('max_linear_deceleration').value),
+                max_speed=linear,
+            )
+            if limit < linear:
+                angular *= limit / linear if linear > 0.0 else 0.0
+                linear = limit
+            log_state = signal_state or 'UNKNOWN'
+            if log_state != self._last_signal_log:
+                self.get_logger().info(f'Traffic signal {log_state}; speed limit {limit:.2f} m/s')
+                self._last_signal_log = log_state
         message = Twist()
-        message.linear.x = command.linear
-        message.angular.z = command.angular
+        message.linear.x = linear
+        message.angular.z = angular
         self._command_publisher.publish(message)
 
         if self._controller.completed:

@@ -1,6 +1,6 @@
 safety:
-  ttc:
-    invalid_value: .inf
+  # A decrease in commanded speed by at least this rate counts as braking.
+  emergency_braking_deceleration: 2.5  # m/s^2
 
 risk:
   collision_score: 100
@@ -15,4 +15,3 @@ risk:
   minimum_distance_score: 30
 
   emergency_braking_score: 20
-

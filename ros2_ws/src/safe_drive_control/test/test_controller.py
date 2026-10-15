@@ -42,6 +42,62 @@ def test_controller_advances_and_stops_at_final_waypoint():
     assert command.angular == 0.0
 
 
+def test_controller_advances_when_first_waypoint_was_passed():
+    controller = make_controller()
+
+    command = controller.calculate_command(1.2, 0.0, 0.0)
+
+    assert controller.waypoint_index == 1
+    assert not controller.completed
+    assert command.linear > 0.0
+    assert command.angular == pytest.approx(0.0)
+
+
+def test_controller_advances_when_intermediate_waypoint_was_passed():
+    controller = make_controller(
+        waypoints=[(1.0, 0.0), (2.0, 0.0), (3.0, 0.0)]
+    )
+    controller.calculate_command(1.0, 0.0, 0.0)
+
+    command = controller.calculate_command(2.2, 0.0, 0.0)
+
+    assert controller.waypoint_index == 2
+    assert not controller.completed
+    assert command.linear > 0.0
+    assert command.angular == pytest.approx(0.0)
+
+
+def test_controller_does_not_mark_passed_final_waypoint_complete():
+    controller = make_controller(waypoints=[(1.0, 0.0)])
+
+    command = controller.calculate_command(1.2, 0.0, 0.0)
+
+    assert controller.waypoint_index == 0
+    assert not controller.completed
+    assert command.linear == 0.0
+    assert abs(command.angular) == pytest.approx(1.0)
+
+
+def test_controller_stops_after_passing_final_waypoint_on_route():
+    controller = make_controller(waypoints=[(1.0, 0.0), (2.0, 0.0)])
+    controller.calculate_command(1.0, 0.0, 0.0)
+
+    command = controller.calculate_command(2.3, 0.0, 0.0)
+
+    assert controller.completed
+    assert command.linear == 0.0
+    assert command.angular == 0.0
+
+
+def test_controller_does_not_complete_after_passing_goal_off_route():
+    controller = make_controller(waypoints=[(1.0, 0.0), (2.0, 0.0)])
+    controller.calculate_command(1.0, 0.0, 0.0)
+
+    controller.calculate_command(2.3, 0.3, 0.0)
+
+    assert not controller.completed
+
+
 def test_controller_rotates_when_waypoint_is_behind():
     controller = make_controller(waypoints=[(-1.0, 0.0)])
 

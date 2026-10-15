@@ -17,15 +17,16 @@ install(
   PATTERN "__pycache__" EXCLUDE
 )
 
-# The repository-level config directory is the canonical experiment config.
+# Install the package's runnable default with the package itself.
 install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../../config/controller.yaml
+  FILES config/controller.yaml config/signal_controller.yaml
   DESTINATION share/${PROJECT_NAME}/config
 )
 
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(test_controller test/test_controller.py)
+  ament_add_pytest_test(test_signal_stop test/test_signal_stop.py)
 endif()
 
 ament_package()

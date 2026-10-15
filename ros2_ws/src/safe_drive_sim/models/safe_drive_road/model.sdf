@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="safe_drive_road_materials">
+    <static>true</static>
+    <link name="resource_anchor"/>
+  </model>
+</sdf>

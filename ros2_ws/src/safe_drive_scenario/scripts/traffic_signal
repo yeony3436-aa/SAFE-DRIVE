@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+"""ROS executable for the compact intersection traffic signal."""
+
+from safe_drive_scenario.traffic_signal_node import main
+
+
+if __name__ == '__main__':
+    main()

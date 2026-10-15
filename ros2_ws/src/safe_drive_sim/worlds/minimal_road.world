@@ -1,6 +1,12 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
   <world name="safe_drive_minimal_road">
+    <plugin name="safe_drive_ground_truth" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/safe_drive/gazebo</namespace>
+      </ros>
+      <update_rate>20.0</update_rate>
+    </plugin>
     <physics name="ode" type="ode">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
@@ -63,8 +69,11 @@
           <pose>0 0 -0.045 0 0 0</pose>
           <geometry><box><size>60 8 0.01</size></box></geometry>
           <material>
-            <ambient>0.10 0.10 0.10 1</ambient>
-            <diffuse>0.18 0.18 0.18 1</diffuse>
+            <script>
+              <uri>file://safe_drive_road/materials/scripts</uri>
+              <uri>file://safe_drive_road/materials/textures</uri>
+              <name>SafeDrive/Asphalt</name>
+            </script>
           </material>
         </visual>
         <visual name="center_line_a">
@@ -91,6 +100,185 @@
           <pose>0 -3.75 -0.037 0 0 0</pose>
           <geometry><box><size>60 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material>
+        </visual>
+        <!-- Eight white bars run parallel to vehicle travel (+x), repeated
+             along the pedestrian's +y crossing path. Paint is visual-only. -->
+        <visual name="crosswalk_bar_1"><pose>-5 -3.45 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_2"><pose>-5 -2.45 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_3"><pose>-5 -1.45 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_4"><pose>-5 -0.45 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_5"><pose>-5 0.55 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_6"><pose>-5 1.55 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_7"><pose>-5 2.55 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="crosswalk_bar_8"><pose>-5 3.55 -0.030 0 0 0</pose><geometry><box><size>3.6 0.50 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="approach_stop_line"><pose>-9.25 -1.75 -0.029 0 0 0</pose><geometry><box><size>0.30 3.30 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+        <visual name="opposite_stop_line"><pose>-0.6 1.75 -0.029 0 0 0</pose><geometry><box><size>0.30 3.30 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="roadside">
+      <static>true</static>
+      <link name="streetscape">
+        <visual name="north_grass">
+          <pose>0 7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>60 6 0.08</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
+        </visual>
+        <visual name="south_grass">
+          <pose>0 -7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>60 6 0.08</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
+        </visual>
+        <visual name="north_sidewalk">
+          <pose>0 4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>60 1.8 0.06</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
+        </visual>
+        <visual name="south_sidewalk">
+          <pose>0 -4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>60 1.8 0.06</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
+        </visual>
+        <visual name="north_curb">
+          <pose>0 4.04 0.0 0 0 0</pose>
+          <geometry><box><size>60 0.12 0.08</size></box></geometry>
+          <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
+        </visual>
+        <visual name="south_curb">
+          <pose>0 -4.04 0.0 0 0 0</pose>
+          <geometry><box><size>60 0.12 0.08</size></box></geometry>
+          <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
+        </visual>
+        <!-- Visual-only paving and roadside props keep the tested road contact
+             and the pedestrian crossing geometry unchanged. -->
+        <visual name="north_sidewalk_band">
+          <pose>0 5.70 0.018 0 0 0</pose>
+          <geometry><box><size>60 0.055 0.004</size></box></geometry>
+          <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
+        </visual>
+        <visual name="south_sidewalk_band">
+          <pose>0 -5.70 0.018 0 0 0</pose>
+          <geometry><box><size>60 0.055 0.004</size></box></geometry>
+          <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
+        </visual>
+        <visual name="north_crossing_entry">
+          <pose>-5 4.38 0.019 0 0 0</pose>
+          <geometry><box><size>3.90 0.46 0.006</size></box></geometry>
+          <material><ambient>0.73 0.63 0.27 1</ambient><diffuse>0.84 0.72 0.31 1</diffuse></material>
+        </visual>
+        <visual name="south_crossing_entry">
+          <pose>-5 -4.38 0.019 0 0 0</pose>
+          <geometry><box><size>3.90 0.46 0.006</size></box></geometry>
+          <material><ambient>0.73 0.63 0.27 1</ambient><diffuse>0.84 0.72 0.31 1</diffuse></material>
+        </visual>
+        <visual name="north_planting_bed">
+          <pose>11 7.0 -0.01 0 0 0</pose>
+          <geometry><box><size>4.4 2.0 0.035</size></box></geometry>
+          <material><ambient>0.18 0.24 0.12 1</ambient><diffuse>0.25 0.31 0.15 1</diffuse></material>
+        </visual>
+        <visual name="south_planting_bed">
+          <pose>-16 -7.0 -0.01 0 0 0</pose>
+          <geometry><box><size>4.4 2.0 0.035</size></box></geometry>
+          <material><ambient>0.18 0.24 0.12 1</ambient><diffuse>0.25 0.31 0.15 1</diffuse></material>
+        </visual>
+        <visual name="north_lamp_post">
+          <pose>1 5.70 2.10 0 0 0</pose>
+          <geometry><cylinder><radius>0.065</radius><length>4.20</length></cylinder></geometry>
+          <material><ambient>0.24 0.28 0.31 1</ambient><diffuse>0.36 0.40 0.43 1</diffuse></material>
+        </visual>
+        <visual name="north_lamp_arm">
+          <pose>1 5.15 4.12 0 0 0</pose>
+          <geometry><box><size>0.09 1.18 0.08</size></box></geometry>
+          <material><ambient>0.24 0.28 0.31 1</ambient><diffuse>0.36 0.40 0.43 1</diffuse></material>
+        </visual>
+        <visual name="north_lamp_head">
+          <pose>1 4.62 4.06 0 0 0</pose>
+          <geometry><box><size>0.46 0.24 0.10</size></box></geometry>
+          <material><ambient>0.83 0.81 0.64 1</ambient><diffuse>0.88 0.86 0.70 1</diffuse></material>
+        </visual>
+        <visual name="south_lamp_post">
+          <pose>-15 -5.70 2.10 0 0 0</pose>
+          <geometry><cylinder><radius>0.065</radius><length>4.20</length></cylinder></geometry>
+          <material><ambient>0.24 0.28 0.31 1</ambient><diffuse>0.36 0.40 0.43 1</diffuse></material>
+        </visual>
+        <visual name="south_lamp_arm">
+          <pose>-15 -5.15 4.12 0 0 0</pose>
+          <geometry><box><size>0.09 1.18 0.08</size></box></geometry>
+          <material><ambient>0.24 0.28 0.31 1</ambient><diffuse>0.36 0.40 0.43 1</diffuse></material>
+        </visual>
+        <visual name="south_lamp_head">
+          <pose>-15 -4.62 4.06 0 0 0</pose>
+          <geometry><box><size>0.46 0.24 0.10</size></box></geometry>
+          <material><ambient>0.83 0.81 0.64 1</ambient><diffuse>0.88 0.86 0.70 1</diffuse></material>
+        </visual>
+        <visual name="north_pavilion_body">
+          <pose>21 8.25 2.0 0 0 0</pose>
+          <geometry><box><size>6.0 3.1 4.0</size></box></geometry>
+          <material><ambient>0.50 0.52 0.49 1</ambient><diffuse>0.66 0.68 0.64 1</diffuse></material>
+        </visual>
+        <visual name="north_pavilion_roof">
+          <pose>21 8.25 4.12 0 0 0</pose>
+          <geometry><box><size>6.4 3.4 0.25</size></box></geometry>
+          <material><ambient>0.19 0.24 0.29 1</ambient><diffuse>0.27 0.32 0.36 1</diffuse></material>
+        </visual>
+        <visual name="north_pavilion_window">
+          <pose>21 6.69 2.25 0 0 0</pose>
+          <geometry><box><size>3.2 0.025 1.35</size></box></geometry>
+          <material><ambient>0.11 0.23 0.29 1</ambient><diffuse>0.20 0.35 0.41 1</diffuse></material>
+        </visual>
+        <visual name="south_pavilion_body">
+          <pose>-24 -8.20 1.75 0 0 0</pose>
+          <geometry><box><size>5.0 3.0 3.5</size></box></geometry>
+          <material><ambient>0.57 0.42 0.32 1</ambient><diffuse>0.70 0.53 0.41 1</diffuse></material>
+        </visual>
+        <visual name="south_pavilion_roof">
+          <pose>-24 -8.20 3.62 0 0 0</pose>
+          <geometry><box><size>5.4 3.4 0.25</size></box></geometry>
+          <material><ambient>0.22 0.26 0.28 1</ambient><diffuse>0.31 0.35 0.36 1</diffuse></material>
+        </visual>
+        <visual name="south_pavilion_window">
+          <pose>-24 -6.69 2.02 0 0 0</pose>
+          <geometry><box><size>2.7 0.025 1.15</size></box></geometry>
+          <material><ambient>0.11 0.23 0.29 1</ambient><diffuse>0.20 0.35 0.41 1</diffuse></material>
+        </visual>
+        <visual name="south_crossing_sign_post">
+          <pose>-8.3 -5.35 1.05 0 0 0</pose>
+          <geometry><cylinder><radius>0.045</radius><length>2.1</length></cylinder></geometry>
+          <material><ambient>0.32 0.35 0.37 1</ambient><diffuse>0.55 0.58 0.60 1</diffuse></material>
+        </visual>
+        <visual name="south_crossing_sign">
+          <pose>-8.3 -5.35 2.25 0 0 0</pose>
+          <geometry><box><size>0.65 0.08 0.65</size></box></geometry>
+          <material><ambient>0.08 0.25 0.67 1</ambient><diffuse>0.10 0.37 0.85 1</diffuse></material>
+        </visual>
+        <visual name="north_crossing_sign_post">
+          <pose>-1.7 5.35 1.05 0 0 0</pose>
+          <geometry><cylinder><radius>0.045</radius><length>2.1</length></cylinder></geometry>
+          <material><ambient>0.32 0.35 0.37 1</ambient><diffuse>0.55 0.58 0.60 1</diffuse></material>
+        </visual>
+        <visual name="north_crossing_sign">
+          <pose>-1.7 5.35 2.25 0 0 0</pose>
+          <geometry><box><size>0.65 0.08 0.65</size></box></geometry>
+          <material><ambient>0.08 0.25 0.67 1</ambient><diffuse>0.10 0.37 0.85 1</diffuse></material>
+        </visual>
+        <visual name="south_tree_trunk">
+          <pose>11 -6.6 1.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.16</radius><length>2.6</length></cylinder></geometry>
+          <material><ambient>0.27 0.15 0.07 1</ambient><diffuse>0.39 0.23 0.10 1</diffuse></material>
+        </visual>
+        <visual name="south_tree_crown">
+          <pose>11 -6.6 3.1 0 0 0</pose>
+          <geometry><sphere><radius>1.1</radius></sphere></geometry>
+          <material><ambient>0.09 0.27 0.07 1</ambient><diffuse>0.16 0.45 0.12 1</diffuse></material>
+        </visual>
+        <visual name="north_tree_trunk">
+          <pose>-13 6.6 1.3 0 0 0</pose>
+          <geometry><cylinder><radius>0.16</radius><length>2.6</length></cylinder></geometry>
+          <material><ambient>0.27 0.15 0.07 1</ambient><diffuse>0.39 0.23 0.10 1</diffuse></material>
+        </visual>
+        <visual name="north_tree_crown">
+          <pose>-13 6.6 3.1 0 0 0</pose>
+          <geometry><sphere><radius>1.1</radius></sphere></geometry>
+          <material><ambient>0.09 0.27 0.07 1</ambient><diffuse>0.16 0.45 0.12 1</diffuse></material>
         </visual>
       </link>
     </model>

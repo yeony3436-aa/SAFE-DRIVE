@@ -13,6 +13,11 @@ def generate_launch_description() -> LaunchDescription:
         default_value='true',
         description='Start the Gazebo client when true.',
     )
+    target_speed_argument = DeclareLaunchArgument(
+        'target_speed',
+        default_value='2.0',
+        description='Ego target speed in meters per second.',
+    )
 
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution([
@@ -29,6 +34,14 @@ def generate_launch_description() -> LaunchDescription:
             'launch',
             'waypoint_follower.launch.py',
         ])),
+        launch_arguments={
+            'target_speed': LaunchConfiguration('target_speed'),
+        }.items(),
     )
 
-    return LaunchDescription([gui_argument, simulation, controller])
+    return LaunchDescription([
+        gui_argument,
+        target_speed_argument,
+        simulation,
+        controller,
+    ])

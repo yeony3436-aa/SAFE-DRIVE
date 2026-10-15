@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="safe_drive_pedestrian">
+    <static>true</static>
+    <link name="body">
+      <!-- Keep the measured contact envelope from the original scenario. -->
+      <collision name="collision">
+        <pose>0 0 0.9 0 0 0</pose>
+        <geometry><cylinder><radius>0.28</radius><length>1.8</length></cylinder></geometry>
+      </collision>
+      <!-- Local +x is forward; the scenario faces this model toward +y. -->
+      <visual name="jacket">
+        <pose>0 0 1.08 0 0 0</pose>
+        <geometry><box><size>0.31 0.43 0.62</size></box></geometry>
+        <material><ambient>0.86 0.37 0.12 1</ambient><diffuse>0.93 0.43 0.15 1</diffuse></material>
+      </visual>
+      <visual name="jacket_collar">
+        <pose>0.01 0 1.39 0 0 0</pose>
+        <geometry><cylinder><radius>0.13</radius><length>0.08</length></cylinder></geometry>
+        <material><ambient>0.15 0.20 0.25 1</ambient><diffuse>0.20 0.25 0.30 1</diffuse></material>
+      </visual>
+      <visual name="head">
+        <pose>0.01 0 1.64 0 0 0</pose>
+        <geometry><sphere><radius>0.18</radius></sphere></geometry>
+        <material><ambient>0.65 0.43 0.29 1</ambient><diffuse>0.79 0.55 0.37 1</diffuse></material>
+      </visual>
+      <visual name="hair">
+        <pose>-0.015 0 1.76 0 0 0</pose>
+        <geometry><sphere><radius>0.16</radius></sphere></geometry>
+        <material><ambient>0.10 0.08 0.07 1</ambient><diffuse>0.16 0.12 0.10 1</diffuse></material>
+      </visual>
+      <visual name="nose">
+        <pose>0.196 0 1.62 0 0 0</pose>
+        <geometry><sphere><radius>0.035</radius></sphere></geometry>
+        <material><ambient>0.65 0.43 0.29 1</ambient><diffuse>0.79 0.55 0.37 1</diffuse></material>
+      </visual>
+      <visual name="left_eye">
+        <pose>0.17 0.065 1.67 0 0 0</pose>
+        <geometry><sphere><radius>0.018</radius></sphere></geometry>
+        <material><ambient>0.05 0.04 0.04 1</ambient><diffuse>0.06 0.05 0.05 1</diffuse></material>
+      </visual>
+      <visual name="right_eye">
+        <pose>0.17 -0.065 1.67 0 0 0</pose>
+        <geometry><sphere><radius>0.018</radius></sphere></geometry>
+        <material><ambient>0.05 0.04 0.04 1</ambient><diffuse>0.06 0.05 0.05 1</diffuse></material>
+      </visual>
+      <visual name="left_arm">
+        <pose>-0.04 0.29 1.08 0 -0.26 0</pose>
+        <geometry><cylinder><radius>0.075</radius><length>0.58</length></cylinder></geometry>
+        <material><ambient>0.86 0.37 0.12 1</ambient><diffuse>0.93 0.43 0.15 1</diffuse></material>
+      </visual>
+      <visual name="right_arm">
+        <pose>0.04 -0.29 1.08 0 0.26 0</pose>
+        <geometry><cylinder><radius>0.075</radius><length>0.58</length></cylinder></geometry>
+        <material><ambient>0.86 0.37 0.12 1</ambient><diffuse>0.93 0.43 0.15 1</diffuse></material>
+      </visual>
+      <visual name="left_hand">
+        <pose>0.04 0.29 0.79 0 0 0</pose>
+        <geometry><sphere><radius>0.075</radius></sphere></geometry>
+        <material><ambient>0.65 0.43 0.29 1</ambient><diffuse>0.79 0.55 0.37 1</diffuse></material>
+      </visual>
+      <visual name="right_hand">
+        <pose>-0.04 -0.29 0.79 0 0 0</pose>
+        <geometry><sphere><radius>0.075</radius></sphere></geometry>
+        <material><ambient>0.65 0.43 0.29 1</ambient><diffuse>0.79 0.55 0.37 1</diffuse></material>
+      </visual>
+      <visual name="trousers">
+        <pose>0 0 0.70 0 0 0</pose>
+        <geometry><box><size>0.30 0.37 0.20</size></box></geometry>
+        <material><ambient>0.10 0.15 0.21 1</ambient><diffuse>0.14 0.20 0.27 1</diffuse></material>
+      </visual>
+      <visual name="left_leg">
+        <pose>0.06 0.11 0.38 0 0.18 0</pose>
+        <geometry><cylinder><radius>0.09</radius><length>0.67</length></cylinder></geometry>
+        <material><ambient>0.10 0.15 0.21 1</ambient><diffuse>0.14 0.20 0.27 1</diffuse></material>
+      </visual>
+      <visual name="right_leg">
+        <pose>-0.06 -0.11 0.38 0 -0.18 0</pose>
+        <geometry><cylinder><radius>0.09</radius><length>0.67</length></cylinder></geometry>
+        <material><ambient>0.10 0.15 0.21 1</ambient><diffuse>0.14 0.20 0.27 1</diffuse></material>
+      </visual>
+      <visual name="left_shoe">
+        <pose>0.15 0.11 0.065 0 0 0</pose>
+        <geometry><box><size>0.27 0.15 0.10</size></box></geometry>
+        <material><ambient>0.06 0.07 0.08 1</ambient><diffuse>0.09 0.10 0.11 1</diffuse></material>
+      </visual>
+      <visual name="right_shoe">
+        <pose>-0.02 -0.11 0.065 0 0 0</pose>
+        <geometry><box><size>0.27 0.15 0.10</size></box></geometry>
+        <material><ambient>0.06 0.07 0.08 1</ambient><diffuse>0.09 0.10 0.11 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

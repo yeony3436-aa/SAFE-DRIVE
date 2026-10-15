@@ -1,9 +1,18 @@
 """Launch the minimal SAFE-Drive Gazebo world and spawn the ego vehicle."""
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    SetEnvironmentVariable,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import (
+    Command,
+    EnvironmentVariable,
+    LaunchConfiguration,
+    PathJoinSubstitution,
+)
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
@@ -81,6 +90,19 @@ def generate_launch_description() -> LaunchDescription:
         spawn_x_argument,
         spawn_y_argument,
         spawn_yaw_argument,
+        # gazebo_ros adds package exports to these values. Preserve Gazebo's
+        # built-in ground-plane and shader paths when the shell has not sourced
+        # /usr/share/gazebo-11/setup.sh.
+        SetEnvironmentVariable(
+            'GAZEBO_MODEL_PATH',
+            ['/usr/share/gazebo-11/models:',
+             EnvironmentVariable('GAZEBO_MODEL_PATH', default_value='')],
+        ),
+        SetEnvironmentVariable(
+            'GAZEBO_RESOURCE_PATH',
+            ['/usr/share/gazebo-11:',
+             EnvironmentVariable('GAZEBO_RESOURCE_PATH', default_value='')],
+        ),
         gazebo,
         robot_state_publisher,
         spawn_ego,

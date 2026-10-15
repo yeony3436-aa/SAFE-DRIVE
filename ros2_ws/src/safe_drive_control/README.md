@@ -6,7 +6,7 @@ This package owns the MVP-01 waypoint follower. It reads ego odometry from
 
 The controller follows the configured waypoints in order and continuously
 publishes a zero-velocity command after reaching the final waypoint. Controller
-limits and route points come from the repository-level `config/controller.yaml`.
+limits and route points come from this package's `config/controller.yaml`.
 
 Run the complete vehicle baseline with:
 

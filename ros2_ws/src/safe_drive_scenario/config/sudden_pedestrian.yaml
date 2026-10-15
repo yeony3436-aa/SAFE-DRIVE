@@ -1,0 +1,21 @@
+scenario:
+  id: SCENARIO-0001
+  type: sudden_pedestrian
+  seed: 42
+
+  parameters:
+    ego_speed: 2.0
+    pedestrian_speed: 1.5
+    pedestrian_spawn_distance: 10.0
+    # Start the crossing early enough to clear the ego lane before arrival.
+    # Smaller values can still be used to reproduce collision scenarios.
+    trigger_distance: 8.0
+
+  environment:
+    # Pedestrian crosses from the right road edge toward the opposite side.
+    pedestrian_start_y: -4.25
+    pedestrian_end_y: 4.25
+    update_rate_hz: 20.0
+
+  termination:
+    timeout: 30.0

@@ -1,0 +1,53 @@
+material SafeDrive/Asphalt
+{
+  technique
+  {
+    pass
+    {
+      ambient 0.55 0.55 0.55 1
+      diffuse 0.65 0.65 0.65 1
+      texture_unit
+      {
+        texture Asphalt.png
+        scale 0.07 0.5
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material SafeDrive/Concrete
+{
+  technique
+  {
+    pass
+    {
+      ambient 0.8 0.8 0.8 1
+      diffuse 0.9 0.9 0.9 1
+      texture_unit
+      {
+        texture Concrete_Ground.png
+        scale 0.04 0.8
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material SafeDrive/Grass
+{
+  technique
+  {
+    pass
+    {
+      ambient 0.65 0.65 0.65 1
+      diffuse 0.8 0.8 0.8 1
+      texture_unit
+      {
+        texture Grass.png
+        scale 0.08 0.5
+        filtering trilinear
+      }
+    }
+  }
+}

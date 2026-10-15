@@ -22,6 +22,20 @@
   <xacro:wheel_surface name="rear_left_wheel"/>
   <xacro:wheel_surface name="rear_right_wheel"/>
 
+  <gazebo reference="base_footprint">
+    <sensor type="contact" name="pedestrian_contact">
+      <update_rate>60</update_rate>
+      <contact><collision>base_footprint_fixed_joint_lump__base_link_collision</collision></contact>
+      <plugin name="safe_drive_contact" filename="libgazebo_ros_bumper.so">
+        <ros>
+          <namespace>/safe_drive/ego</namespace>
+          <remapping>bumper_states:=contacts</remapping>
+        </ros>
+        <frame_name>base_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
   <!-- Four-wheel skid-steer drive keeps the MVP deterministic and exposes the
        standard Twist/Odometry interface needed by the waypoint controller. -->
   <gazebo>
@@ -38,13 +52,13 @@
       <left_joint>rear_left_wheel_joint</left_joint>
       <right_joint>rear_right_wheel_joint</right_joint>
 
-      <wheel_separation>0.56</wheel_separation>
-      <wheel_separation>0.56</wheel_separation>
-      <wheel_diameter>0.20</wheel_diameter>
-      <wheel_diameter>0.20</wheel_diameter>
+      <wheel_separation>1.56</wheel_separation>
+      <wheel_separation>1.56</wheel_separation>
+      <wheel_diameter>0.60</wheel_diameter>
+      <wheel_diameter>0.60</wheel_diameter>
 
-      <max_wheel_torque>10.0</max_wheel_torque>
-      <max_wheel_acceleration>2.0</max_wheel_acceleration>
+      <max_wheel_torque>100.0</max_wheel_torque>
+      <max_wheel_acceleration>5.0</max_wheel_acceleration>
 
       <command_topic>cmd_vel</command_topic>
       <publish_odom>true</publish_odom>
@@ -52,6 +66,8 @@
       <publish_wheel_tf>false</publish_wheel_tf>
       <odometry_topic>odom</odometry_topic>
       <odometry_frame>odom</odometry_frame>
+      <!-- WORLD=1 keeps odometry in the Gazebo world coordinates used by scenarios. -->
+      <odometry_source>1</odometry_source>
       <robot_base_frame>base_footprint</robot_base_frame>
     </plugin>
   </gazebo>

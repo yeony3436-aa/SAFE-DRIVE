@@ -1,0 +1,30 @@
+# Compact road layout
+
+This is a small visual simulation scene, not a certified road design. Coordinates
+are in meters. The ego drives east (`+x`) in the south lane (`y=-1.75`); the
+configured pedestrian crosses north (`+y`) at `x=-5`.
+
+| Marking or fixture | Geometry in the simulation |
+| --- | --- |
+| East-west road | `x=-30..30`, `y=-4..4` |
+| North-south arms | `x=-2..6`, from `y=4..22` and `y=-22..-4` |
+| West crosswalk | Eight white bars, each 3.6 m along `x` and 0.5 m along `y`; bar centers at `x=-5`, `y=-3.45..3.55` |
+| Eastbound stop line | `x=-9.25`, 0.30 m along `x`, 3.30 m across the lane |
+| Westbound stop line in intersection world | `x=8.4`, before the east edge of the central square |
+| Vehicle signal | Three circular aspects in a horizontal roadside housing facing the eastbound approach |
+| Pedestrian signal | Two square aspects in a vertical curbside housing at the south crossing entry |
+
+The nearest west crosswalk edge is `x=-6.8`. The eastbound stop-line edge is
+`x=-9.10`, leaving 2.30 m of bare road between them. On red, the controller
+targets a front-bumper position at least 0.60 m behind the line. The crossing
+bars are parallel to vehicle travel and repeat across the walking direction;
+the prior bars were rotated 90 degrees. Paint has no collision geometry.
+
+The geometry follows the visual pattern in the [Korean Road Traffic Act
+Enforcement Rule, Annex 6](https://www.law.go.kr/flDownload.do?flNm=%5B%EB%B3%84%ED%91%9C+6%5D+%EC%95%88%EC%A0%84%ED%91%9C%EC%A7%80%EC%9D%98+%EC%A2%85%EB%A5%98%2C+%EB%A7%8C%EB%93%9C%EB%8A%94+%EB%B0%A9%EC%8B%9D+%EB%B0%8F+%EC%84%A4%EC%B9%98%E3%86%8D%EA%B4%80%EB%A6%AC%EA%B8%B0%EC%A4%80%28%EC%A0%9C8%EC%A1%B0%EC%A0%9C2%ED%95%AD+%EB%B0%8F+%EC%A0%9C11%EC%A1%B0%EC%A0%9C1%ED%98%B8+%EA%B4%80%EB%A0%A8%29&flSeq=95408325)
+for crossing marking 532 and stop-line marking 530. The [FHWA MUTCD 11th
+Edition, Part 3, Sections 3B.19 and 3C.03–3C.07](https://mutcd.fhwa.dot.gov/pdfs/11th_Edition/part3.pdf)
+also illustrates high-visibility bars parallel to approaching traffic and a
+stop line in advance of the crossing. These sources informed the drawing;
+the dimensions above are project configuration, not a claim of regulatory
+approval in a particular jurisdiction.

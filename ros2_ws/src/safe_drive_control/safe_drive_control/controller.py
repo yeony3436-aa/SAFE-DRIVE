@@ -74,7 +74,11 @@ class WaypointController:
         target_x, target_y = self._waypoints[self._waypoint_index]
         distance = math.hypot(target_x - x, target_y - y)
 
-        while distance <= self._goal_tolerance:
+        while (
+            distance <= self._goal_tolerance
+            or self._has_passed_intermediate_waypoint(x, y)
+            or self._has_passed_final_waypoint(x, y)
+        ):
             if self._waypoint_index == len(self._waypoints) - 1:
                 self._completed = True
                 return VelocityCommand(0.0, 0.0)
@@ -111,3 +115,46 @@ class WaypointController:
         angular = max(-self._max_angular_speed, min(self._max_angular_speed, angular))
 
         return VelocityCommand(linear, angular)
+
+    def _has_passed_intermediate_waypoint(self, x: float, y: float) -> bool:
+        """Return whether the vehicle crossed the current route progress plane.
+
+        Distance-only waypoint checks can miss a waypoint between control cycles.
+        For a non-final waypoint, a positive projection beyond the plane through
+        the waypoint means route progress has already carried the vehicle past it.
+        The incoming segment defines that direction after the first waypoint; the
+        first waypoint uses the direction toward the second waypoint.
+        """
+        if self._waypoint_index == len(self._waypoints) - 1:
+            return False
+
+        target_x, target_y = self._waypoints[self._waypoint_index]
+        if self._waypoint_index == 0:
+            direction_x = self._waypoints[1][0] - target_x
+            direction_y = self._waypoints[1][1] - target_y
+        else:
+            previous_x, previous_y = self._waypoints[self._waypoint_index - 1]
+            direction_x = target_x - previous_x
+            direction_y = target_y - previous_y
+
+        progress = (x - target_x) * direction_x + (y - target_y) * direction_y
+        return progress > 0.0
+
+    def _has_passed_final_waypoint(self, x: float, y: float) -> bool:
+        """Accept a passed final waypoint when still on the route corridor."""
+        if self._waypoint_index != len(self._waypoints) - 1 or len(self._waypoints) < 2:
+            return False
+        target_x, target_y = self._waypoints[-1]
+        previous_x, previous_y = self._waypoints[-2]
+        direction_x = target_x - previous_x
+        direction_y = target_y - previous_y
+        segment_length = math.hypot(direction_x, direction_y)
+        if segment_length == 0.0:
+            return False
+        offset_x = x - target_x
+        offset_y = y - target_y
+        progress = offset_x * direction_x + offset_y * direction_y
+        lateral_error = (
+            abs(offset_x * direction_y - offset_y * direction_x) / segment_length
+        )
+        return progress > 0.0 and lateral_error <= self._goal_tolerance

@@ -1,0 +1,17 @@
+traffic_signal:
+  ros__parameters:
+    use_sim_time: true
+    # Empty fixed_state cycles RED -> GREEN -> YELLOW. Set RED or GREEN for a
+    # repeatable single-phase test without changing the controller.
+    fixed_state: ''
+    red_seconds: 12.0
+    green_seconds: 16.0
+    yellow_seconds: 3.0
+    pedestrian_walk_seconds: 7.0
+    # XYZ triples in order: vehicle red/yellow/green, pedestrian red/green.
+    # Keep aligned with the bulb models in signal_intersection.world.
+    lamp_positions: [-8.43, -3.55, 3.00,
+                     -8.43, -4.10, 3.00,
+                     -8.43, -4.65, 3.00,
+                     -3.30, -4.87, 2.27,
+                     -3.30, -4.87, 1.89]
