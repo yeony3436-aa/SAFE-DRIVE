@@ -14,8 +14,10 @@ work together under defined, repeatable conditions.
 | Pedestrian crossing | Pedestrian moves visibly; collision and clearance are measured; vehicle response is recorded. |
 | Sensor target | Camera and LiDAR ROS topics publish timestamped data with correct frames and a visible target. |
 
-The red/green, signal-aware pedestrian, and sensor cases are **planned**, not
-current results. Define acceptance thresholds before reporting a pass. Record
+Fixed red and green vehicle-signal behavior has been observed in Gazebo. Four
+stored green route runs and their predefined geometric acceptance criteria are
+in [validation/results.md](validation/results.md). Signal-aware pedestrian
+motion and camera/LiDAR cases remain planned. Record
 configuration, model/world version or revision, ROS/Gazebo versions, seed when
 used, timestamp, measured outcomes, and simulator real-time factor. Save JSON
 or CSV directly from runs; do not transcribe or fabricate results.

@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 .pytest_cache/
 /.aws
+/ros2_ws/symlink_install_manifest.txt

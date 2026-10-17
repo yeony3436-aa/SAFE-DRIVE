@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+"""Entry point for route corridor measurements."""
+
+from safe_drive_safety.route_monitor import main
+
+
+if __name__ == '__main__':
+    main()

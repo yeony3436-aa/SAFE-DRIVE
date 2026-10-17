@@ -1,0 +1,17 @@
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: true
+    drive_mode: ackermann
+    wheelbase: 2.5
+    max_steer: 0.65
+    target_speed: 0.8
+    goal_tolerance: 0.7
+    lookahead_distance: 0.7
+    max_linear_speed: 2.0
+    max_angular_speed: 0.6
+    max_linear_deceleration: 0.01
+    control_rate_hz: 20.0
+    odom_timeout: 0.5
+    # Eastbound approach, 4.6 m radius right turn, then southbound lane.
+    waypoint_x: [-10.0, -6.0, -4.35, -3.16, -2.05, -1.10, -0.37, 0.09, 0.25, 0.25, 0.25]
+    waypoint_y: [-1.75, -1.75, -1.75, -1.91, -2.37, -3.10, -4.05, -5.16, -6.35, -10.0, -16.0]

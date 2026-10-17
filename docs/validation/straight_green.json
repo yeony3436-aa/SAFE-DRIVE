@@ -1,0 +1,53 @@
+{
+  "route_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/controller.yaml",
+  "start_sim_time": 0.173,
+  "end_sim_time": 26.013,
+  "sample_count": 1293,
+  "goal_reached": true,
+  "goal_position": {
+    "x": 10.689528842038891,
+    "y": -1.7486664167528667
+  },
+  "goal_distance_m": 0.6895301316460153,
+  "final_speed_mps": 0.013692092149125661,
+  "lane_half_width_m": 1.75,
+  "max_center_error_m": 0.03436499507713964,
+  "max_corner_error_m": 0.9422736586929169,
+  "outside_corridor_samples": 0,
+  "corridor_clear": true,
+  "worst_pose": {
+    "x": 8.059664037179997,
+    "y": -1.715717450675174,
+    "yaw": 0.0038084073705514183
+  },
+  "measurement": "distance of chassis corners to configured route polyline",
+  "route_parameters": {
+    "use_sim_time": true,
+    "target_speed": 2.0,
+    "goal_tolerance": 0.5,
+    "lookahead_distance": 1.5,
+    "max_linear_speed": 3.0,
+    "max_angular_speed": 1.0,
+    "max_linear_deceleration": 1.0,
+    "control_rate_hz": 20.0,
+    "odom_timeout": 0.5,
+    "drive_mode": "ackermann",
+    "wheelbase": 2.5,
+    "max_steer": 0.65,
+    "waypoint_x": [
+      -10.0,
+      0.0,
+      10.0
+    ],
+    "waypoint_y": [
+      -1.75,
+      -1.75,
+      -1.75
+    ]
+  },
+  "seed": null,
+  "vehicle_length_m": 4.2,
+  "vehicle_width_m": 1.8,
+  "goal_tolerance_m": 0.75,
+  "passed": true
+}

@@ -41,13 +41,19 @@ def generate_launch_description() -> LaunchDescription:
     spawn_yaw_argument = DeclareLaunchArgument(
         'spawn_yaw', default_value='0.0', description='Ego spawn yaw in radians.'
     )
+    drive_mode_argument = DeclareLaunchArgument(
+        'drive_mode', default_value='ackermann',
+        description='Vehicle dynamics: ackermann or skid_steer.',
+    )
 
     vehicle_xacro = PathJoinSubstitution([
         FindPackageShare('safe_drive_sim'),
         'urdf',
         'ego_vehicle.gazebo.urdf.xacro',
     ])
-    robot_description = Command(['xacro ', vehicle_xacro])
+    robot_description = Command([
+        'xacro ', vehicle_xacro, ' drive_mode:=', LaunchConfiguration('drive_mode')
+    ])
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution([
@@ -90,6 +96,7 @@ def generate_launch_description() -> LaunchDescription:
         spawn_x_argument,
         spawn_y_argument,
         spawn_yaw_argument,
+        drive_mode_argument,
         # gazebo_ros adds package exports to these values. Preserve Gazebo's
         # built-in ground-plane and shader paths when the shell has not sourced
         # /usr/share/gazebo-11/setup.sh.

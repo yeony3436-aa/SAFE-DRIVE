@@ -12,3 +12,4 @@ def test_stop_line_uses_front_bumper_and_unknown_is_red():
     assert signal_speed_limit(-10.7, None, **kwargs) == 0.0
     assert signal_speed_limit(-10.7, 'GREEN', **kwargs) == 2.0
     assert signal_speed_limit(-11.7, 'YELLOW', **kwargs) == pytest.approx(1.6 ** 0.5)
+    assert signal_speed_limit(-9.0, 'RED', **kwargs) == 0.0

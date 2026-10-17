@@ -1,0 +1,69 @@
+{
+  "route_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/left_turn.yaml",
+  "start_sim_time": 0.363,
+  "end_sim_time": 77.363,
+  "sample_count": 3851,
+  "goal_reached": true,
+  "goal_position": {
+    "x": 3.739703953233936,
+    "y": 15.302510280834577
+  },
+  "goal_distance_m": 0.6975657079590926,
+  "final_speed_mps": 0.002397723225378598,
+  "lane_half_width_m": 1.75,
+  "max_center_error_m": 0.14021236483823335,
+  "max_corner_error_m": 1.5405941725712917,
+  "outside_corridor_samples": 0,
+  "corridor_clear": true,
+  "worst_pose": {
+    "x": 3.307799365177257,
+    "y": 1.9155938378991206,
+    "yaw": 0.9798927994879738
+  },
+  "measurement": "distance of chassis corners to configured route polyline",
+  "route_parameters": {
+    "use_sim_time": true,
+    "drive_mode": "ackermann",
+    "wheelbase": 2.5,
+    "max_steer": 0.65,
+    "target_speed": 0.8,
+    "goal_tolerance": 0.7,
+    "lookahead_distance": 1.2,
+    "max_linear_speed": 2.0,
+    "max_angular_speed": 0.6,
+    "max_linear_deceleration": 0.01,
+    "control_rate_hz": 20.0,
+    "odom_timeout": 0.5,
+    "waypoint_x": [
+      -10.0,
+      -6.0,
+      -1.75,
+      -0.33,
+      1.0,
+      2.14,
+      3.01,
+      3.56,
+      3.75,
+      3.75,
+      3.75
+    ],
+    "waypoint_y": [
+      -1.75,
+      -1.75,
+      -1.75,
+      -1.56,
+      -1.01,
+      -0.14,
+      1.0,
+      2.33,
+      3.75,
+      10.0,
+      16.0
+    ]
+  },
+  "seed": null,
+  "vehicle_length_m": 4.2,
+  "vehicle_width_m": 1.8,
+  "goal_tolerance_m": 0.75,
+  "passed": true
+}

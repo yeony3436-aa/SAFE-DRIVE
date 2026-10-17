@@ -9,10 +9,11 @@ traffic situations validate its behavior; scenario-search research is optional.
 
 ```text
 Gazebo Classic road + crossing + visual roadside props
-  ├── ego vehicle (Prius visual mesh, skid-steer diff-drive)
+  ├── ego vehicle (Prius visual mesh, front-steered Ackermann model)
   │   └── odometry → waypoint follower → velocity command
   ├── sudden pedestrian (configured trigger and movement)
-  └── model states + contact → safety monitor → live JSON result
+  ├── model states + contact → safety monitor → live JSON result
+  └── odometry + route geometry → route monitor → saved JSON result
 
 Separate compact intersection launch:
   traffic-signal timer → ROS String state → waypoint speed limit
@@ -27,18 +28,28 @@ Separate compact intersection launch:
 - `safe_drive_safety`: center distance, line-of-sight TTC, contact, and completion.
 - `safe_drive_bringup`: launch composition.
 
+The vehicle's `base_footprint` is the ground projection; `base_link` is 0.75 m
+above it. The four wheel links carry the visual and collision wheels, and the
+front wheels have steering pivot links in the Ackermann model. The default
+Prius meshes are visual; the body collision remains a simple box. The earlier
+skid-steer layout is selectable with matching model and controller settings.
+With the Gazebo Ackermann plugin, commanded `Twist.angular.z` is tyre steering
+angle, while odometry `twist.angular.z` is measured yaw rate. The follower
+converts between them using the configured 2.5 m wheelbase.
+
 The Prius exterior and selected MCity surface textures are visual-only assets;
 their source and license are recorded in [the asset inventory](asset-inventory.md).
-The ego keeps its simple body and wheel collisions. The road contact surface,
-crossing axis, and pedestrian collision cylinder are unchanged. The pedestrian
-now has a human-shaped fixed walking pose but no articulated gait animation.
+The road contact surface and pedestrian collision cylinder are unchanged. The
+pedestrian has a fixed walking pose without articulated gait animation.
 
 The scenario manager moves the pedestrian through
 `/safe_drive/gazebo/set_entity_state` and pauses progression if that service
-is unavailable. The diff-drive odometry source is WORLD so vehicle and actor
-coordinates match. `scenario.launch.py` passes the configured `ego_speed`
-to the waypoint follower. Safety results are published on
-`/safe_drive/safety/result`; they are not yet saved to files.
+is unavailable. The Ackermann plugin reports Gazebo world coordinates in
+odometry so vehicle and actor coordinates match. `scenario.launch.py` passes
+the configured `ego_speed`
+to the waypoint follower. Pedestrian safety results are published on
+`/safe_drive/safety/result`; they are not yet saved to files. The route monitor
+stores separate JSON files for map-based path and chassis-corner checks.
 
 `signal_intersection.launch.py` uses a separate four-way road world. One phase
 clock drives the roadside three-aspect vehicle signal and curbside two-aspect
@@ -46,9 +57,15 @@ pedestrian signal. It publishes `/safe_drive/vehicle_signal/state` and
 `/safe_drive/pedestrian_signal/state` separately. The waypoint follower
 subscribes only to the vehicle topic, and limits speed using odometry, the
 `x=-9.25 m` stop line, and the vehicle's 2.1 m front offset. Missing or stale
-vehicle signal data commands a stop before the line. The route is straight
-through the intersection; pedestrian actor timing is not linked to the
-pedestrian signal yet. Geometry is documented in [road layout](road-layout.md).
+vehicle signal data commands a stop before the line. Straight, right-turn, and
+left-turn waypoint files use the same intersection world. The independent
+`curve_course.world` exercises a gentle bend. Pedestrian actor timing is not
+linked to the pedestrian signal yet. Geometry is documented in
+[road layout](road-layout.md).
+The bend world is generated from
+`ros2_ws/src/safe_drive_sim/scripts/generate_curve_course.py` and uses simple
+road collision segments. The simulator launch preserves Gazebo's built-in
+model and shader paths alongside the local materials.
 
 ## Target integration
 

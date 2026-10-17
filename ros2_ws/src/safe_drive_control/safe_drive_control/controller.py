@@ -30,6 +30,7 @@ class WaypointController:
         max_linear_speed: float,
         max_angular_speed: float,
         max_linear_deceleration: float,
+        allow_in_place_rotation: bool = True,
     ) -> None:
         if not waypoints:
             raise ValueError('at least one waypoint is required')
@@ -50,6 +51,7 @@ class WaypointController:
         self._lookahead_distance = lookahead_distance
         self._max_angular_speed = max_angular_speed
         self._max_linear_deceleration = max_linear_deceleration
+        self._allow_in_place_rotation = allow_in_place_rotation
         self._waypoint_index = 0
         self._completed = False
 
@@ -92,6 +94,8 @@ class WaypointController:
 
         # Rotate in place when the target is outside the forward field of view.
         if abs(heading_error) > math.pi / 2.0:
+            if not self._allow_in_place_rotation:
+                return VelocityCommand(0.0, 0.0)
             angular = max(
                 -self._max_angular_speed,
                 min(self._max_angular_speed, 1.5 * heading_error),

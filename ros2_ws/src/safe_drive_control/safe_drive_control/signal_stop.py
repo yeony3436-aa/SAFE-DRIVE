@@ -14,10 +14,10 @@ def signal_speed_limit(
 ) -> float:
     """Limit speed so the vehicle front remains behind the painted stop line.
 
-    A missing signal is treated as red. Once the front has passed the line,
-    completing the crossing is safer than stopping in the intersection.
+    A missing signal is treated as red. A stop-line violation does not grant
+    permission to accelerate through a red signal.
     """
-    if signal_state == 'GREEN' or x + front_offset >= stop_line_x:
+    if signal_state == 'GREEN':
         return max_speed
     remaining = stop_line_x - safety_margin - front_offset - x
     if remaining <= 0.0:

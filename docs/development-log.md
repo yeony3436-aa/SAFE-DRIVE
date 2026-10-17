@@ -1,6 +1,8 @@
 # SAFE-Drive Development Log
 
 The original detailed baseline log is preserved in [development-log-archive.md](development-log-archive.md).
+Later entries are chronological implementation records; their older status and
+measurements do not replace the latest verified state below.
 
 ## Current Project Scope
 
@@ -279,21 +281,6 @@ Gazebo `/model_states`의 보행자 y 좌표는 시작값 `-4.25 m`에 머물렀
 
 ---
 
-## Standard Verification Commands
-
-```bash
-cd ros2_ws
-source /opt/ros/humble/setup.bash
-colcon build --symlink-install
-source install/setup.bash
-colcon test
-colcon test-result --verbose
-ros2 launch safe_drive_bringup vehicle.launch.py
-ros2 launch safe_drive_bringup scenario.launch.py
-```
-
----
-
 ## 2026-10-10 — 도로 시각 구성과 차량·보행자 비율 조정
 
 - 8 m 양방향 도로에 보도, 연석, 녹지, 횡단보도, 정지선, 횡단 표지와 나무를
@@ -423,3 +410,66 @@ GUI 화면에서 횡단보도 막대 방향과 차량용 3등 신호기의 외�
 않았다. 차량은 동일하게 중심 `x=-11.95 m`에 정지했다. 기존
 `scenario.launch.py`도 다시 실행해 보행자 `COMPLETED`와 차량 최종
 `x=9.50 m, y=-1.75 m` 정지를 확인했다.
+
+---
+
+## 2026-10-16 — Prius 외관 유지, 조향 및 경로 검증
+
+- Prius 차체와 휠 메시, 텍스처는 유지했다. 기본 구동을 앞바퀴 조향·뒷바퀴
+  구동 Ackermann 플러그인으로 바꾸고, 기존 skid-steer 모드는 옵션으로 남겼다.
+- 제어기의 회전 명령을 플러그인이 요구하는 바퀴 조향각으로 변환했다.
+  저속에서 오도메트리 속도를 이용해 감속 지연을 보정하고, 적색 신호를
+  정지선 통과 직후 해제할 수 있던 제한 조건도 수정했다.
+- 기존 사거리에서 직진·우회전·좌회전 목적지 경로를 설정했다. 별도의
+  완만한 커브 월드를 추가했다. 경로 모니터는 목적지 정지와 차량 네 모서리의
+  기준 경로 이탈을 측정해 JSON으로 저장한다.
+
+검증: ROS 2 Humble / Gazebo Classic 11에서 녹색 신호 직진·우회전·좌회전,
+별도 커브 코스를 헤드리스 실행했다. 네 실행 모두 목적지 오차 0.75 m
+이하, 정지 속도 0.15 m/s 미만, 모서리의 경로 거리 1.75 m 이하 기준을
+통과했다. 최대 모서리 거리는 각각 0.94, 1.66, 1.54, 1.27 m이며 측정
+원본과 설정은 `docs/validation/`에 저장했다. 고정 RED 재실행에서 차량
+전면이 `x=-9.25 m` 정지선 약 0.69 m 전에 섰다. 기존 보행자 시나리오는
+`COMPLETED`, 접촉 없음, 최소 중심거리 약 3.65 m였다. 조향 및 경로
+기하 테스트도 통과했다. 이 차로 기준은 지도 경로 주변의 기하학적 통로이며
+카메라 차선 인식 결과는 아니다. 커브 코스와 사거리는 아직 하나의 월드로
+연결되지 않았고, 실시간 계수·시각 센서 결과는 이번 실행에서 수집하지 않았다.
+
+---
+
+## 2026-10-17 — 현재 구현 상태와 문서 정리
+
+### 현재 확인 가능한 기능
+
+- `vehicle.launch.py`: ROS 2 명령·오도메트리와 설정 경로 직진·목적지 정지.
+- `scenario.launch.py`: 거리 트리거 보행자 횡단과 안전 결과 토픽. 이 장면의
+  차량은 보행자를 인식하거나 회피하지 않는다.
+- `signal_intersection.launch.py`: 차량·보행자 신호 표시와 ROS 상태 발행.
+  차량은 신호 토픽으로 적색 정지선 정지와 녹색 직진·좌회전·우회전을 수행한다.
+  보행자는 아직 이 신호 장면과 연동되지 않는다.
+- `curve_course.launch.py`: 별도 완만한 곡선 경로. 사거리와 연결된 월드는
+  아직 아니다.
+- 경로 모니터는 도착 위치·정지 속도·차체 모서리의 설정 경로 이탈을 JSON으로
+  저장한다. 2026-10-16의 네 녹색 주행 원본과 합격 기준은
+  [validation/results.md](validation/results.md)에 남겼다. 적색 정지와 보행자
+  시나리오의 당시 결과는 관찰 기록이며 같은 형식의 파일은 없다.
+
+현재 차량 결정은 지도 waypoint·오도메트리·차량 신호 ROS 토픽을 사용한다.
+카메라·LiDAR·레이더, 센서 기반 회피, 신호 연동 보행자 횡단, 통합 교통
+시나리오의 결과 파일과 반복 실행은 아직 구현되지 않았다. 과거 절의
+"결과 파일 저장 미구현"은 보행자 안전 결과에 해당하며, 현재 경로 결과는
+파일로 저장된다. 10월 13일의 "신호등 미구현" 기록 역시 당시 상태다.
+
+### 문서 및 파일 정리
+
+- 실행·빌드 안내를 루트 `README.md`로 모으고 패키지·launch·scripts의
+  중복 또는 빈 README를 제거했다. 모델 프레임과 플러그인 명령 의미는
+  `docs/architecture.md`에 남겼다.
+- 검증 JSON의 안내를 `docs/validation/results.md`로 옮겼다. 네 JSON 측정
+  원본과 개발 기록 원문·아카이브는 유지했다.
+- 실행 경로에서 참조하지 않는 저장소 루트의 초기 `config/vehicle.yaml`,
+  미구현 Random/Adaptive 실험 설정 두 개, 빈 `data/experiments` 자리표시자를
+  제거했다. 후속 연구 방향은 `docs/experiments.md`에 보존했다.
+
+이번 작업은 문서와 미사용 파일 정리다. 새 Gazebo 주행 측정이나 센서
+검증 결과를 추가한 것은 아니다.

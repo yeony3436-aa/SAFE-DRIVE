@@ -62,7 +62,7 @@ Prefer compatible existing worlds and reusable models, then targeted edits to th
 
 The initial scene needs one road segment, crossing, stop line, signal, ego vehicle, and pedestrian. Expansion to a city is optional. Keep crossing geometry aligned with scenario positions; the current painted crossing is fixed near `x=-5 m`.
 
-The current vehicle uses four-wheel skid steer through a diff-drive Gazebo plugin. It is a useful baseline, not realistic Ackermann steering. Treat any vehicle-dynamics migration as a separate, verified change.
+The default vehicle now uses front-wheel Ackermann steering with rear-wheel drive through the Gazebo Classic Ackermann plugin. The same Prius visual meshes remain, and the old skid-steer plugin is selectable for comparison. Preserve verified straight, signal-stop, pedestrian, and turning behavior when changing vehicle dynamics.
 
 ## 6. Traffic behavior and scenarios
 

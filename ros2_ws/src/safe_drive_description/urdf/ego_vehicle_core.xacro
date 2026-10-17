@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Simulator-independent geometry shared by the plain and Gazebo models. -->
-  <xacro:macro name="safe_drive_ego_vehicle" params="use_reference_mesh:=true">
+  <xacro:macro name="safe_drive_ego_vehicle" params="use_reference_mesh:=true drive_mode:=ackermann">
     <xacro:property name="chassis_length" value="4.20"/>
     <xacro:property name="chassis_width" value="1.80"/>
     <xacro:property name="chassis_height" value="1.20"/>
@@ -158,7 +158,23 @@
       </collision>
     </link>
 
-    <xacro:macro name="wheel" params="name x y side">
+    <xacro:macro name="wheel" params="name x y side steered:=false">
+      <xacro:if value="${steered}">
+        <link name="${name}_steering_link">
+          <inertial>
+            <mass value="0.5"/>
+            <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+          </inertial>
+        </link>
+        <joint name="${name}_steering_joint" type="revolute">
+          <parent link="base_link"/>
+          <child link="${name}_steering_link"/>
+          <origin xyz="${x} ${y} -0.45" rpy="0 0 0"/>
+          <axis xyz="0 0 1"/>
+          <limit lower="-0.70" upper="0.70" effort="150" velocity="1.5"/>
+          <dynamics damping="0.5" friction="0.0"/>
+        </joint>
+      </xacro:if>
       <link name="${name}">
         <inertial>
           <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -199,16 +215,18 @@
         </collision>
       </link>
       <joint name="${name}_joint" type="continuous">
-        <parent link="base_link"/>
+        <xacro:if value="${steered}"><parent link="${name}_steering_link"/></xacro:if>
+        <xacro:unless value="${steered}"><parent link="base_link"/></xacro:unless>
         <child link="${name}"/>
-        <origin xyz="${x} ${y} -0.45" rpy="0 0 0"/>
+        <xacro:if value="${steered}"><origin xyz="0 0 0" rpy="0 0 0"/></xacro:if>
+        <xacro:unless value="${steered}"><origin xyz="${x} ${y} -0.45" rpy="0 0 0"/></xacro:unless>
         <axis xyz="0 1 0"/>
-        <dynamics damping="0.1" friction="0.0"/>
+        <dynamics damping="${0.5 if drive_mode == 'ackermann' else 0.1}" friction="0.0"/>
       </joint>
     </xacro:macro>
 
-    <xacro:wheel name="front_left_wheel" x="1.25" y="0.78" side="1"/>
-    <xacro:wheel name="front_right_wheel" x="1.25" y="-0.78" side="-1"/>
+    <xacro:wheel name="front_left_wheel" x="1.25" y="0.78" side="1" steered="${drive_mode == 'ackermann'}"/>
+    <xacro:wheel name="front_right_wheel" x="1.25" y="-0.78" side="-1" steered="${drive_mode == 'ackermann'}"/>
     <xacro:wheel name="rear_left_wheel" x="-1.25" y="0.78" side="1"/>
     <xacro:wheel name="rear_right_wheel" x="-1.25" y="-0.78" side="-1"/>
   </xacro:macro>

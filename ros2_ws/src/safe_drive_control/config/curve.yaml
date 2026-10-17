@@ -1,0 +1,18 @@
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: true
+    drive_mode: ackermann
+    wheelbase: 2.5
+    max_steer: 0.4
+    target_speed: 0.8
+    goal_tolerance: 0.7
+    lookahead_distance: 2.5
+    max_linear_speed: 1.5
+    max_angular_speed: 0.6
+    max_linear_deceleration: 0.01
+    control_rate_hz: 20.0
+    odom_timeout: 0.5
+    # Right-hand lane of the east-to-north 12 m road-centre bend.
+    # The inner/outer offset makes this lane's radius 13.75 m.
+    waypoint_x: [-20.0, -15.0, -10.0, -7.61, -5.30, -3.13, -1.16, 0.53, 1.91, 2.92, 3.54, 3.75, 3.75, 3.75]
+    waypoint_y: [-1.75, -1.75, -1.75, -1.54, -0.92, 0.09, 1.47, 3.16, 5.12, 7.30, 9.61, 12.0, 20.0, 32.0]

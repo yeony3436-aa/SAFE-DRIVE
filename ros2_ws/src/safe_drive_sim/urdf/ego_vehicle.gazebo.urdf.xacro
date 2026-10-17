@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
 <robot name="safe_drive_ego" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="drive_mode" default="ackermann"/>
+  <xacro:property name="drive_mode" value="$(arg drive_mode)"/>
   <xacro:include filename="$(find safe_drive_description)/urdf/ego_vehicle_core.xacro"/>
-  <xacro:safe_drive_ego_vehicle/>
+  <xacro:safe_drive_ego_vehicle drive_mode="$(arg drive_mode)"/>
 
-  <!-- Prefer rolling in the vehicle x direction while allowing enough
-       lateral slip for stable skid-steer turns. -->
+  <!-- Steering needs lateral grip; the legacy skid-steer mode needs slip. -->
   <xacro:macro name="wheel_surface" params="name">
     <gazebo reference="${name}">
       <mu1>1.0</mu1>
-      <mu2>0.1</mu2>
+      <mu2>${1.0 if drive_mode == 'ackermann' else 0.1}</mu2>
       <fdir1>1 0 0</fdir1>
       <kp>1000000.0</kp>
       <kd>10.0</kd>
@@ -36,8 +37,37 @@
     </sensor>
   </gazebo>
 
-  <!-- Four-wheel skid-steer drive keeps the MVP deterministic and exposes the
-       standard Twist/Odometry interface needed by the waypoint controller. -->
+  <xacro:if value="${drive_mode == 'ackermann'}">
+    <!-- This Gazebo Classic plugin reads Twist.angular.z as a tyre steering
+         angle, while linear.x is the requested forward speed. -->
+    <gazebo>
+      <plugin name="safe_drive_ackermann_drive" filename="libgazebo_ros_ackermann_drive.so">
+        <ros><namespace>/safe_drive/ego</namespace></ros>
+        <update_rate>50</update_rate>
+        <front_left_joint>front_left_wheel_joint</front_left_joint>
+        <front_right_joint>front_right_wheel_joint</front_right_joint>
+        <rear_left_joint>rear_left_wheel_joint</rear_left_joint>
+        <rear_right_joint>rear_right_wheel_joint</rear_right_joint>
+        <left_steering_joint>front_left_wheel_steering_joint</left_steering_joint>
+        <right_steering_joint>front_right_wheel_steering_joint</right_steering_joint>
+        <max_steer>0.65</max_steer>
+        <max_speed>3.0</max_speed>
+        <left_steering_pid_gain>200 0 5</left_steering_pid_gain>
+        <left_steering_i_range>0 0</left_steering_i_range>
+        <right_steering_pid_gain>200 0 5</right_steering_pid_gain>
+        <right_steering_i_range>0 0</right_steering_i_range>
+        <linear_velocity_pid_gain>100 0 1</linear_velocity_pid_gain>
+        <linear_velocity_i_range>0 0</linear_velocity_i_range>
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <publish_wheel_tf>false</publish_wheel_tf>
+        <publish_steerangle>true</publish_steerangle>
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_footprint</robot_base_frame>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+  <xacro:unless value="${drive_mode == 'ackermann'}">
   <gazebo>
     <plugin name="safe_drive_diff_drive" filename="libgazebo_ros_diff_drive.so">
       <ros>
@@ -71,4 +101,5 @@
       <robot_base_frame>base_footprint</robot_base_frame>
     </plugin>
   </gazebo>
+  </xacro:unless>
 </robot>
