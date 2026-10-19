@@ -126,3 +126,11 @@ def test_controller_slows_for_final_waypoint():
     command = controller.calculate_command(0.6, 0.0, 0.0)
 
     assert 0.0 < command.linear < 1.0
+
+
+def test_speed_limit_applies_before_turn_curvature():
+    controller = make_controller(waypoints=[(2.0, 1.0), (4.0, 1.0)])
+    command = controller.calculate_command(0.0, 0.0, 0.0, speed_limit=0.4)
+
+    assert command.linear == pytest.approx(0.4)
+    assert command.angular < 0.4

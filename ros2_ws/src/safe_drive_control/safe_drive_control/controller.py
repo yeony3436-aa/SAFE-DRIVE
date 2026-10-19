@@ -68,6 +68,7 @@ class WaypointController:
         x: float,
         y: float,
         yaw: float,
+        speed_limit: float | None = None,
     ) -> VelocityCommand:
         """Calculate the next command and advance waypoints when reached."""
         if self._completed:
@@ -106,6 +107,8 @@ class WaypointController:
         # excessively sharp command when approaching a waypoint.
         effective_lookahead = max(distance, self._lookahead_distance)
         linear = self._target_speed * max(0.2, math.cos(heading_error))
+        if speed_limit is not None:
+            linear = min(linear, speed_limit)
 
         if self._waypoint_index == len(self._waypoints) - 1:
             stopping_distance = max(0.0, distance - self._goal_tolerance)

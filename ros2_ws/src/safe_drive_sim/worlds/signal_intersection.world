@@ -59,15 +59,15 @@
       <static>true</static>
       <link name="road_link">
         <collision name="collision">
-          <pose>0 0 -0.05 0 0 0</pose>
-          <geometry><box><size>60 8 0.1</size></box></geometry>
+          <pose>-45 0 -0.05 0 0 0</pose>
+          <geometry><box><size>390 8 0.1</size></box></geometry>
           <surface>
             <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
           </surface>
         </collision>
         <visual name="asphalt">
-          <pose>0 0 -0.045 0 0 0</pose>
-          <geometry><box><size>60 8 0.01</size></box></geometry>
+          <pose>-45 0 -0.045 0 0 0</pose>
+          <geometry><box><size>390 8 0.01</size></box></geometry>
           <material>
             <script>
               <uri>file://safe_drive_road/materials/scripts</uri>
@@ -77,33 +77,33 @@
           </material>
         </visual>
         <visual name="center_line_a">
-          <pose>-12 0 -0.037 0 0 0</pose>
-          <geometry><box><size>4 0.12 0.01</size></box></geometry>
+          <pose>-127 0 -0.037 0 0 0</pose>
+          <geometry><box><size>226 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.85 0.10 1</ambient><diffuse>0.95 0.85 0.10 1</diffuse></material>
         </visual>
         <visual name="center_line_c">
-          <pose>12 0 -0.037 0 0 0</pose>
-          <geometry><box><size>4 0.12 0.01</size></box></geometry>
+          <pose>80 0 -0.037 0 0 0</pose>
+          <geometry><box><size>140 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.85 0.10 1</ambient><diffuse>0.95 0.85 0.10 1</diffuse></material>
         </visual>
         <visual name="left_edge_line_west">
-          <pose>-16 3.75 -0.037 0 0 0</pose>
-          <geometry><box><size>28 0.12 0.01</size></box></geometry>
+          <pose>-125 3.75 -0.037 0 0 0</pose>
+          <geometry><box><size>230 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material>
         </visual>
         <visual name="left_edge_line_east">
-          <pose>18 3.75 -0.037 0 0 0</pose>
-          <geometry><box><size>24 0.12 0.01</size></box></geometry>
+          <pose>80 3.75 -0.037 0 0 0</pose>
+          <geometry><box><size>140 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material>
         </visual>
         <visual name="right_edge_line_west">
-          <pose>-16 -3.75 -0.037 0 0 0</pose>
-          <geometry><box><size>28 0.12 0.01</size></box></geometry>
+          <pose>-125 -3.75 -0.037 0 0 0</pose>
+          <geometry><box><size>230 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material>
         </visual>
         <visual name="right_edge_line_east">
-          <pose>18 -3.75 -0.037 0 0 0</pose>
-          <geometry><box><size>24 0.12 0.01</size></box></geometry>
+          <pose>80 -3.75 -0.037 0 0 0</pose>
+          <geometry><box><size>140 0.12 0.01</size></box></geometry>
           <material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material>
         </visual>
         <!-- Zebra bars run parallel to east-west vehicle travel, repeated
@@ -123,16 +123,19 @@
       </link>
     </model>
     <!-- The original east-west collision plane covers the central square.
-         North and south arms end at its edges, avoiding coplanar collisions. -->
+         North and south arms meet it at their edges. The south arm continues
+         beyond the right-turn destination, leaving room to settle on road. -->
     <model name="cross_road">
       <static>true</static>
       <link name="surface">
         <collision name="north_road_collision"><pose>2 13 -0.05 0 0 0</pose><geometry><box><size>8 18 0.1</size></box></geometry></collision>
-        <collision name="south_road_collision"><pose>2 -13 -0.05 0 0 0</pose><geometry><box><size>8 18 0.1</size></box></geometry></collision>
+        <collision name="south_road_collision"><pose>2 -23 -0.05 0 0 0</pose><geometry><box><size>8 38 0.1</size></box></geometry></collision>
         <visual name="north_asphalt"><pose>2 13 -0.045 0 0 0</pose><geometry><box><size>8 18 0.01</size></box></geometry><material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Asphalt</name></script></material></visual>
-        <visual name="south_asphalt"><pose>2 -13 -0.045 0 0 0</pose><geometry><box><size>8 18 0.01</size></box></geometry><material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Asphalt</name></script></material></visual>
+        <visual name="south_asphalt"><pose>2 -23 -0.045 0 0 0</pose><geometry><box><size>8 38 0.01</size></box></geometry><material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Asphalt</name></script></material></visual>
         <visual name="north_center_line"><pose>2 13 -0.035 0 0 0</pose><geometry><box><size>0.12 13 0.012</size></box></geometry><material><ambient>0.95 0.85 0.1 1</ambient><diffuse>0.95 0.85 0.1 1</diffuse></material></visual>
-        <visual name="south_center_line"><pose>2 -13 -0.035 0 0 0</pose><geometry><box><size>0.12 13 0.012</size></box></geometry><material><ambient>0.95 0.85 0.1 1</ambient><diffuse>0.95 0.85 0.1 1</diffuse></material></visual>
+        <visual name="south_center_line"><pose>2 -23 -0.035 0 0 0</pose><geometry><box><size>0.12 33 0.012</size></box></geometry><material><ambient>0.95 0.85 0.1 1</ambient><diffuse>0.95 0.85 0.1 1</diffuse></material></visual>
+        <visual name="south_west_edge_line"><pose>-1.75 -24 -0.035 0 0 0</pose><geometry><box><size>0.10 34 0.012</size></box></geometry><material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <visual name="south_east_edge_line"><pose>5.75 -24 -0.035 0 0 0</pose><geometry><box><size>0.10 34 0.012</size></box></geometry><material><ambient>0.95 0.95 0.95 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
       </link>
     </model>
     <!-- Roadside vehicle signal: three horizontal circular aspects face
@@ -162,85 +165,117 @@
       <static>true</static>
       <link name="streetscape">
         <visual name="north_grass_west">
-          <pose>-16 7.0 -0.06 0 0 0</pose>
-          <geometry><box><size>28 6 0.08</size></box></geometry>
+          <pose>-125 7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>230 6 0.08</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
         </visual>
         <visual name="north_grass_east">
-          <pose>18 7.0 -0.06 0 0 0</pose>
-          <geometry><box><size>24 6 0.08</size></box></geometry>
+          <pose>80 7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>140 6 0.08</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
         </visual>
         <visual name="south_grass_west">
-          <pose>-16 -7.0 -0.06 0 0 0</pose>
-          <geometry><box><size>28 6 0.08</size></box></geometry>
+          <pose>-125 -7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>230 6 0.08</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
         </visual>
         <visual name="south_grass_east">
-          <pose>18 -7.0 -0.06 0 0 0</pose>
-          <geometry><box><size>24 6 0.08</size></box></geometry>
+          <pose>80 -7.0 -0.06 0 0 0</pose>
+          <geometry><box><size>140 6 0.08</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
         </visual>
+        <visual name="south_arm_grass_west">
+          <pose>-8 -26 -0.06 0 0 0</pose>
+          <geometry><box><size>12 32 0.08</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
+        </visual>
+        <visual name="south_arm_grass_east">
+          <pose>12 -26 -0.06 0 0 0</pose>
+          <geometry><box><size>12 32 0.08</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Grass</name></script></material>
+        </visual>
+        <visual name="south_arm_sidewalk_west">
+          <pose>-3 -26 -0.015 0 0 0</pose>
+          <geometry><box><size>1.8 32 0.06</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
+        </visual>
+        <visual name="south_arm_sidewalk_east">
+          <pose>7 -26 -0.015 0 0 0</pose>
+          <geometry><box><size>1.8 32 0.06</size></box></geometry>
+          <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
+        </visual>
+        <!-- The curb begins beyond the swept right-turn corner. All curb and
+             sidewalk pieces here are visual-only; the road carries wheels. -->
+        <visual name="south_arm_curb_west">
+          <pose>-2.04 -24 -0.005 0 0 0</pose>
+          <geometry><box><size>0.08 34 0.05</size></box></geometry>
+          <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
+        </visual>
+        <visual name="south_arm_curb_east">
+          <pose>6.04 -24 -0.005 0 0 0</pose>
+          <geometry><box><size>0.08 34 0.05</size></box></geometry>
+          <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
+        </visual>
         <visual name="north_sidewalk_west">
-          <pose>-16 4.9 -0.015 0 0 0</pose>
-          <geometry><box><size>28 1.8 0.06</size></box></geometry>
+          <pose>-125 4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>230 1.8 0.06</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
         </visual>
         <visual name="north_sidewalk_east">
-          <pose>18 4.9 -0.015 0 0 0</pose>
-          <geometry><box><size>24 1.8 0.06</size></box></geometry>
+          <pose>80 4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>140 1.8 0.06</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
         </visual>
         <visual name="south_sidewalk_west">
-          <pose>-16 -4.9 -0.015 0 0 0</pose>
-          <geometry><box><size>28 1.8 0.06</size></box></geometry>
+          <pose>-125 -4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>230 1.8 0.06</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
         </visual>
         <visual name="south_sidewalk_east">
-          <pose>18 -4.9 -0.015 0 0 0</pose>
-          <geometry><box><size>24 1.8 0.06</size></box></geometry>
+          <pose>80 -4.9 -0.015 0 0 0</pose>
+          <geometry><box><size>140 1.8 0.06</size></box></geometry>
           <material><script><uri>file://safe_drive_road/materials/scripts</uri><uri>file://safe_drive_road/materials/textures</uri><name>SafeDrive/Concrete</name></script></material>
         </visual>
         <visual name="north_curb_west">
-          <pose>-16 4.04 0.0 0 0 0</pose>
-          <geometry><box><size>28 0.12 0.08</size></box></geometry>
+          <pose>-125 4.04 0.0 0 0 0</pose>
+          <geometry><box><size>230 0.12 0.08</size></box></geometry>
           <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
         </visual>
         <visual name="north_curb_east">
-          <pose>18 4.04 0.0 0 0 0</pose>
-          <geometry><box><size>24 0.12 0.08</size></box></geometry>
+          <pose>80 4.04 0.0 0 0 0</pose>
+          <geometry><box><size>140 0.12 0.08</size></box></geometry>
           <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
         </visual>
         <visual name="south_curb_west">
-          <pose>-16 -4.04 0.0 0 0 0</pose>
-          <geometry><box><size>28 0.12 0.08</size></box></geometry>
+          <pose>-125 -4.04 0.0 0 0 0</pose>
+          <geometry><box><size>230 0.12 0.08</size></box></geometry>
           <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
         </visual>
         <visual name="south_curb_east">
-          <pose>18 -4.04 0.0 0 0 0</pose>
-          <geometry><box><size>24 0.12 0.08</size></box></geometry>
+          <pose>80 -4.04 0.0 0 0 0</pose>
+          <geometry><box><size>140 0.12 0.08</size></box></geometry>
           <material><ambient>0.75 0.75 0.70 1</ambient><diffuse>0.80 0.80 0.75 1</diffuse></material>
         </visual>
         <!-- Visual-only paving and roadside props keep the tested road contact
              and the pedestrian crossing geometry unchanged. -->
         <visual name="north_sidewalk_band_west">
-          <pose>-16 5.70 0.018 0 0 0</pose>
-          <geometry><box><size>28 0.055 0.004</size></box></geometry>
+          <pose>-125 5.70 0.018 0 0 0</pose>
+          <geometry><box><size>230 0.055 0.004</size></box></geometry>
           <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
         </visual>
         <visual name="north_sidewalk_band_east">
-          <pose>18 5.70 0.018 0 0 0</pose>
-          <geometry><box><size>24 0.055 0.004</size></box></geometry>
+          <pose>80 5.70 0.018 0 0 0</pose>
+          <geometry><box><size>140 0.055 0.004</size></box></geometry>
           <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
         </visual>
         <visual name="south_sidewalk_band_west">
-          <pose>-16 -5.70 0.018 0 0 0</pose>
-          <geometry><box><size>28 0.055 0.004</size></box></geometry>
+          <pose>-125 -5.70 0.018 0 0 0</pose>
+          <geometry><box><size>230 0.055 0.004</size></box></geometry>
           <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
         </visual>
         <visual name="south_sidewalk_band_east">
-          <pose>18 -5.70 0.018 0 0 0</pose>
-          <geometry><box><size>24 0.055 0.004</size></box></geometry>
+          <pose>80 -5.70 0.018 0 0 0</pose>
+          <geometry><box><size>140 0.055 0.004</size></box></geometry>
           <material><ambient>0.38 0.40 0.39 1</ambient><diffuse>0.42 0.44 0.42 1</diffuse></material>
         </visual>
         <visual name="north_crossing_entry">

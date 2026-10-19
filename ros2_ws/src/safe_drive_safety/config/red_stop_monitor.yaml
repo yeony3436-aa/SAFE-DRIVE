@@ -1,0 +1,9 @@
+red_stop_monitor:
+  ros__parameters:
+    use_sim_time: true
+    stop_line_x: -9.25
+    front_offset: 2.1
+    required_margin: 0.6
+    approach_window: 3.0
+    speed_threshold: 0.15
+    settle_seconds: 5.0

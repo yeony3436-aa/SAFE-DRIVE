@@ -77,16 +77,36 @@ only the vehicle topic, stops its front bumper before the `x=-9.25 m` line on
 red or yellow, then proceeds on green. In cyclic mode, the pedestrian signal
 shows WALK during the first seven seconds of vehicle RED, then DONT_WALK during
 the five-second clearance and all vehicle GREEN/YELLOW time. Signal decisions
-use ROS state and odometry, not a simulated camera. The pedestrian actor
-scenario remains distance-triggered and is not yet coordinated with this phase.
+use ROS state and odometry, not a simulated camera. With `pedestrian:=true`,
+the intersection spawns a pedestrian at `x=-5 m`, starts crossing only after
+the published pedestrian signal is `WALK`, and continues to clear the road if
+the indication changes to `DONT_WALK` while crossing. This is separate from
+the distance-triggered `scenario.launch.py` behavior.
+
+A repeatable integrated test is `signal_intersection.launch.py
+fixed_state:=RED spawn_x:=-30 pedestrian:=true
+route_config:=fast_straight.yaml`. It saves crossing, safety, and red-stop
+results through `pedestrian_result_file`, `pedestrian_safety_file`, and
+`red_result_file`. The vehicle stops because of the vehicle RED topic; it
+does not detect the pedestrian. With fixed GREEN, the pedestrian remains
+`ARMED` on `DONT_WALK` and does not enter the crossing.
 
 ## Mapped steering routes
 
-`signal_intersection.launch.py` accepts `route_config:=controller.yaml`,
-`right_turn.yaml`, or `left_turn.yaml`. The default is the straight route.
+`signal_intersection.launch.py` accepts `route_config:=fast_straight.yaml`,
+`right_turn.yaml`, or `left_turn.yaml`. The default is the right-turn route.
 For a turning test, set `fixed_state:=GREEN`. `curve_course.launch.py` tests
 a separate gentle road bend. These routes use configured map waypoints and
 odometry. They do not detect painted lanes or pedestrians from sensors.
+The right-turn route continues south to `(0.25, -30)` on the extended road.
+The eastbound approach is long enough to increase speed before the compact
+intersection. Right and left turns limit speed to 0.8 m/s at the corner.
+`fast_straight.yaml` targets an empirically compensated command of 20.8 m/s;
+one measured run reached 17.07 m/s (about 61 km/h) but failed the geometric
+lane-corridor criterion. Use its saved result when assessing high-speed
+behavior rather than treating the command value as achieved speed.
+The eastbound light controls entry at `x=-9.25`; after crossing the line on
+green, the vehicle completes the intersection even if that light turns red.
 
 The route monitor writes a JSON result at `result_file`. It reports the
 settled destination position and speed, centreline error, and the largest
@@ -95,3 +115,11 @@ outside the 1.75 m half-width sets `corridor_clear: false`. This corridor is
 an approximate lane-boundary test; markings at the intersection and road-edge
 collisions are not used for the calculation. Stored samples and limitations are
 listed in [validation/results.md](validation/results.md).
+
+With `fixed_state:=RED`, the separate red-stop monitor writes JSON to
+`red_result_file` after five simulated seconds of standing near the line.
+It uses the vehicle-signal ROS topic and odometry; a front crossing of the
+line produces an immediate failure result. Acceptance requires a front gap
+of at least 0.6 m and speed below 0.15 m/s. This check is intended for a
+fresh fixed-red launch, not a vehicle that entered on green before a phase
+change.

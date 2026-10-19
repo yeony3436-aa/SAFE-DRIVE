@@ -39,10 +39,14 @@ class RouteMonitor(Node):
         self._goal_tolerance = float(self.get_parameter('goal_tolerance').value)
         self._samples = 0
         self._outside_samples = 0
+        self._severe_outside_samples = 0
         self._max_center_error = 0.0
         self._max_corner_error = 0.0
+        self._max_speed = 0.0
         self._worst_pose: Optional[dict] = None
         self._first_stamp: Optional[float] = None
+        self._last_trace_stamp: Optional[float] = None
+        self._trace: list[dict] = []
         self._near_goal_stamp: Optional[float] = None
         self._finished = False
         self.create_subscription(Odometry, '/safe_drive/ego/odom', self._on_odom, 10)
@@ -68,9 +72,46 @@ class RouteMonitor(Node):
             self._worst_pose = {'x': position.x, 'y': position.y, 'yaw': yaw}
         if corner_error > self._lane_half_width:
             self._outside_samples += 1
+        self._severe_outside_samples = (
+            self._severe_outside_samples + 1 if corner_error > 4.0 else 0
+        )
 
         goal_distance = math.dist((position.x, position.y), self._waypoints[-1])
         speed = abs(message.twist.twist.linear.x)
+        self._max_speed = max(self._max_speed, speed)
+        if self._last_trace_stamp is None or stamp - self._last_trace_stamp >= 1.0:
+            self._trace.append({
+                'sim_time': stamp, 'x': position.x, 'y': position.y,
+                'yaw': yaw, 'speed_mps': speed,
+            })
+            self._last_trace_stamp = stamp
+        if self._severe_outside_samples >= 10:
+            result = {
+                'route_file': self._route_file,
+                'route_parameters': self._route_parameters,
+                'seed': None,
+                'start_sim_time': self._first_stamp,
+                'end_sim_time': stamp,
+                'sample_count': self._samples,
+                'goal_reached': False,
+                'goal_position': {'x': position.x, 'y': position.y},
+                'goal_distance_m': goal_distance,
+                'final_speed_mps': speed,
+                'max_speed_mps': self._max_speed,
+                'max_corner_error_m': self._max_corner_error,
+                'lane_half_width_m': self._lane_half_width,
+                'outside_corridor_samples': self._outside_samples,
+                'corridor_clear': False,
+                'worst_pose': self._worst_pose,
+                'passed': False,
+                'failure_reason': 'left_route_corridor',
+                'trace_1hz': self._trace,
+            }
+            self._output_file.parent.mkdir(parents=True, exist_ok=True)
+            self._output_file.write_text(json.dumps(result, indent=2) + '\n')
+            self.get_logger().error(f'Route corridor exited: {self._output_file}')
+            self._finished = True
+            return
         if goal_distance <= max(1.0, self._goal_tolerance) and self._near_goal_stamp is None:
             self._near_goal_stamp = stamp
         if self._near_goal_stamp is not None and stamp - self._near_goal_stamp >= 10.0:
@@ -85,6 +126,7 @@ class RouteMonitor(Node):
                 'goal_position': {'x': position.x, 'y': position.y},
                 'goal_distance_m': goal_distance,
                 'final_speed_mps': speed,
+                'max_speed_mps': self._max_speed,
                 'lane_half_width_m': self._lane_half_width,
                 'vehicle_length_m': self._length,
                 'vehicle_width_m': self._width,
@@ -97,6 +139,7 @@ class RouteMonitor(Node):
                           and speed < 0.15 and self._outside_samples == 0,
                 'worst_pose': self._worst_pose,
                 'measurement': 'distance of chassis corners to configured route polyline',
+                'trace_1hz': self._trace,
             }
             self._output_file.parent.mkdir(parents=True, exist_ok=True)
             self._output_file.write_text(json.dumps(result, indent=2) + '\n')

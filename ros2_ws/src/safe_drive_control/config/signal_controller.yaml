@@ -3,6 +3,7 @@ waypoint_follower:
     signal_enabled: true
     stop_line_x: -9.25
     vehicle_front_offset: 2.1
-    stop_line_margin: 0.6
+    # Extra command margin compensates for measured braking lag.
+    stop_line_margin: 1.3
     signal_timeout: 1.0
-    signal_deceleration: 0.02
+    signal_deceleration: 0.4

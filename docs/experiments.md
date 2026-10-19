@@ -14,10 +14,11 @@ work together under defined, repeatable conditions.
 | Pedestrian crossing | Pedestrian moves visibly; collision and clearance are measured; vehicle response is recorded. |
 | Sensor target | Camera and LiDAR ROS topics publish timestamped data with correct frames and a visible target. |
 
-Fixed red and green vehicle-signal behavior has been observed in Gazebo. Four
-stored green route runs and their predefined geometric acceptance criteria are
-in [validation/results.md](validation/results.md). Signal-aware pedestrian
-motion and camera/LiDAR cases remain planned. Record
+Fixed red and green vehicle-signal behavior, faster turn routes, and one
+signal-coordinated pedestrian crossing have stored results in
+[validation/results.md](validation/results.md). The fast straight run reached
+about 61 km/h but failed its geometric lane-corridor threshold. Camera/LiDAR
+cases and repeated integrated runs remain planned. Record
 configuration, model/world version or revision, ROS/Gazebo versions, seed when
 used, timestamp, measured outcomes, and simulator real-time factor. Save JSON
 or CSV directly from runs; do not transcribe or fabricate results.
@@ -47,3 +48,29 @@ metrics, initialization, and recorded seeds. Store raw measurements apart from
 derived risk scores and make claims only from saved experiment data. Do not
 build an experiment framework or risk heatmap ahead of the integrated traffic
 scene and its basic validation.
+
+### Optional live dashboard for a scenario-search demonstration
+
+The scenario-search backend is not implemented yet. If that follow-up study is
+started, repeated runs may look similar in Gazebo even while the search covers
+different parameter combinations. Show the simulator beside a live dashboard
+so an audience can see what is being tested and what the measurements show.
+
+The dashboard could show:
+
+- A grid heatmap of two selected scenario parameters, with the third fixed or
+  filtered. Distinguish untested cells from measured cells and display the
+  recorded outcome or risk score for each visited cell.
+- The current run's measured TTC over simulation time. Mark periods when TTC
+  is undefined rather than drawing an invented value; label it as the existing
+  line-of-sight TTC, not a collision prediction.
+- The cumulative count of scenarios meeting a risk threshold defined before
+  the run, alongside completed runs and the total search budget.
+
+Each update must come from a saved or streamed run record containing the
+configuration, seed, timestamp, raw TTC and collision measurements, and
+derived outcome. The search backend computes metrics and risk; the dashboard
+only displays them. Plotly or Streamlit are possible implementation choices
+after the repeatable validation and search backend exist. A saved-run replay
+can support a reliable demo, but it must be labeled as replay rather than live
+simulation.

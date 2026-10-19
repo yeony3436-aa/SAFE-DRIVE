@@ -1,0 +1,21 @@
+{
+  "scenario": "fixed_red_stop",
+  "signal_observed": "RED",
+  "start_sim_time": 0.508,
+  "end_sim_time": 15.848,
+  "sample_count": 768,
+  "stop_line_x_m": -9.25,
+  "front_offset_m": 2.1,
+  "required_margin_m": 0.6,
+  "approach_window_m": 3.0,
+  "speed_threshold_mps": 0.15,
+  "settle_seconds": 5.0,
+  "final_center_x_m": -12.150692561775196,
+  "final_front_x_m": -10.050692561775197,
+  "minimum_front_gap_m": 0.8006925617751968,
+  "final_speed_mps": 0.03954744025514275,
+  "max_speed_mps": 2.55573692974356,
+  "reason": "stopped_with_margin",
+  "passed": true,
+  "measurement": "odometry x plus configured front offset; fixed red signal ROS topic"
+}

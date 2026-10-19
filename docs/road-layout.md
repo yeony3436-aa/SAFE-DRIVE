@@ -1,13 +1,13 @@
-# Compact road layout
+# Extended intersection road layout
 
-This is a small visual simulation scene, not a certified road design. Coordinates
+This is a focused visual simulation scene, not a certified road design. Coordinates
 are in meters. The ego drives east (`+x`) in the south lane (`y=-1.75`); the
 configured pedestrian crosses north (`+y`) at `x=-5`.
 
 | Marking or fixture | Geometry in the simulation |
 | --- | --- |
-| East-west road | `x=-30..30`, `y=-4..4` |
-| North-south arms | `x=-2..6`, from `y=4..22` and `y=-22..-4` |
+| East-west road | `x=-240..150`, `y=-4..4`; ego spawn defaults to `x=-210` |
+| North-south arms | `x=-2..6`, from `y=4..22` and `y=-42..-4` |
 | West crosswalk | Eight white bars, each 3.6 m along `x` and 0.5 m along `y`; bar centers at `x=-5`, `y=-3.45..3.55` |
 | Eastbound stop line | `x=-9.25`, 0.30 m along `x`, 3.30 m across the lane |
 | Westbound stop line in intersection world | `x=8.4`, before the east edge of the central square |
@@ -16,7 +16,8 @@ configured pedestrian crosses north (`+y`) at `x=-5`.
 
 The nearest west crosswalk edge is `x=-6.8`. The eastbound stop-line edge is
 `x=-9.10`, leaving 2.30 m of bare road between them. On red, the controller
-targets a front-bumper position at least 0.60 m behind the line. The crossing
+uses a configured 1.30 m front-bumper target margin; validation requires at
+least 0.60 m of measured clearance. The crossing
 bars are parallel to vehicle travel and repeat across the walking direction;
 the prior bars were rotated 90 degrees. Paint has no collision geometry.
 
@@ -31,11 +32,25 @@ approval in a particular jurisdiction.
 
 ## Steering validation courses
 
-The same intersection world has three eastbound routes: straight to `(10, -1.75)`,
-right to `(0.25, -16)`, and left to `(3.75, 16)`. The right-turn path uses a
+The same intersection world has three eastbound routes: fast straight to `(130, -1.75)`,
+right to `(0.25, -30)`, and left to `(3.75, 16)`. The right-turn path uses a
 4.6 m centreline radius and the left-turn path uses a 5.5 m radius. The current
 signal controls the eastbound approach for all three routes; other approaches
 do not yet have independent signal control.
+
+The long west arm permits acceleration and braking before the same intersection.
+The fast straight route reached 17.07 m/s in one headless run but exceeded the
+1.75 m chassis-corner corridor criterion. The turn routes use a lower approach
+speed and slow to 0.8 m/s for the compact corner; both passed their route
+criteria in stored runs. These are simulator speeds, not real-road ratings.
+
+The south arm now extends 12 m beyond the right-turn destination. Its asphalt,
+lane center/edge markings, sidewalks, grass, and visual curbs continue to the
+end. The southbound curbs begin beyond the turn corner at `y=-7`, leaving the
+turning footprint clear in the displayed scene. Curbs and sidewalks are visual
+only; wheel contact comes from the level road collision surface. A vehicle that
+entered the eastbound stop line on green keeps that entry permission through
+the turn if the light changes.
 
 `curve_course.world` is a separate road geometry test. An 8 m-wide road begins
 west of `x=-10`, turns north on a 12 m road-centre radius, and continues to

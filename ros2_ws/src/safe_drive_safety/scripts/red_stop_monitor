@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+"""ROS executable for fixed-red stop-line measurement."""
+
+from safe_drive_safety.red_stop_monitor import main
+
+
+if __name__ == '__main__':
+    main()

@@ -21,6 +21,10 @@ class SafetyMonitor(Node):
     def __init__(self) -> None:
         super().__init__('safety_monitor')
         self.declare_parameter('safety_config', '')
+        self.declare_parameter('output_file', '')
+        output_file = str(self.get_parameter('output_file').value)
+        self._output_file = Path(output_file) if output_file else None
+        self._result_saved = False
         config_path = str(self.get_parameter('safety_config').value)
         if not config_path:
             raise ValueError('safety_config is required')
@@ -121,6 +125,13 @@ class SafetyMonitor(Node):
             'scenario_completed': self._state == 'COMPLETED',
         }, sort_keys=True)
         self._result_publisher.publish(message)
+        if self._finalized and self._output_file is not None and not self._result_saved:
+            result = json.loads(message.data)
+            result['end_sim_time'] = self.get_clock().now().nanoseconds / 1e9
+            self._output_file.parent.mkdir(parents=True, exist_ok=True)
+            self._output_file.write_text(json.dumps(result, indent=2) + '\n')
+            self.get_logger().info(f'Safety result saved: {self._output_file}')
+            self._result_saved = True
 
 
 def main(args: Optional[list[str]] = None) -> None:

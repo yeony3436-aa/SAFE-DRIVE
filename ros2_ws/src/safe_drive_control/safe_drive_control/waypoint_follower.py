@@ -11,7 +11,10 @@ from std_msgs.msg import String
 
 from safe_drive_control.ackermann import low_speed_command, steering_angle
 from safe_drive_control.controller import WaypointController
-from safe_drive_control.signal_stop import signal_speed_limit
+from safe_drive_control.signal_stop import (
+    entered_intersection_on_green, signal_speed_limit, turn_speed_limit,
+)
+from safe_drive_control.straight_tracking import straight_yaw_rate
 
 
 def quaternion_to_yaw(x: float, y: float, z: float, w: float) -> float:
@@ -47,6 +50,15 @@ class WaypointFollower(Node):
         self.declare_parameter('wheelbase', 2.5)
         self.declare_parameter('max_steer', 0.65)
         self.declare_parameter('speed_feedback_gain', 1.0)
+        self.declare_parameter('turn_entry_x', -12.0)
+        self.declare_parameter('turn_speed', 0.0)
+        self.declare_parameter('turn_deceleration', 2.5)
+        self.declare_parameter('straight_tracking_enabled', False)
+        self.declare_parameter('straight_end_x', -20.0)
+        self.declare_parameter('straight_lane_y', -1.75)
+        self.declare_parameter('straight_lateral_gain', 0.01)
+        self.declare_parameter('straight_heading_gain', 0.1)
+        self.declare_parameter('straight_max_yaw_rate', 2.5)
 
         self._drive_mode = str(self.get_parameter('drive_mode').value)
         if self._drive_mode not in ('ackermann', 'skid_steer'):
@@ -94,6 +106,9 @@ class WaypointFollower(Node):
         self._signal_state: Optional[str] = None
         self._last_signal_time = None
         self._last_signal_log: Optional[str] = None
+        # Once the front bumper enters on green, finish the intersection even
+        # if the signal changes while the vehicle is turning.
+        self._entered_on_green = False
         if self._signal_enabled:
             self.create_subscription(
                 String, '/safe_drive/vehicle_signal/state', self._on_signal, 10
@@ -151,9 +166,25 @@ class WaypointFollower(Node):
             )
             return
 
-        command = self._controller.calculate_command(*self._position)
+        turn_limit = turn_speed_limit(
+            self._position[0],
+            float(self.get_parameter('turn_entry_x').value),
+            float(self.get_parameter('turn_speed').value),
+            float(self.get_parameter('turn_deceleration').value),
+            float(self.get_parameter('max_linear_speed').value),
+        )
+        command = self._controller.calculate_command(*self._position, speed_limit=turn_limit)
         linear = command.linear
         angular = command.angular
+        if (bool(self.get_parameter('straight_tracking_enabled').value)
+                and self._position[0] < float(self.get_parameter('straight_end_x').value)):
+            angular = straight_yaw_rate(
+                self._position[1], self._position[2], linear,
+                float(self.get_parameter('straight_lane_y').value),
+                float(self.get_parameter('straight_lateral_gain').value),
+                float(self.get_parameter('straight_heading_gain').value),
+                float(self.get_parameter('straight_max_yaw_rate').value),
+            )
         active_signal_state: Optional[str] = None
         if self._signal_enabled and not self._controller.completed:
             signal_state = self._signal_state
@@ -162,11 +193,17 @@ class WaypointFollower(Node):
             ).nanoseconds / 1e9 > float(self.get_parameter('signal_timeout').value):
                 signal_state = None
             active_signal_state = signal_state
+            stop_line_x = float(self.get_parameter('stop_line_x').value)
+            front_offset = float(self.get_parameter('vehicle_front_offset').value)
+            self._entered_on_green = entered_intersection_on_green(
+                self._entered_on_green, self._position[0], signal_state,
+                stop_line_x, front_offset,
+            )
             limit = signal_speed_limit(
                 x=self._position[0],
-                signal_state=signal_state,
-                stop_line_x=float(self.get_parameter('stop_line_x').value),
-                front_offset=float(self.get_parameter('vehicle_front_offset').value),
+                signal_state='GREEN' if self._entered_on_green else signal_state,
+                stop_line_x=stop_line_x,
+                front_offset=front_offset,
                 safety_margin=float(self.get_parameter('stop_line_margin').value),
                 deceleration=float(self.get_parameter('signal_deceleration').value),
                 max_speed=linear,
@@ -182,7 +219,8 @@ class WaypointFollower(Node):
         message.linear.x = (
             low_speed_command(
                 linear, self._measured_speed, self._speed_feedback_gain,
-                not self._signal_enabled or active_signal_state == 'GREEN',
+                not self._signal_enabled or active_signal_state == 'GREEN'
+                or self._entered_on_green,
             ) if self._drive_mode == 'ackermann' else linear
         )
         message.angular.z = (

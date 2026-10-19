@@ -4,14 +4,22 @@ waypoint_follower:
     drive_mode: ackermann
     wheelbase: 2.5
     max_steer: 0.65
-    target_speed: 0.8
+    target_speed: 8.0
     goal_tolerance: 0.7
     lookahead_distance: 1.2
-    max_linear_speed: 2.0
+    max_linear_speed: 8.0
     max_angular_speed: 0.6
     max_linear_deceleration: 0.01
+    turn_entry_x: -12.0
+    # Preserve the validated tight-corner speed after the faster approach.
+    turn_speed: 0.8
+    turn_deceleration: 1.0
+    straight_tracking_enabled: true
+    straight_end_x: -20.0
+    straight_lateral_gain: 0.04
+    straight_heading_gain: 0.5
     control_rate_hz: 20.0
     odom_timeout: 0.5
     # Eastbound approach, 5.5 m radius left turn, then northbound lane.
-    waypoint_x: [-10.0, -6.0, -1.75, -0.33, 1.0, 2.14, 3.01, 3.56, 3.75, 3.75, 3.75]
-    waypoint_y: [-1.75, -1.75, -1.75, -1.56, -1.01, -0.14, 1.0, 2.33, 3.75, 10.0, 16.0]
+    waypoint_x: [-200.0, -130.0, -60.0, -10.0, -6.0, -1.75, -0.33, 1.0, 2.14, 3.01, 3.56, 3.75, 3.75, 3.75]
+    waypoint_y: [-1.75, -1.75, -1.75, -1.75, -1.75, -1.75, -1.56, -1.01, -0.14, 1.0, 2.33, 3.75, 10.0, 16.0]

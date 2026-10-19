@@ -1,0 +1,24 @@
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: true
+
+    # The Gazebo model reached 17.07 m/s with this command in one run.
+    target_speed: 20.8
+    goal_tolerance: 0.5
+    lookahead_distance: 1.5
+    max_linear_speed: 21.0
+    max_angular_speed: 2.5
+    max_linear_deceleration: 0.4
+    straight_tracking_enabled: true
+    straight_end_x: 120.0
+    straight_lateral_gain: 0.04
+    straight_heading_gain: 0.5
+    control_rate_hz: 20.0
+    odom_timeout: 0.5
+    drive_mode: ackermann
+    wheelbase: 2.5
+    max_steer: 0.65
+
+    # Long eastbound road from the intersection spawn at x=-210 m.
+    waypoint_x: [-200.0, -130.0, -60.0, -10.0, 30.0, 130.0]
+    waypoint_y: [-1.75, -1.75, -1.75, -1.75, -1.75, -1.75]

@@ -18,14 +18,17 @@ Gazebo Classic road + crossing + visual roadside props
 Separate compact intersection launch:
   traffic-signal timer → ROS String state → waypoint speed limit
                        └→ Gazebo visible bulb positions
+                       └→ signal crossing pedestrian on WALK
+  RED state + ego odometry → red-stop monitor → saved JSON result
 ```
 
 - `safe_drive_description`: simulator-independent vehicle model.
 - `safe_drive_sim`: world, Gazebo vehicle plugins, and spawning.
 - `safe_drive_control`: route following and destination stop.
-- `safe_drive_scenario`: structured pedestrian definition, ROS scenario manager,
-  and configurable traffic-signal timer.
-- `safe_drive_safety`: center distance, line-of-sight TTC, contact, and completion.
+- `safe_drive_scenario`: structured sudden-pedestrian definition, signal
+  crossing actor, and configurable traffic-signal timer.
+- `safe_drive_safety`: center distance, line-of-sight TTC, contact, route
+  completion, and fixed-red stop-line measurement.
 - `safe_drive_bringup`: launch composition.
 
 The vehicle's `base_footprint` is the ground projection; `base_link` is 0.75 m
@@ -48,7 +51,8 @@ is unavailable. The Ackermann plugin reports Gazebo world coordinates in
 odometry so vehicle and actor coordinates match. `scenario.launch.py` passes
 the configured `ego_speed`
 to the waypoint follower. Pedestrian safety results are published on
-`/safe_drive/safety/result`; they are not yet saved to files. The route monitor
+`/safe_drive/safety/result`; the separate sudden-pedestrian launch does not
+save them, while the integrated signal-crossing launch does. The route monitor
 stores separate JSON files for map-based path and chassis-corner checks.
 
 `signal_intersection.launch.py` uses a separate four-way road world. One phase
@@ -59,9 +63,17 @@ subscribes only to the vehicle topic, and limits speed using odometry, the
 `x=-9.25 m` stop line, and the vehicle's 2.1 m front offset. Missing or stale
 vehicle signal data commands a stop before the line. Straight, right-turn, and
 left-turn waypoint files use the same intersection world. The independent
-`curve_course.world` exercises a gentle bend. Pedestrian actor timing is not
-linked to the pedestrian signal yet. Geometry is documented in
+`curve_course.world` exercises a gentle bend. The optional intersection
+pedestrian starts only from the published `WALK` indication and continues
+through clearance after entry. Geometry is documented in
 [road layout](road-layout.md).
+For a fixed-red run, the red-stop monitor subscribes independently to the
+vehicle signal and odometry, then saves a stop-line JSON result after a stable
+stop. It does not control the vehicle.
+The pedestrian signal crossing node saves its start signal and completion
+time; the safety monitor can save independent actor-center distance, TTC,
+and contact results. The ego responds only to the vehicle signal, not to
+observed pedestrian position or camera/LiDAR data.
 The bend world is generated from
 `ros2_ws/src/safe_drive_sim/scripts/generate_curve_course.py` and uses simple
 road collision segments. The simulator launch preserves Gazebo's built-in
@@ -81,9 +93,10 @@ Vehicle and scenario outcomes ─────────→ saved validation re
 The signal must have one state source for its appearance, ROS output, and
 controller decisions. A crossing scenario should explicitly define whether it
 is triggered by distance, signal phase, or both. The controller's use of sensors
-versus simulator ground truth must be stated precisely. The current pedestrian
-controller is not signal-aware. The waypoint follower uses the signal topic
-but is not sensor-based.
+versus simulator ground truth must be stated precisely. The intersection
+pedestrian is signal-aware; the separate sudden-pedestrian scenario remains
+distance-triggered. The waypoint follower uses the vehicle signal topic but
+is not sensor-based.
 
 Keep current packages stable and add packages only when implementation warrants
 them. Camera and LiDAR belong on the ego model with documented frames, ROS

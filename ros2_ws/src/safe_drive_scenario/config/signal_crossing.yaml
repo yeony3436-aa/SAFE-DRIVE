@@ -1,0 +1,9 @@
+signal_crossing:
+  ros__parameters:
+    use_sim_time: true
+    crossing_x: -5.0
+    start_y: -4.25
+    end_y: 4.25
+    pedestrian_speed: 1.5
+    update_rate_hz: 20.0
+    scenario_id: SIGNAL-CROSSING-0001
