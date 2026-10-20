@@ -8,7 +8,7 @@ class SignalTiming:
     red_seconds: float = 12.0
     green_seconds: float = 16.0
     yellow_seconds: float = 3.0
-    pedestrian_walk_seconds: float = 7.0
+    pedestrian_walk_seconds: float = 10.5
 
     def __post_init__(self) -> None:
         if min(self.red_seconds, self.green_seconds, self.yellow_seconds) <= 0.0:

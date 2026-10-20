@@ -1,9 +1,11 @@
 # Architecture
 
-SAFE-Drive's primary deliverable is a working ROS 2 / Gazebo autonomous-driving
-simulation environment. The scene should connect a recognizable ego vehicle,
-road and crossing, traffic signal, pedestrian, and simulated sensors. Defined
-traffic situations validate its behavior; scenario-search research is optional.
+SAFE-Drive's research topic is autonomous-driving risk-scenario exploration.
+The first deliverable is a working ROS 2 / Gazebo simulation environment that
+can run defined traffic conditions and measure outcomes reproducibly. The scene
+connects a recognizable ego vehicle, road and crossing, traffic signal, and
+pedestrian; simulated camera and LiDAR are planned. The search loop is not yet
+implemented.
 
 ## Current implementation
 
@@ -39,6 +41,10 @@ skid-steer layout is selectable with matching model and controller settings.
 With the Gazebo Ackermann plugin, commanded `Twist.angular.z` is tyre steering
 angle, while odometry `twist.angular.z` is measured yaw rate. The follower
 converts between them using the configured 2.5 m wheelbase.
+The steering pivot links have added inertia and damping, and the Gazebo
+steering-joint PID gains were tuned against measured wheel angles. This
+reduced lateral drift in the stored 50 km/h straight runs; it is still a
+simulation-specific vehicle model, not a calibrated real-car dynamics model.
 
 The Prius exterior and selected MCity surface textures are visual-only assets;
 their source and license are recorded in [the asset inventory](asset-inventory.md).
@@ -88,6 +94,8 @@ Pedestrian state ──────→ visible actor ┘
 Camera + LiDAR ────────────────────────→ ROS 2 sensor topics
 Gazebo ground truth + contact ─────────→ validation metrics
 Vehicle and scenario outcomes ─────────→ saved validation results
+Configured parameter set + seed ───────→ repeat runner (planned)
+Saved outcomes ─────────────────────────→ risk criterion + next search point (planned)
 ```
 
 The signal must have one state source for its appearance, ROS output, and
@@ -103,13 +111,17 @@ them. Camera and LiDAR belong on the ego model with documented frames, ROS
 topics, message types, and rates. Evaluate radar separately: a ground-truth
 range/velocity approximation is not a physical radar simulation.
 
-## Validation boundary
+## Validation and search boundary
 
 Use simulator ground truth to check behavior and calculate metrics. Report
 route completion, red stop-line compliance, collision, pedestrian clearance,
 sensor availability, and simulator performance from actual runs. Keep raw
 measurements separate from pass/fail results. A dashboard may later display
 these results, but does not calculate them.
+The current fixed-signal and crossing records validate scene components. They
+are not samples from an automated search. The planned repeat runner will vary
+a small sudden-pedestrian parameter space, save one record per run, and pass
+measured results to Random Sampling or the proposed adaptive selector.
 
 Current platform: ROS 2 Humble and Gazebo Classic 11. Gazebo migration is a
 separate decision and should preserve the working baseline.

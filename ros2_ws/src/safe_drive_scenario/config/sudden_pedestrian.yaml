@@ -5,7 +5,7 @@ scenario:
 
   parameters:
     ego_speed: 2.0
-    pedestrian_speed: 1.5
+    pedestrian_speed: 1.0
     pedestrian_spawn_distance: 10.0
     # Start the crossing early enough to clear the ego lane before arrival.
     # Smaller values can still be used to reproduce collision scenarios.

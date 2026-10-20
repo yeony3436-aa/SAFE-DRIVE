@@ -5,11 +5,11 @@ waypoint_follower:
     wheelbase: 2.5
     max_steer: 0.65
     target_speed: 8.0
-    goal_tolerance: 0.7
+    goal_tolerance: 0.35
     lookahead_distance: 1.2
     max_linear_speed: 8.0
     max_angular_speed: 0.6
-    max_linear_deceleration: 0.01
+    max_linear_deceleration: 0.2
     turn_entry_x: -12.0
     # Preserve the validated tight-corner speed after the faster approach.
     turn_speed: 0.8

@@ -2,11 +2,11 @@
 
 ## 1. Project direction
 
-SAFE-Drive is a ROS 2 / Gazebo graduation project. Its primary goal is to build a **working, visually credible autonomous-driving simulation environment** and use it to verify vehicle behavior in reproducible traffic situations.
+SAFE-Drive is a ROS 2 / Gazebo graduation project about **risk-scenario exploration for autonomous driving**. Its first implementation priority is a working, visually credible simulation environment that can reproduce traffic situations and measure vehicle outcomes.
 
-Working title: **ROS 2/Gazebo-based Autonomous Driving Simulation Environment and Traffic-Scenario Validation**.
+Working title: **ROS 2/Gazebo-based Autonomous Driving Risk-Scenario Exploration**.
 
-The environment is the main deliverable. Experiments provide evidence that its components work; a novel scenario-search algorithm is not required for the core project. The previous Random Sampling vs. Risk-Guided Adaptive Grid Refinement proposal remains an optional follow-up study in `docs/experiments.md`.
+The environment is the prerequisite; the research goal is to vary defined scenario parameters, measure outcomes, and find risky conditions under a fixed simulation budget. Random Sampling is the baseline and Risk-Guided Adaptive Grid Refinement is the planned comparison in `docs/experiments.md`. Neither search method nor a comparative result is implemented yet. Do not present environment validation as search performance.
 
 Keep the project demonstrable at each milestone. Prefer a small road scene whose vehicle, crossing, signal, pedestrian, and sensors work together over a large decorative city.
 
@@ -21,6 +21,7 @@ The core demonstration should provide:
 5. Camera and LiDAR data published to ROS 2 with documented frames, rates, and usable sample output.
 6. Odometry and independently measured route completion, signal compliance, collision, and minimum pedestrian distance. Retain the existing TTC metric with its limitations.
 7. At least one repeatable, configuration-driven validation run that saves results in a machine-readable file.
+8. A repeatable experiment loop that records each parameter set, seed, measured outcome, and risk classification, then compares search methods under equal budgets.
 
 These are targets, not claims of current completion. `README.md` and `docs/development-log.md` distinguish implemented, verified, and planned work.
 
@@ -35,22 +36,23 @@ Work in this order unless the user requests otherwise:
 1. Preserve reliable launch, vehicle motion, odometry, and scenario behavior.
 2. Improve the existing vehicle, road, crossing, and pedestrian models for a credible demonstration. Check third-party asset license, format, scale, and performance.
 3. Add a visible traffic signal with ROS 2 state output; implement stop/go and pedestrian timing.
-4. Add and validate a forward camera, then LiDAR, with ROS 2 topics and frames.
-5. Connect sensor observations to one limited driving behavior where feasible. Distinguish sensor-based decisions from simulator ground truth.
-6. Record and repeat validation scenarios; measure behavior and simulation performance.
-7. Consider an explicitly modeled radar approximation.
-8. Consider a dashboard, richer roads, perception algorithms, or scenario-search research after the integrated scene is stable.
+4. Define a small, measurable risk-scenario parameter space and pass its values through configuration without breaking the integrated scene.
+5. Record and repeat scenario runs, saving raw outcomes, seeds, configuration, and simulation performance.
+6. Implement and compare Random Sampling and the planned adaptive search with equal budgets and a predefined risk criterion.
+7. Add and validate a forward camera, then LiDAR, with ROS 2 topics and frames. Connect sensor observations to one limited behavior where feasible, distinguishing them from simulator ground truth.
+8. Consider an explicitly modeled radar approximation, dashboard, richer roads, or perception algorithms after the experiment loop is stable.
 
-Avoid YOLO, LLM, voice input, large custom city maps, complex planners, and adaptive search as prerequisites.
+Avoid YOLO, LLM, voice input, large custom city maps, and complex planners as prerequisites. Keep the initial adaptive search small and measurable.
 
 ## 4. Milestones
 
 - **MVP-01 — Vehicle baseline (implemented):** Gazebo launch, ego spawn, ROS 2 command and odometry, waypoint following, destination stop.
 - **MVP-02 — Pedestrian baseline (implemented):** configured crossing and reproducible state transitions.
-- **MVP-03 — Safety observation (partly implemented):** center distance, line-of-sight TTC, contact, and completion. File persistence and repeat runs remain pending.
-- **MVP-04 — Integrated traffic scene (next):** credible road users and traffic signal; state changes, stop-line compliance, and pedestrian interaction in one launch.
-- **MVP-05 — Sensor-equipped scene:** camera and LiDAR publish usable ROS 2 data; frames and rates are verified. Evaluate radar separately.
-- **MVP-06 — Validation:** repeat defined traffic cases from configuration, save actual outcomes, and summarize pass/fail and limitations.
+- **MVP-03 — Safety observation (partly implemented):** center distance, line-of-sight TTC, contact, and completion. Selected validation runs save JSON results; a general repeat runner remains pending.
+- **MVP-04 — Integrated traffic scene (in progress):** road users and traffic signal run together; selected stop-line, signal transition, and pedestrian cases have been verified. Continue checking visual and behavioral consistency.
+- **MVP-05 — Repeatable experiments:** run defined parameter sets from configuration, save actual outcomes and seeds, and summarize pass/fail and limitations.
+- **MVP-06 — Risk exploration:** define a risk threshold before runs, implement random and adaptive condition selection, and compare discoveries under equal budgets.
+- **MVP-07 — Sensor-equipped scene:** camera and LiDAR publish usable ROS 2 data; frames and rates are verified. Evaluate radar separately.
 
 A realistic exterior alone does not complete MVP-04; behavior must be verified.
 
@@ -84,11 +86,11 @@ The existing TTC is line-of-sight distance divided by positive closing speed. It
 
 ## 8. Validation and research claims
 
-The validation question is: **Does the constructed environment reproducibly exercise and measure intended vehicle behavior in selected traffic situations?** Experiments support environment construction and must use measured outcomes, not screenshots alone.
+The research question is: **Under the same simulation budget, which search method finds more predefined risky traffic conditions?** First validate that the constructed environment reproducibly exercises and measures vehicle behavior; search results must use measured outcomes, not screenshots alone.
 
 Initial cases: open-road route completion, red-signal stop, green-signal progress, pedestrian crossing interaction, and sensor publication with a visible target. Save configuration and actual results in JSON or CSV. Useful measures include route completion, stop-line violation, collision, minimum distance, TTC, sensor availability/rate, and simulator real-time factor. Define acceptance thresholds before reporting outcomes.
 
-Do not infer real-world accident probability or real-vehicle sensor performance from these runs. If Random vs. Adaptive is revived, use equal budgets, ranges, controller, environment, metrics, and recorded seeds. It must not block the integrated scene.
+Do not infer real-world accident probability or real-vehicle sensor performance from these runs. Compare Random and Adaptive using equal budgets, ranges, controller, environment, metrics, and recorded seeds. The integrated scene and repeatable measurements must work before making search-performance claims.
 
 ## 9. Architecture and implementation
 

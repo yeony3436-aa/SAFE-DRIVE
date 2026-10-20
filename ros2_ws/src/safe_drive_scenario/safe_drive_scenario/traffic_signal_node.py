@@ -4,6 +4,7 @@ from typing import Optional
 
 from gazebo_msgs.msg import EntityState
 from gazebo_msgs.srv import SetEntityState
+from nav_msgs.msg import Odometry
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile
@@ -30,12 +31,12 @@ class TrafficSignalNode(Node):
         self.declare_parameter('red_seconds', 12.0)
         self.declare_parameter('green_seconds', 16.0)
         self.declare_parameter('yellow_seconds', 3.0)
-        self.declare_parameter('pedestrian_walk_seconds', 7.0)
+        self.declare_parameter('pedestrian_walk_seconds', 10.5)
         self.declare_parameter('fixed_state', '')
         self.declare_parameter('lamp_positions', [
             -8.43, -3.55, 3.00, -8.43, -4.10, 3.00,
-            -8.43, -4.65, 3.00, -3.30, -4.87, 2.27,
-            -3.30, -4.87, 1.89,
+            -8.43, -4.65, 3.00, -3.30, -4.53, 2.27,
+            -3.30, -4.53, 1.89,
         ])
         positions = list(self.get_parameter('lamp_positions').value)
         if len(positions) != 3 * len(self.LAMPS):
@@ -65,23 +66,38 @@ class TrafficSignalNode(Node):
             SetEntityState, '/safe_drive/gazebo/set_entity_state'
         )
         self._start_time = None
+        self._ego_ready = False
         self._states: Optional[tuple[str, str]] = None
         self._visual_states: Optional[tuple[str, str]] = None
         self._requested_visual_states: Optional[tuple[str, str]] = None
         self._pending = 0
         self._visual_failed = False
+        self.create_subscription(
+            Odometry, '/safe_drive/ego/odom', self._on_ego_odom, 10
+        )
         self.create_timer(0.2, self._update)
+
+    def _on_ego_odom(self, _message: Odometry) -> None:
+        if not self._ego_ready:
+            self._ego_ready = True
+            self.get_logger().info('Ego odometry ready; starting signal cycle')
 
     def _update(self) -> None:
         now = self.get_clock().now()
-        if self._start_time is None:
+        if self._ego_ready and self._start_time is None:
             self._start_time = now
-        elapsed = (now - self._start_time).nanoseconds / 1e9
-        vehicle = self._fixed_state or self._timing.state_at(elapsed)
-        pedestrian = (
-            ('WALK' if vehicle == 'RED' else 'DONT_WALK')
-            if self._fixed_state else self._timing.pedestrian_state_at(elapsed)
-        )
+        if self._start_time is None:
+            # Gazebo may advance while the spawn service is still loading the
+            # vehicle. Keep both signal faces safe until ego is observable.
+            elapsed = 0.0
+            vehicle, pedestrian = 'RED', 'DONT_WALK'
+        else:
+            elapsed = (now - self._start_time).nanoseconds / 1e9
+            vehicle = self._fixed_state or self._timing.state_at(elapsed)
+            pedestrian = (
+                ('WALK' if vehicle == 'RED' else 'DONT_WALK')
+                if self._fixed_state else self._timing.pedestrian_state_at(elapsed)
+            )
         states = (vehicle, pedestrian)
         if states != self._states:
             self._states = states

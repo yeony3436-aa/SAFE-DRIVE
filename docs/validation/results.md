@@ -129,3 +129,88 @@ Its peak speed was 13.56 m/s (48.8 km/h), below the separate fixed-GREEN
 60 km/h trial because it began 30 m from the crossing and stopped on RED.
 The sampled trace is not a continuous stop-line compliance monitor. Simulator
 real-time factor and camera/LiDAR output were not recorded.
+
+## 2026-10-20 — steadier 50 km/h straight driving and slower crossing
+
+The vehicle steering pivot inertia and damping were increased, and its Gazebo
+steering PID was changed to `500 0 20`. The current straight route commands
+17.0 m/s rather than the earlier 20.8 m/s. Its lane-centering gains were
+tuned to lateral `0.06` and heading `0.7`. The two fresh fixed-GREEN results
+below use the same 1.75 m chassis-corner corridor and destination criteria as
+the earlier runs. All results below came from headless Gazebo Classic launches
+on ROS 2 Humble; the measurement JSON stores the route settings and trace.
+
+| Run | Peak speed | Maximum center error | Maximum corner error | Outside samples | Result |
+| --- | ---: | ---: | ---: | ---: | --- |
+| [Straight run 1](steady_straight_50_tuned_run1.json) | 13.96 m/s (50.3 km/h) | 0.381 m | 1.284 m | 0 | Pass |
+| [Straight run 2](steady_straight_50_tuned_run2.json) | 13.99 m/s (50.3 km/h) | 0.443 m | 1.357 m | 0 | Pass |
+| [Right turn](right_turn_steady_steering_green.json) | 6.56 m/s (23.6 km/h) | 0.200 m | 1.523 m | 0 | Pass |
+| [Left turn from -30 m](left_turn_steady_steering_green.json) | 3.85 m/s (13.9 km/h) | 0.144 m | 1.595 m | 0 | Pass |
+
+The first 50 km/h tuning step also passed twice, but with larger center errors
+of 0.680 m and 0.570 m in [run 1](steady_straight_50_green_run1.json) and
+[run 2](steady_straight_50_green_run2.json). These are retained as tuning
+measurements, not substituted for the final settings. The new straight results
+show less lane wander in this scene. A 1 Hz trace alone cannot establish tyre
+slip or real-car handling. Simulator real-time factor was not recorded.
+As a simple visual-motion check, the largest difference between each 1 s
+displacement direction and the average body yaw while moving over 5 m was
+about 0.37° and 0.44° in the tuned runs, versus 2.40° in the earlier 61 km/h
+run. This sampled direction difference is not a tyre-slip measurement.
+The left-turn regression started at `x=-30 m` to focus on the intersection;
+its final approach was adjusted to a 0.35 m controller goal tolerance and
+0.2 m/s² configured deceleration. It settled 0.338 m from the goal. This
+short-start result does not measure the full westbound approach.
+
+The final integrated timed run used a 1.0 m/s pedestrian instead of 1.5 m/s.
+The [crossing record](timed_crossing_1mps_tuned_pedestrian.json) shows an
+8.5 s crossing, ending before vehicle GREEN at about 12 s. The
+[safety record](timed_crossing_1mps_tuned_safety.json) reports no contact and
+10.39 m minimum actor-center distance. The
+[vehicle result](timed_crossing_1mps_tuned_route.json) reached its goal with
+maximum corner error 1.090 m and zero outside samples. Its 1 Hz trace puts
+the configured vehicle front about 0.82 m before the stop
+line at the RED-to-GREEN change. The vehicle still uses the signal topic for
+the stop and departure, not pedestrian detection. This is one integrated run;
+repeatability of the crossing and continuous stop-line compliance remain to
+be measured.
+
+The earlier 1.0 m/s integrated trial with the first steering gains is retained
+as [route](timed_crossing_1mps_route.json),
+[crossing](timed_crossing_1mps_pedestrian.json), and
+[safety](timed_crossing_1mps_safety.json) results. It also passed the route
+criterion, with a 1.218 m maximum corner error.
+
+## 2026-10-21 — signal cycle after launch sequencing fix
+
+A fresh headless run of `signal_intersection.launch.py gui:=false
+spawn_x:=-30 pedestrian:=true route_config:=fast_straight.yaml` used the
+12 s RED, 16 s GREEN, 3 s YELLOW cycle. The [crossing record](signal_cycle_after_gui_fix_pedestrian.json)
+shows the pedestrian walking from simulation time 0.5 to 9.0 s. The signal
+turned GREEN at about 12 s after ego odometry became available. The
+[route trace](signal_cycle_after_gui_fix_route.json) samples the ego near
+`x=-12.174 m` just before GREEN, placing its configured front about 0.82 m
+behind the stop line. It then departed, reached the goal, and passed the
+1.75 m chassis-corner corridor criterion with a maximum error of 1.301 m and
+zero outside samples. The [safety record](signal_cycle_after_gui_fix_safety.json)
+reports no pedestrian contact and a minimum actor-center distance of
+10.30 m. This headless result does not verify the GUI camera view, and the
+1 Hz route trace is not a continuous stop-line violation measurement.
+
+## 2026-10-21 — pedestrian clears sidewalk before WALK ends
+
+After a GUI observation showed the pedestrian standing at the crossing edge
+after WALK, the configured endpoint moved from `y=4.25` to `y=5.2 m` on the
+north sidewalk. WALK now lasts 10.5 s of the 12 s vehicle RED phase. At the
+configured 1.0 m/s, the nominal trip to the new endpoint is 9.45 s. In a
+fresh headless run, the [pedestrian record](signal_clearance_20261021_pedestrian.json)
+shows completion at simulation time 9.9 s and final `y=5.2 m`; the signal
+changed to DONT_WALK at about 10.6 s and vehicle GREEN at 12 s. The
+[safety record](signal_clearance_20261021_safety.json) reports no contact.
+In a separate live Gazebo model-state probe after crossing, the pedestrian
+model pose was `(-5.0, 5.2) m`, matching the configured sidewalk endpoint.
+The [route result](signal_clearance_20261021_route.json) reached its goal
+with a 1.136 m maximum chassis-corner error and zero corridor violations.
+The safety monitor marked `emergency_braking: true` during this run; that
+metric has not been attributed to a pedestrian response. This headless run
+does not verify the visual sidewalk position in Gazebo GUI.

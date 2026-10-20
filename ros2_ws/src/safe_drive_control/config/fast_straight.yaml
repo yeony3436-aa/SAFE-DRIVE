@@ -2,17 +2,17 @@ waypoint_follower:
   ros__parameters:
     use_sim_time: true
 
-    # The Gazebo model reached 17.07 m/s with this command in one run.
-    target_speed: 20.8
+    # A gentler cruise command for the long road; measure actual Gazebo speed.
+    target_speed: 17.0
     goal_tolerance: 0.5
     lookahead_distance: 1.5
-    max_linear_speed: 21.0
+    max_linear_speed: 17.0
     max_angular_speed: 2.5
     max_linear_deceleration: 0.4
     straight_tracking_enabled: true
     straight_end_x: 120.0
-    straight_lateral_gain: 0.04
-    straight_heading_gain: 0.5
+    straight_lateral_gain: 0.06
+    straight_heading_gain: 0.7
     control_rate_hz: 20.0
     odom_timeout: 0.5
     drive_mode: ackermann

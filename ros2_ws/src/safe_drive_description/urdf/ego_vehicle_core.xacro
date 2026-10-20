@@ -162,8 +162,8 @@
       <xacro:if value="${steered}">
         <link name="${name}_steering_link">
           <inertial>
-            <mass value="0.5"/>
-            <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+            <mass value="5.0"/>
+            <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
           </inertial>
         </link>
         <joint name="${name}_steering_joint" type="revolute">
@@ -172,7 +172,7 @@
           <origin xyz="${x} ${y} -0.45" rpy="0 0 0"/>
           <axis xyz="0 0 1"/>
           <limit lower="-0.70" upper="0.70" effort="150" velocity="1.5"/>
-          <dynamics damping="0.5" friction="0.0"/>
+          <dynamics damping="2.0" friction="0.0"/>
         </joint>
       </xacro:if>
       <link name="${name}">

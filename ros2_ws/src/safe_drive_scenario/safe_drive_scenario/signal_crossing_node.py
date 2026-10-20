@@ -24,7 +24,7 @@ class SignalCrossingNode(Node):
         self.declare_parameter('output_file', '/tmp/safe_drive_signal_crossing.json')
         self.declare_parameter('crossing_x', -5.0)
         self.declare_parameter('start_y', -4.25)
-        self.declare_parameter('end_y', 4.25)
+        self.declare_parameter('end_y', 5.2)
         self.declare_parameter('pedestrian_speed', 1.5)
         self.declare_parameter('update_rate_hz', 20.0)
         self.declare_parameter('scenario_id', 'SIGNAL-CROSSING-0001')

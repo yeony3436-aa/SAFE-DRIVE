@@ -7,11 +7,12 @@ traffic_signal:
     red_seconds: 12.0
     green_seconds: 16.0
     yellow_seconds: 3.0
-    pedestrian_walk_seconds: 7.0
+    # 9.45 s from y=-4.25 to y=5.2 at 1 m/s, with startup margin.
+    pedestrian_walk_seconds: 10.5
     # XYZ triples in order: vehicle red/yellow/green, pedestrian red/green.
     # Keep aligned with the bulb models in signal_intersection.world.
     lamp_positions: [-8.43, -3.55, 3.00,
                      -8.43, -4.10, 3.00,
                      -8.43, -4.65, 3.00,
-                     -3.30, -4.87, 2.27,
-                     -3.30, -4.87, 1.89]
+                     -3.30, -4.53, 2.27,
+                     -3.30, -4.53, 1.89]

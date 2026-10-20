@@ -1,0 +1,14 @@
+{
+  "scenario_id": "SIGNAL-CROSSING-0001",
+  "type": "signal_crossing",
+  "crossing_x_m": -5.0,
+  "start_y_m": -4.25,
+  "end_y_m": 5.2,
+  "pedestrian_speed_mps": 1.0,
+  "start_signal": "WALK",
+  "start_sim_time": 0.4,
+  "end_sim_time": 9.9,
+  "completed": true,
+  "final_y_m": 5.2,
+  "seed": null
+}
