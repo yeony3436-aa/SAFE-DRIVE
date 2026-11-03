@@ -17,10 +17,11 @@ class SignalCrossing:
         self.y = self.start_y
         self.state = ScenarioState.ARMED
 
-    def step(self, signal: str | None, elapsed: float) -> ScenarioState:
+    def step(self, signal: str | None, elapsed: float,
+             trigger: bool = False) -> ScenarioState:
         if elapsed < 0.0:
             raise ValueError('elapsed must be nonnegative')
-        if self.state == ScenarioState.ARMED and signal == 'WALK':
+        if self.state == ScenarioState.ARMED and (signal == 'WALK' or trigger):
             self.state = ScenarioState.ACTIVE
         if self.state == ScenarioState.ACTIVE:
             # Once entered on WALK, finish crossing during clearance time.

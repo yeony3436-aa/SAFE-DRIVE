@@ -1,0 +1,10 @@
+{
+  "collision": false,
+  "emergency_braking": false,
+  "min_distance": 18.038437121037223,
+  "min_ttc": 19.74668437259114,
+  "scenario_completed": true,
+  "scenario_id": "SIGNAL-CROSSING-0001",
+  "state": "COMPLETED",
+  "end_sim_time": 9.8
+}

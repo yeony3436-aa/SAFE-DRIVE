@@ -1,0 +1,90 @@
+[INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_137/adaptive/adaptive_001_rep01/ros_logs/2026-11-03-13-41-54-056578-suyeon-IdeaPad-5-Pro-14ACN6-90550
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gzserver-1]: process started with pid [90580]
+[INFO] [robot_state_publisher-2]: process started with pid [90582]
+[INFO] [spawn_entity.py-3]: process started with pid [90584]
+[INFO] [waypoint_follower-4]: process started with pid [90586]
+[INFO] [scenario_manager-5]: process started with pid [90588]
+[INFO] [safety_monitor-6]: process started with pid [90590]
+[robot_state_publisher-2] [INFO] [1793680914.808092531] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-2] [INFO] [1793680914.808199186] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-2] [INFO] [1793680914.808212457] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-2] [INFO] [1793680914.808223911] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793680914.808234668] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-2] [INFO] [1793680914.808245075] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793680914.808255272] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-2] [INFO] [1793680914.808265679] [robot_state_publisher]: got segment rear_right_wheel
+[waypoint_follower-4] [INFO] [1793680915.242016033] [waypoint_follower]: Loaded 3 waypoints; target_speed=2.00 m/s
+[scenario_manager-5] [INFO] [1793680915.267600970] [scenario_manager]: SCENARIO-0001-adaptive_001 state=WAITING_FOR_EGO
+[scenario_manager-5] [INFO] [1793680915.268196689] [scenario_manager]: Loaded SCENARIO-0001-adaptive_001 type=sudden_pedestrian seed=137
+[spawn_entity.py-3] [INFO] [1793680915.308269332] [spawn_entity]: Spawn Entity started
+[spawn_entity.py-3] [INFO] [1793680915.308618283] [spawn_entity]: Loading entity published on topic robot_description
+[spawn_entity.py-3] [INFO] [1793680915.310346488] [spawn_entity]: Waiting for entity xml on robot_description
+[spawn_entity.py-3] [INFO] [1793680915.321554496] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[spawn_entity.py-3] [INFO] [1793680915.321858047] [spawn_entity]: Waiting for service /spawn_entity
+[gzserver-1] [INFO] [1793680915.773304755] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+[gzserver-1] [INFO] [1793680915.773946013] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+[spawn_entity.py-3] [INFO] [1793680915.825726414] [spawn_entity]: Calling service /spawn_entity
+[waypoint_follower-4] [INFO] [1793680915.878473137] [waypoint_follower]: Waiting for ego odometry
+[spawn_entity.py-3] [INFO] [1793680915.992320885] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]
+[gzserver-1] [INFO] [1793680915.997793683] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+[gzserver-1] [WARN] [1793680916.104999888] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+[gzserver-1] [INFO] [1793680916.105782934] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+[gzserver-1] [INFO] [1793680916.107363413] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+[gzserver-1] [INFO] [1793680916.107821465] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+[gzserver-1] [INFO] [1793680916.109510345] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+[scenario_manager-5] [INFO] [1793680916.130400570] [scenario_manager]: Pedestrian crossing configured at x=-5.00 m
+[scenario_manager-5] [INFO] [1793680916.130944672] [scenario_manager]: SCENARIO-0001-adaptive_001 state=ARMED
+[INFO] [spawn_entity.py-3]: process has finished cleanly [pid 90584]
+[waypoint_follower-4] [INFO] [1793680916.155201273] [waypoint_follower]: Following waypoint 1
+[scenario_manager-5] [INFO] [1793680916.337864962] [scenario_manager]: Pedestrian spawned and scenario armed
+[scenario_manager-5] [INFO] [1793680919.492411600] [scenario_manager]: SCENARIO-0001-adaptive_001 state=ACTIVE
+[waypoint_follower-4] [INFO] [1793680920.093162932] [waypoint_follower]: Following waypoint 2
+[scenario_manager-5] [INFO] [1793680927.919362463] [scenario_manager]: SCENARIO-0001-adaptive_001 state=COMPLETED
+[safety_monitor-6] [INFO] [1793680927.935416105] [safety_monitor]: Safety result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_137/adaptive/adaptive_001_rep01/safety.json
+[waypoint_follower-4] [INFO] [1793680928.321446733] [waypoint_follower]: Following waypoint 3
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [safety_monitor-6]: sending signal 'SIGINT' to process[safety_monitor-6]
+[INFO] [scenario_manager-5]: sending signal 'SIGINT' to process[scenario_manager-5]
+[INFO] [waypoint_follower-4]: sending signal 'SIGINT' to process[waypoint_follower-4]
+[INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+[INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+[robot_state_publisher-2] [INFO] [1793680928.355778824] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[safety_monitor-6] Traceback (most recent call last):
+[safety_monitor-6]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor", line 8, in <module>
+[safety_monitor-6]     main()
+[safety_monitor-6]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/local/lib/python3.10/dist-packages/safe_drive_safety/safety_monitor.py", line 145, in main
+[safety_monitor-6]     node.destroy_node()
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1691, in destroy_node
+[safety_monitor-6]     self.destroy_service(self._services[0])
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1615, in destroy_service
+[scenario_manager-5] Traceback (most recent call last):
+[scenario_manager-5]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager", line 8, in <module>
+[safety_monitor-6]     service.destroy()
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/service.py", line 93, in destroy
+[safety_monitor-6]     self.__service.destroy_when_not_in_use()
+[safety_monitor-6] KeyboardInterrupt
+[scenario_manager-5]     main()
+[scenario_manager-5]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/local/lib/python3.10/dist-packages/safe_drive_scenario/scenario_manager.py", line 209, in main
+[scenario_manager-5]     node.destroy_node()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1691, in destroy_node
+[scenario_manager-5]     self.destroy_service(self._services[0])
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1615, in destroy_service
+[scenario_manager-5]     service.destroy()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/service.py", line 93, in destroy
+[scenario_manager-5]     self.__service.destroy_when_not_in_use()
+[scenario_manager-5] KeyboardInterrupt
+[waypoint_follower-4] Traceback (most recent call last):
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower", line 7, in <module>
+[waypoint_follower-4]     main()
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/local/lib/python3.10/dist-packages/safe_drive_control/waypoint_follower.py", line 315, in main
+[waypoint_follower-4]     node.destroy_node()
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1696, in destroy_node
+[robot_state_publisher-2] [INFO] [1793680928.361103822] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-4]     self.__node.destroy_when_not_in_use()
+[waypoint_follower-4] KeyboardInterrupt
+[ERROR] [waypoint_follower-4]: process has died [pid 90586, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/controller.yaml --params-file /tmp/launch_params_9n35v_ur'].
+[ERROR] [safety_monitor-6]: process has died [pid 90590, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor --ros-args -r __node:=safety_monitor --params-file /tmp/launch_params_7eankmhh'].
+[ERROR] [scenario_manager-5]: process has died [pid 90588, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager --ros-args -r __node:=scenario_manager --params-file /tmp/launch_params_ttr5xubr'].
+[INFO] [robot_state_publisher-2]: process has finished cleanly [pid 90582]
+[INFO] [gzserver-1]: process has finished cleanly [pid 90580]

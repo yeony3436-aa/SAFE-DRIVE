@@ -1,0 +1,17 @@
+seed,method,run,ego_speed_mps,trigger_distance_m,pedestrian_speed_mps,classification,collision,min_center_distance_m,min_los_ttc_s,valid,record_file
+42,random,1,2.0,6.5,1.0,risky,True,2.3800860778642385,1.5084893476757208,True,seed_42/random/random_001_rep01/record.json
+42,random,2,2.1394267984578836,3.1750752865586684,0.8650175910214715,risky,True,1.1799676830093866,1.8466620427993428,True,seed_42/random/random_002_rep01/record.json
+42,random,3,1.7232107381488229,8.155298499148087,1.1060196924537469,not_risky,False,3.176094342774549,2.782101507801854,True,seed_42/random/random_003_rep01/record.json
+42,random,4,2.3921795677048454,3.608571828405913,0.9531530918111623,risky,True,1.1805080883115309,1.27605475899125,True,seed_42/random/random_004_rep01/record.json
+42,adaptive,1,2.0,6.5,1.0,risky,True,2.380176622697003,1.501278958043856,True,seed_42/adaptive/adaptive_001_rep01/record.json
+42,adaptive,2,1.75,4.75,0.85,risky,True,2.380400569946698,2.001215508693023,True,seed_42/adaptive/adaptive_002_rep01/record.json
+42,adaptive,3,1.75,4.75,1.15,risky,True,2.380177121792887,1.886872030313363,True,seed_42/adaptive/adaptive_003_rep01/record.json
+42,adaptive,4,1.75,8.25,0.85,not_risky,False,2.1620311490147275,2.0015844882205927,True,seed_42/adaptive/adaptive_004_rep01/record.json
+137,random,1,2.0,6.5,1.0,risky,True,2.380220927799256,1.4999798456419193,True,seed_137/random/random_001_rep01/record.json
+137,random,2,1.5723665742694708,5.870665842887203,1.2941528299113085,risky,True,2.5626915958633916,2.1200126991184196,True,seed_137/random/random_002_rep01/record.json
+137,random,3,1.730922255578243,5.441442467798722,1.1923867765287275,risky,True,2.3826561510657287,1.6966776597029125,True,seed_137/random/random_003_rep01/record.json
+137,random,4,2.399838699896039,6.605899313501972,1.277072014202242,risky,True,2.409852219299131,1.262275310236804,True,seed_137/random/random_004_rep01/record.json
+137,adaptive,1,2.0,6.5,1.0,risky,True,2.380176622697003,1.501278958043856,True,seed_137/adaptive/adaptive_001_rep01/record.json
+137,adaptive,2,1.75,4.75,0.85,risky,True,2.3803596339987734,2.0012470842344254,True,seed_137/adaptive/adaptive_002_rep01/record.json
+137,adaptive,3,1.75,4.75,1.15,risky,True,2.3802949812860636,1.8263984247928127,True,seed_137/adaptive/adaptive_003_rep01/record.json
+137,adaptive,4,1.75,8.25,0.85,not_risky,False,2.1612683566436934,2.001733933549372,True,seed_137/adaptive/adaptive_004_rep01/record.json

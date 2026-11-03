@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import Bool, String
 
 from safe_drive_control.ackermann import low_speed_command, steering_angle
 from safe_drive_control.controller import WaypointController
@@ -33,6 +33,8 @@ class WaypointFollower(Node):
         self.declare_parameter('target_speed', 2.0)
         self.declare_parameter('goal_tolerance', 0.5)
         self.declare_parameter('lookahead_distance', 1.5)
+        self.declare_parameter('path_heading_gain', 0.0)
+        self.declare_parameter('max_lateral_acceleration', 0.0)
         self.declare_parameter('max_linear_speed', 3.0)
         self.declare_parameter('max_angular_speed', 1.0)
         self.declare_parameter('max_linear_deceleration', 1.0)
@@ -46,6 +48,12 @@ class WaypointFollower(Node):
         self.declare_parameter('stop_line_margin', 0.6)
         self.declare_parameter('signal_timeout', 1.0)
         self.declare_parameter('signal_deceleration', 1.0)
+        self.declare_parameter('yield_enabled', False)
+        self.declare_parameter('yield_line_x', 22.75)
+        self.declare_parameter('yield_front_offset', 2.1)
+        self.declare_parameter('yield_line_margin', 0.6)
+        self.declare_parameter('yield_timeout', 1.0)
+        self.declare_parameter('yield_deceleration', 1.0)
         self.declare_parameter('drive_mode', 'ackermann')
         self.declare_parameter('wheelbase', 2.5)
         self.declare_parameter('max_steer', 0.65)
@@ -87,6 +95,10 @@ class WaypointFollower(Node):
                 self.get_parameter('max_linear_deceleration').value
             ),
             allow_in_place_rotation=self._drive_mode == 'skid_steer',
+            path_heading_gain=float(
+                self.get_parameter('path_heading_gain').value),
+            max_lateral_acceleration=float(
+                self.get_parameter('max_lateral_acceleration').value),
         )
 
         control_rate_hz = float(self.get_parameter('control_rate_hz').value)
@@ -112,6 +124,15 @@ class WaypointFollower(Node):
         if self._signal_enabled:
             self.create_subscription(
                 String, '/safe_drive/vehicle_signal/state', self._on_signal, 10
+            )
+        self._yield_enabled = bool(self.get_parameter('yield_enabled').value)
+        self._yield_required: Optional[bool] = None
+        self._last_yield_time = None
+        self._yield_entered = False
+        self._last_yield_log: Optional[str] = None
+        if self._yield_enabled:
+            self.create_subscription(
+                Bool, '/safe_drive/ego/yield_required', self._on_yield, 10
             )
 
         self._command_publisher = self.create_publisher(
@@ -148,6 +169,10 @@ class WaypointFollower(Node):
     def _on_signal(self, message: String) -> None:
         self._signal_state = message.data
         self._last_signal_time = self.get_clock().now()
+
+    def _on_yield(self, message: Bool) -> None:
+        self._yield_required = message.data
+        self._last_yield_time = self.get_clock().now()
 
     def _control_step(self) -> None:
         if self._position is None or self._last_odom_time is None:
@@ -215,6 +240,37 @@ class WaypointFollower(Node):
             if log_state != self._last_signal_log:
                 self.get_logger().info(f'Traffic signal {log_state}; speed limit {limit:.2f} m/s')
                 self._last_signal_log = log_state
+        if self._yield_enabled and not self._controller.completed:
+            yield_required = self._yield_required
+            if self._last_yield_time is None or (
+                self.get_clock().now() - self._last_yield_time
+            ).nanoseconds / 1e9 > float(self.get_parameter('yield_timeout').value):
+                yield_required = None
+            line_x = float(self.get_parameter('yield_line_x').value)
+            front_offset = float(self.get_parameter('yield_front_offset').value)
+            self._yield_entered = entered_intersection_on_green(
+                self._yield_entered, self._position[0],
+                'GREEN' if yield_required is False else None,
+                line_x, front_offset,
+            )
+            limit = signal_speed_limit(
+                x=self._position[0],
+                signal_state=('GREEN' if self._yield_entered
+                              or yield_required is False else None),
+                stop_line_x=line_x,
+                front_offset=front_offset,
+                safety_margin=float(self.get_parameter('yield_line_margin').value),
+                deceleration=float(self.get_parameter('yield_deceleration').value),
+                max_speed=linear,
+            )
+            if limit < linear:
+                angular *= limit / linear if linear > 0.0 else 0.0
+                linear = limit
+            log_state = ('STALE' if yield_required is None else
+                         'REQUIRED' if yield_required else 'CLEAR')
+            if log_state != self._last_yield_log:
+                self.get_logger().info(f'Unsignalized crossing {log_state}')
+                self._last_yield_log = log_state
         message = Twist()
         message.linear.x = (
             low_speed_command(

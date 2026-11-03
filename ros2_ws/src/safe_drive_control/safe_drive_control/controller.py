@@ -18,6 +18,20 @@ def normalize_angle(angle: float) -> float:
     return math.atan2(math.sin(angle), math.cos(angle))
 
 
+def waypoint_curvature(before: tuple[float, float],
+                       current: tuple[float, float],
+                       after: tuple[float, float]) -> float:
+    """Return the circumcircle curvature through three route points."""
+    first = math.dist(before, current)
+    second = math.dist(current, after)
+    chord = math.dist(before, after)
+    if min(first, second, chord) <= 1e-9:
+        return 0.0
+    cross = abs((current[0] - before[0]) * (after[1] - current[1])
+                - (current[1] - before[1]) * (after[0] - current[0]))
+    return 2.0 * cross / (first * second * chord)
+
+
 class WaypointController:
     """Small deterministic controller for an ordered planar waypoint route."""
 
@@ -31,6 +45,8 @@ class WaypointController:
         max_angular_speed: float,
         max_linear_deceleration: float,
         allow_in_place_rotation: bool = True,
+        path_heading_gain: float = 0.0,
+        max_lateral_acceleration: float = 0.0,
     ) -> None:
         if not waypoints:
             raise ValueError('at least one waypoint is required')
@@ -44,6 +60,11 @@ class WaypointController:
             raise ValueError('velocity limits must be positive')
         if max_linear_deceleration <= 0.0:
             raise ValueError('max_linear_deceleration must be positive')
+        if not math.isfinite(path_heading_gain) or path_heading_gain < 0.0:
+            raise ValueError('path_heading_gain must be finite and nonnegative')
+        if (not math.isfinite(max_lateral_acceleration)
+                or max_lateral_acceleration < 0.0):
+            raise ValueError('max_lateral_acceleration must be nonnegative')
 
         self._waypoints = tuple(waypoints)
         self._target_speed = min(target_speed, max_linear_speed)
@@ -52,6 +73,23 @@ class WaypointController:
         self._max_angular_speed = max_angular_speed
         self._max_linear_deceleration = max_linear_deceleration
         self._allow_in_place_rotation = allow_in_place_rotation
+        self._path_heading_gain = path_heading_gain
+        self._speed_profile = [self._target_speed] * len(self._waypoints)
+        if max_lateral_acceleration > 0.0:
+            for index in range(1, len(self._waypoints) - 1):
+                curvature = waypoint_curvature(
+                    *self._waypoints[index - 1:index + 2])
+                if curvature > 1e-9:
+                    self._speed_profile[index] = min(
+                        self._target_speed,
+                        math.sqrt(max_lateral_acceleration / curvature))
+            for index in range(len(self._waypoints) - 2, -1, -1):
+                segment = math.dist(self._waypoints[index],
+                                    self._waypoints[index + 1])
+                allowed = math.sqrt(self._speed_profile[index + 1] ** 2
+                                    + 2.0 * max_linear_deceleration * segment)
+                self._speed_profile[index] = min(
+                    self._speed_profile[index], allowed)
         self._waypoint_index = 0
         self._completed = False
 
@@ -107,6 +145,7 @@ class WaypointController:
         # excessively sharp command when approaching a waypoint.
         effective_lookahead = max(distance, self._lookahead_distance)
         linear = self._target_speed * max(0.2, math.cos(heading_error))
+        linear = min(linear, self._speed_profile[self._waypoint_index])
         if speed_limit is not None:
             linear = min(linear, speed_limit)
 
@@ -119,6 +158,16 @@ class WaypointController:
 
         curvature = 2.0 * math.sin(heading_error) / effective_lookahead
         angular = linear * curvature
+        if self._path_heading_gain and len(self._waypoints) > 1:
+            if self._waypoint_index == 0:
+                previous, following = self._waypoints[:2]
+            else:
+                previous = self._waypoints[self._waypoint_index - 1]
+                following = self._waypoints[self._waypoint_index]
+            path_heading = math.atan2(following[1] - previous[1],
+                                      following[0] - previous[0])
+            angular += self._path_heading_gain * normalize_angle(
+                path_heading - yaw)
         angular = max(-self._max_angular_speed, min(self._max_angular_speed, angular))
 
         return VelocityCommand(linear, angular)

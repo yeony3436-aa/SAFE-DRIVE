@@ -1,0 +1,6 @@
+[INFO] [1793680781.310874162] [scenario_manager]: SCENARIO-0001-random_004 state=WAITING_FOR_EGO
+[INFO] [1793680781.311293383] [scenario_manager]: Loaded SCENARIO-0001-random_004 type=sudden_pedestrian seed=42
+[INFO] [1793680782.066585853] [scenario_manager]: Pedestrian crossing configured at x=-5.00 m
+[INFO] [1793680782.067108937] [scenario_manager]: SCENARIO-0001-random_004 state=ARMED
+[INFO] [1793680782.274137274] [scenario_manager]: Pedestrian spawned and scenario armed
+[INFO] [1793680786.534737039] [scenario_manager]: SCENARIO-0001-random_004 state=ACTIVE

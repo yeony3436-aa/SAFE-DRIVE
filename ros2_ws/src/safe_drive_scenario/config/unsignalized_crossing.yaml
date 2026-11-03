@@ -1,0 +1,17 @@
+scenario:
+  id: UNSIGNALIZED-CROSSING-0001
+  type: sudden_pedestrian
+  seed: 42
+  parameters:
+    ego_speed: 1.2
+    pedestrian_speed: 1.0
+    # Ego starts at x=10; the crossing is painted at x=27.
+    pedestrian_spawn_distance: 17.0
+    # Arm the crossing when ego reaches approximately x=18.
+    trigger_distance: 9.0
+  environment:
+    pedestrian_start_y: -4.25
+    pedestrian_end_y: 5.2
+    update_rate_hz: 20.0
+  termination:
+    timeout: 35.0

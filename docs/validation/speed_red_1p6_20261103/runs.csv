@@ -1,0 +1,2 @@
+case,requested_speed_mps,repeat,passed,achieved_max_speed_mps,minimum_front_gap_m,stop_line_passed,collision,scenario_completed
+red_crossing,1.6,1,True,1.3235545555270982,0.8843739392655952,True,False,True

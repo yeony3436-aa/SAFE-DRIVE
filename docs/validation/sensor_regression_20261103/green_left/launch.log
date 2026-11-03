@@ -1,0 +1,156 @@
+[INFO] [launch]: All log files can be found below /home/suyeon/.ros/log/2026-11-03-13-58-00-163245-suyeon-IdeaPad-5-Pro-14ACN6-101209
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gzserver-1]: process started with pid [101214]
+[INFO] [robot_state_publisher-2]: process started with pid [101216]
+[INFO] [spawn_entity.py-3]: process started with pid [101218]
+[INFO] [traffic_signal-4]: process started with pid [101220]
+[INFO] [waypoint_follower-5]: process started with pid [101222]
+[INFO] [route_monitor-6]: process started with pid [101224]
+[robot_state_publisher-2] [INFO] [1793681880.906631376] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-2] [INFO] [1793681880.906745012] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-2] [INFO] [1793681880.906760029] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-2] [INFO] [1793681880.906771064] [robot_state_publisher]: got segment camera_optical_frame
+[robot_state_publisher-2] [INFO] [1793681880.906781401] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-2] [INFO] [1793681880.906791249] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793681880.906802284] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-2] [INFO] [1793681880.906812831] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793681880.906823726] [robot_state_publisher]: got segment lidar_link
+[robot_state_publisher-2] [INFO] [1793681880.906833295] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-2] [INFO] [1793681880.906843771] [robot_state_publisher]: got segment rear_right_wheel
+[waypoint_follower-5] [INFO] [1793681881.389746805] [waypoint_follower]: Loaded 100 waypoints; target_speed=1.20 m/s
+[spawn_entity.py-3] [INFO] [1793681881.467496979] [spawn_entity]: Spawn Entity started
+[spawn_entity.py-3] [INFO] [1793681881.468011029] [spawn_entity]: Loading entity published on topic robot_description
+[spawn_entity.py-3] [INFO] [1793681881.469946542] [spawn_entity]: Waiting for entity xml on robot_description
+[spawn_entity.py-3] [INFO] [1793681881.481163464] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[spawn_entity.py-3] [INFO] [1793681881.481492499] [spawn_entity]: Waiting for service /spawn_entity
+[gzserver-1] [INFO] [1793681881.908536306] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+[gzserver-1] [INFO] [1793681881.909310385] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+[spawn_entity.py-3] [INFO] [1793681881.985758809] [spawn_entity]: Calling service /spawn_entity
+[waypoint_follower-5] [INFO] [1793681882.013444283] [waypoint_follower]: Waiting for ego odometry
+[gzserver-1] [INFO] [1793681882.125779663] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+[gzserver-1] [INFO] [1793681882.836605659] [safe_drive.ego.safe_drive_front_camera]: Publishing camera info to [/safe_drive/ego/camera/camera_info]
+[spawn_entity.py-3] [INFO] [1793681882.843324986] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]
+[gzserver-1] [WARN] [1793681882.958283841] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+[gzserver-1] [INFO] [1793681882.959098430] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+[gzserver-1] [INFO] [1793681882.960748840] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+[gzserver-1] [INFO] [1793681882.961291946] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+[gzserver-1] [INFO] [1793681882.963375877] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+[INFO] [spawn_entity.py-3]: process has finished cleanly [pid 101218]
+[traffic_signal-4] [INFO] [1793681883.001495043] [traffic_signal]: Ego odometry ready; starting signal cycle
+[traffic_signal-4] [INFO] [1793681883.020181276] [traffic_signal]: Vehicle GREEN; pedestrian DONT_WALK at t=0.0 s
+[waypoint_follower-5] [INFO] [1793681883.020212287] [waypoint_follower]: Traffic signal UNKNOWN; speed limit 1.20 m/s
+[waypoint_follower-5] [INFO] [1793681883.020685409] [waypoint_follower]: Following waypoint 1
+[waypoint_follower-5] [INFO] [1793681883.120391763] [waypoint_follower]: Traffic signal GREEN; speed limit 1.20 m/s
+[waypoint_follower-5] [INFO] [1793681885.930353764] [waypoint_follower]: Following waypoint 2
+[waypoint_follower-5] [INFO] [1793681888.638897802] [waypoint_follower]: Following waypoint 3
+[waypoint_follower-5] [INFO] [1793681891.145339241] [waypoint_follower]: Following waypoint 4
+[waypoint_follower-5] [INFO] [1793681893.652189124] [waypoint_follower]: Following waypoint 5
+[waypoint_follower-5] [INFO] [1793681896.260296926] [waypoint_follower]: Following waypoint 6
+[waypoint_follower-5] [INFO] [1793681898.768308795] [waypoint_follower]: Following waypoint 7
+[waypoint_follower-5] [INFO] [1793681900.774874829] [waypoint_follower]: Following waypoint 8
+[waypoint_follower-5] [INFO] [1793681902.881389648] [waypoint_follower]: Following waypoint 9
+[waypoint_follower-5] [INFO] [1793681904.888353001] [waypoint_follower]: Following waypoint 10
+[waypoint_follower-5] [INFO] [1793681907.294569411] [waypoint_follower]: Following waypoint 11
+[waypoint_follower-5] [INFO] [1793681909.802803772] [waypoint_follower]: Following waypoint 12
+[waypoint_follower-5] [INFO] [1793681912.210271374] [waypoint_follower]: Following waypoint 13
+[waypoint_follower-5] [INFO] [1793681913.214361152] [waypoint_follower]: Following waypoint 14
+[waypoint_follower-5] [INFO] [1793681914.318614437] [waypoint_follower]: Following waypoint 15
+[waypoint_follower-5] [INFO] [1793681915.420302274] [waypoint_follower]: Following waypoint 16
+[waypoint_follower-5] [INFO] [1793681916.624280707] [waypoint_follower]: Following waypoint 17
+[waypoint_follower-5] [INFO] [1793681917.729544311] [waypoint_follower]: Following waypoint 18
+[waypoint_follower-5] [INFO] [1793681918.934224924] [waypoint_follower]: Following waypoint 19
+[waypoint_follower-5] [INFO] [1793681920.336210887] [waypoint_follower]: Following waypoint 20
+[waypoint_follower-5] [INFO] [1793681921.740302412] [waypoint_follower]: Following waypoint 21
+[waypoint_follower-5] [INFO] [1793681923.045202355] [waypoint_follower]: Following waypoint 22
+[waypoint_follower-5] [INFO] [1793681925.955243146] [waypoint_follower]: Following waypoint 23
+[waypoint_follower-5] [INFO] [1793681928.463289048] [waypoint_follower]: Following waypoint 24
+[waypoint_follower-5] [INFO] [1793681930.869348603] [waypoint_follower]: Following waypoint 25
+[waypoint_follower-5] [INFO] [1793681933.279211439] [waypoint_follower]: Following waypoint 26
+[waypoint_follower-5] [INFO] [1793681935.685588241] [waypoint_follower]: Following waypoint 27
+[waypoint_follower-5] [INFO] [1793681938.092627730] [waypoint_follower]: Following waypoint 28
+[waypoint_follower-5] [INFO] [1793681940.400395923] [waypoint_follower]: Following waypoint 29
+[waypoint_follower-5] [INFO] [1793681943.008262629] [waypoint_follower]: Following waypoint 30
+[waypoint_follower-5] [INFO] [1793681945.616371899] [waypoint_follower]: Following waypoint 31
+[waypoint_follower-5] [INFO] [1793681948.124256088] [waypoint_follower]: Following waypoint 32
+[waypoint_follower-5] [INFO] [1793681950.733338356] [waypoint_follower]: Following waypoint 33
+[waypoint_follower-5] [INFO] [1793681953.241262293] [waypoint_follower]: Following waypoint 34
+[waypoint_follower-5] [INFO] [1793681955.850684356] [waypoint_follower]: Following waypoint 35
+[waypoint_follower-5] [INFO] [1793681958.357350626] [waypoint_follower]: Following waypoint 36
+[waypoint_follower-5] [INFO] [1793681960.965382175] [waypoint_follower]: Following waypoint 37
+[waypoint_follower-5] [INFO] [1793681962.970206379] [waypoint_follower]: Following waypoint 38
+[waypoint_follower-5] [INFO] [1793681965.078356954] [waypoint_follower]: Following waypoint 39
+[waypoint_follower-5] [INFO] [1793681967.184320465] [waypoint_follower]: Following waypoint 40
+[waypoint_follower-5] [INFO] [1793681969.291153907] [waypoint_follower]: Following waypoint 41
+[waypoint_follower-5] [INFO] [1793681971.397197373] [waypoint_follower]: Following waypoint 42
+[waypoint_follower-5] [INFO] [1793681972.702359124] [waypoint_follower]: Following waypoint 43
+[waypoint_follower-5] [INFO] [1793681974.206455293] [waypoint_follower]: Following waypoint 44
+[waypoint_follower-5] [INFO] [1793681975.812314804] [waypoint_follower]: Following waypoint 45
+[waypoint_follower-5] [INFO] [1793681977.316806942] [waypoint_follower]: Following waypoint 46
+[waypoint_follower-5] [INFO] [1793681978.921080673] [waypoint_follower]: Following waypoint 47
+[waypoint_follower-5] [INFO] [1793681980.627300728] [waypoint_follower]: Following waypoint 48
+[waypoint_follower-5] [INFO] [1793681982.232188334] [waypoint_follower]: Following waypoint 49
+[waypoint_follower-5] [INFO] [1793681983.837143525] [waypoint_follower]: Following waypoint 50
+[waypoint_follower-5] [INFO] [1793681985.343320667] [waypoint_follower]: Following waypoint 51
+[waypoint_follower-5] [INFO] [1793681988.051247888] [waypoint_follower]: Following waypoint 52
+[waypoint_follower-5] [INFO] [1793681990.457404065] [waypoint_follower]: Following waypoint 53
+[waypoint_follower-5] [INFO] [1793681992.764326861] [waypoint_follower]: Following waypoint 54
+[waypoint_follower-5] [INFO] [1793681995.173295332] [waypoint_follower]: Following waypoint 55
+[waypoint_follower-5] [INFO] [1793681997.479487878] [waypoint_follower]: Following waypoint 56
+[waypoint_follower-5] [INFO] [1793681999.687363475] [waypoint_follower]: Following waypoint 57
+[waypoint_follower-5] [INFO] [1793682001.894284262] [waypoint_follower]: Following waypoint 58
+[waypoint_follower-5] [INFO] [1793682004.101278690] [waypoint_follower]: Following waypoint 59
+[waypoint_follower-5] [INFO] [1793682006.408423715] [waypoint_follower]: Following waypoint 60
+[waypoint_follower-5] [INFO] [1793682008.615143635] [waypoint_follower]: Following waypoint 61
+[waypoint_follower-5] [INFO] [1793682010.822276567] [waypoint_follower]: Following waypoint 62
+[waypoint_follower-5] [INFO] [1793682013.028460348] [waypoint_follower]: Following waypoint 63
+[waypoint_follower-5] [INFO] [1793682014.433245532] [waypoint_follower]: Following waypoint 64
+[waypoint_follower-5] [INFO] [1793682015.938429979] [waypoint_follower]: Following waypoint 65
+[waypoint_follower-5] [INFO] [1793682017.542448132] [waypoint_follower]: Following waypoint 66
+[waypoint_follower-5] [INFO] [1793682019.148337658] [waypoint_follower]: Following waypoint 67
+[waypoint_follower-5] [INFO] [1793682020.753297120] [waypoint_follower]: Following waypoint 68
+[waypoint_follower-5] [INFO] [1793682022.258455429] [waypoint_follower]: Following waypoint 69
+[waypoint_follower-5] [INFO] [1793682023.962428001] [waypoint_follower]: Following waypoint 70
+[waypoint_follower-5] [INFO] [1793682025.569245517] [waypoint_follower]: Following waypoint 71
+[waypoint_follower-5] [INFO] [1793682027.073498309] [waypoint_follower]: Following waypoint 72
+[waypoint_follower-5] [INFO] [1793682029.581192329] [waypoint_follower]: Following waypoint 73
+[waypoint_follower-5] [INFO] [1793682031.987265186] [waypoint_follower]: Following waypoint 74
+[waypoint_follower-5] [INFO] [1793682034.193506733] [waypoint_follower]: Following waypoint 75
+[waypoint_follower-5] [INFO] [1793682036.400285615] [waypoint_follower]: Following waypoint 76
+[waypoint_follower-5] [INFO] [1793682038.709784063] [waypoint_follower]: Following waypoint 77
+[waypoint_follower-5] [INFO] [1793682040.915826499] [waypoint_follower]: Following waypoint 78
+[waypoint_follower-5] [INFO] [1793682043.122338730] [waypoint_follower]: Following waypoint 79
+[waypoint_follower-5] [INFO] [1793682045.630242005] [waypoint_follower]: Following waypoint 80
+[waypoint_follower-5] [INFO] [1793682048.238256582] [waypoint_follower]: Following waypoint 81
+[waypoint_follower-5] [INFO] [1793682050.747167874] [waypoint_follower]: Following waypoint 82
+[waypoint_follower-5] [INFO] [1793682053.253311206] [waypoint_follower]: Following waypoint 83
+[waypoint_follower-5] [INFO] [1793682055.862618284] [waypoint_follower]: Following waypoint 84
+[waypoint_follower-5] [INFO] [1793682058.368303055] [waypoint_follower]: Following waypoint 85
+[waypoint_follower-5] [INFO] [1793682060.777526464] [waypoint_follower]: Following waypoint 86
+[waypoint_follower-5] [INFO] [1793682063.184280500] [waypoint_follower]: Following waypoint 87
+[waypoint_follower-5] [INFO] [1793682065.591242622] [waypoint_follower]: Following waypoint 88
+[waypoint_follower-5] [INFO] [1793682067.999253752] [waypoint_follower]: Following waypoint 89
+[waypoint_follower-5] [INFO] [1793682070.507633822] [waypoint_follower]: Following waypoint 90
+[waypoint_follower-5] [INFO] [1793682072.815169216] [waypoint_follower]: Following waypoint 91
+[waypoint_follower-5] [INFO] [1793682074.220345511] [waypoint_follower]: Following waypoint 92
+[waypoint_follower-5] [INFO] [1793682075.723240974] [waypoint_follower]: Following waypoint 93
+[waypoint_follower-5] [INFO] [1793682077.227270541] [waypoint_follower]: Following waypoint 94
+[waypoint_follower-5] [INFO] [1793682078.833285607] [waypoint_follower]: Following waypoint 95
+[waypoint_follower-5] [INFO] [1793682080.337506020] [waypoint_follower]: Following waypoint 96
+[waypoint_follower-5] [INFO] [1793682081.944310070] [waypoint_follower]: Following waypoint 97
+[waypoint_follower-5] [INFO] [1793682083.750449945] [waypoint_follower]: Following waypoint 98
+[waypoint_follower-5] [INFO] [1793682085.353473171] [waypoint_follower]: Following waypoint 99
+[waypoint_follower-5] [INFO] [1793682086.957513513] [waypoint_follower]: Following waypoint 100
+[waypoint_follower-5] [INFO] [1793682087.358251378] [waypoint_follower]: Final waypoint reached at x=-30.64, y=-1.59; vehicle stopped
+[route_monitor-6] [INFO] [1793682096.890839453] [route_monitor]: Route result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/sensor_regression_20261103/green_left/route.json; max corner error=1.51 m
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [route_monitor-6]: sending signal 'SIGINT' to process[route_monitor-6]
+[INFO] [waypoint_follower-5]: sending signal 'SIGINT' to process[waypoint_follower-5]
+[INFO] [traffic_signal-4]: sending signal 'SIGINT' to process[traffic_signal-4]
+[INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+[INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+[robot_state_publisher-2] [INFO] [1793682097.170720157] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ERROR] [robot_state_publisher-2]: process has died [pid 101216, exit code -2, cmd '/opt/ros/humble/lib/robot_state_publisher/robot_state_publisher --ros-args -r __node:=robot_state_publisher --params-file /tmp/launch_params_7u36ocp8'].
+[ERROR] [waypoint_follower-5]: process has died [pid 101222, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/connected_left_loop.yaml --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/signal_controller.yaml'].
+[ERROR] [route_monitor-6]: process has died [pid 101224, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/route_monitor --ros-args -r __node:=route_monitor --params-file /tmp/launch_params_5q7yj_ck'].
+[ERROR] [traffic_signal-4]: process has died [pid 101220, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/traffic_signal --ros-args -r __node:=traffic_signal --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/share/safe_drive_scenario/config/traffic_signal.yaml --params-file /tmp/launch_params_kmj3fh6x'].
+[INFO] [gzserver-1]: process has finished cleanly [pid 101214]

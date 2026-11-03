@@ -1,0 +1,17 @@
+{
+  "scenario_state": "COMPLETED",
+  "yield_line_x_m": 22.75,
+  "front_offset_m": 2.1,
+  "required_margin_m": 0.6,
+  "approach_window_m": 3.0,
+  "stop_speed_threshold_mps": 0.15,
+  "required_stop_seconds": 1.0,
+  "active_samples": 471,
+  "minimum_front_gap_while_active_m": 0.9750841785769069,
+  "max_stop_duration_while_active_s": 7.079999999999998,
+  "stopped_while_active": true,
+  "crossed_after_clear": true,
+  "end_sim_time": 21.501,
+  "passed": true,
+  "measurement": "odom x plus configured front offset and scenario state"
+}

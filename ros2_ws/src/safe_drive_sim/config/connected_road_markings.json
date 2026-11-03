@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "source_world": "connected_road.world",
+  "lane_edge_offset_m": 3.75,
+  "centerline_width_m": 0.12,
+  "edge_line_width_m": 0.1,
+  "roads": [
+    {
+      "name": "main",
+      "axis": "x",
+      "center": 0,
+      "intervals": [
+        [
+          -32,
+          -2
+        ],
+        [
+          6,
+          25
+        ],
+        [
+          29,
+          32
+        ]
+      ]
+    },
+    {
+      "name": "central",
+      "axis": "y",
+      "center": 2,
+      "intervals": [
+        [
+          -52,
+          -4
+        ],
+        [
+          4,
+          52
+        ]
+      ]
+    },
+    {
+      "name": "south",
+      "axis": "x",
+      "center": -56,
+      "intervals": [
+        [
+          -32,
+          -2
+        ],
+        [
+          6,
+          32
+        ]
+      ]
+    },
+    {
+      "name": "north",
+      "axis": "x",
+      "center": 56,
+      "intervals": [
+        [
+          -32,
+          -2
+        ],
+        [
+          6,
+          32
+        ]
+      ]
+    },
+    {
+      "name": "west",
+      "axis": "y",
+      "center": -36,
+      "intervals": [
+        [
+          -52,
+          -4
+        ],
+        [
+          4,
+          52
+        ]
+      ]
+    },
+    {
+      "name": "east",
+      "axis": "y",
+      "center": 36,
+      "intervals": [
+        [
+          -52,
+          -4
+        ],
+        [
+          4,
+          52
+        ]
+      ]
+    }
+  ]
+}

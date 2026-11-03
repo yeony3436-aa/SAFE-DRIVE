@@ -1,0 +1,15 @@
+scenario:
+  id: SCENARIO-0001-adaptive_004
+  type: sudden_pedestrian
+  seed: 42
+  parameters:
+    ego_speed: 1.75
+    pedestrian_speed: 0.85
+    pedestrian_spawn_distance: 10.0
+    trigger_distance: 8.25
+  environment:
+    pedestrian_start_y: -4.25
+    pedestrian_end_y: 4.25
+    update_rate_hz: 20.0
+  termination:
+    timeout: 30.0

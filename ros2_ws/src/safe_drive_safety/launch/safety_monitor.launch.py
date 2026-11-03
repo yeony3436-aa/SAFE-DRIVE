@@ -14,6 +14,10 @@ def generate_launch_description() -> LaunchDescription:
             FindPackageShare('safe_drive_safety'), 'config', 'safety.yaml',
         ]),
     )
+    output_argument = DeclareLaunchArgument(
+        'output_file', default_value='',
+        description='Optional JSON result path after the scenario ends.',
+    )
     monitor = Node(
         package='safe_drive_safety',
         executable='safety_monitor',
@@ -22,6 +26,7 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[{
             'use_sim_time': True,
             'safety_config': LaunchConfiguration('safety_config'),
+            'output_file': LaunchConfiguration('output_file'),
         }],
     )
-    return LaunchDescription([config_argument, monitor])
+    return LaunchDescription([config_argument, output_argument, monitor])

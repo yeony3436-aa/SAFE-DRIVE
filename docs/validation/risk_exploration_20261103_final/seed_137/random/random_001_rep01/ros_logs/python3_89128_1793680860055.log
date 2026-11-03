@@ -1,0 +1,5 @@
+[INFO] [1793680860.127081538] [waypoint_follower]: Loaded 3 waypoints; target_speed=2.00 m/s
+[INFO] [1793680860.703536433] [waypoint_follower]: Waiting for ego odometry
+[INFO] [1793680860.982177867] [waypoint_follower]: Following waypoint 1
+[INFO] [1793680864.920494822] [waypoint_follower]: Following waypoint 2
+[INFO] [1793680873.148184725] [waypoint_follower]: Following waypoint 3

@@ -115,6 +115,22 @@
         <visual name="opposite_stop_line"><pose>-0.6 1.75 -0.029 0 0 0</pose><geometry><box><size>0.30 3.30 0.012</size></box></geometry><material><ambient>0.96 0.96 0.94 1</ambient><diffuse>0.96 0.96 0.94 1</diffuse></material></visual>
       </link>
     </model>
+    <!-- Static roadside sensor target outside the drivable corridor. -->
+    <model name="sensor_target_bollard">
+      <static>true</static>
+      <pose>-3 -4.65 0 0 0 0</pose>
+      <link name="bollard_link">
+        <collision name="bollard_collision">
+          <pose>0 0 1.0 0 0 0</pose>
+          <geometry><cylinder><radius>0.35</radius><length>2.0</length></cylinder></geometry>
+        </collision>
+        <visual name="bollard_visual">
+          <pose>0 0 1.0 0 0 0</pose>
+          <geometry><cylinder><radius>0.35</radius><length>2.0</length></cylinder></geometry>
+          <material><ambient>0.95 0.25 0.05 1</ambient><diffuse>0.95 0.25 0.05 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
     <model name="roadside">
       <static>true</static>
       <link name="streetscape">

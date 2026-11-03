@@ -1,0 +1,5 @@
+# The low-speed start of the connected-map validation matrix.
+base_validation_config: config/connected_validation.yaml
+speeds_mps: [1.2, 1.6]
+repeats: 1
+cases: [red_crossing, green_left, green_right, green_straight]

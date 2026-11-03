@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T14:47:50+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/connected_validation.yaml",
+  "config_sha256": "343ae3622c60a3d7b4d7238358b72ab7db9abd94af7815968b6dae8b7825b742",
+  "git_commit": "461c5a3e401fb97dc3b1b56e96a3544452bd5981",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "continuous_late_crossing",
+      "passed": false,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/continuous_late_crossing_first_20261103/continuous_late_crossing/record.json",
+      "error": "missing route.json"
+    }
+  ],
+  "finished_utc": "2026-11-03T14:54:51+00:00",
+  "passed": false
+}

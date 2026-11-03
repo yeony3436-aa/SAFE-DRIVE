@@ -1,0 +1,41 @@
+{
+  "started_utc": "2026-11-03T04:55:35.596939+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_sim",
+    "simulation.launch.py",
+    "gui:=false",
+    "spawn_x:=-15",
+    "spawn_y:=-1.75"
+  ],
+  "target_world_xy_m": [
+    -3.0,
+    -4.65
+  ],
+  "image_messages": 12,
+  "scan_messages": 12,
+  "image_frame": "camera_optical_frame",
+  "scan_frame": "lidar_link",
+  "camera_info_frame": "camera_optical_frame",
+  "image_size": [
+    320,
+    240
+  ],
+  "image_encoding": "rgb8",
+  "image_rate_sim_hz": 10.396975425330815,
+  "scan_rate_sim_hz": 10.0,
+  "scan_samples": 360,
+  "red_pixels": 22,
+  "target_sector_range_m": 11.9924898147583,
+  "real_time_factor_samples": [
+    0.153590063,
+    0.8677873850000001,
+    0.8710080610000001,
+    0.858525328,
+    0.8474468540000001,
+    1.7014398430000002
+  ],
+  "elapsed_wall_seconds": 4.117,
+  "passed": true
+}

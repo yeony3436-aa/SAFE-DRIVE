@@ -1,0 +1,40 @@
+[INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/sensors_20261103/ros_logs/2026-11-03-13-55-31-713316-suyeon-IdeaPad-5-Pro-14ACN6-99155
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gzserver-1]: process started with pid [99176]
+[INFO] [robot_state_publisher-2]: process started with pid [99178]
+[INFO] [spawn_entity.py-3]: process started with pid [99180]
+[robot_state_publisher-2] [INFO] [1793681732.281742785] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-2] [INFO] [1793681732.281826737] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-2] [INFO] [1793681732.281840078] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-2] [INFO] [1793681732.281851113] [robot_state_publisher]: got segment camera_optical_frame
+[robot_state_publisher-2] [INFO] [1793681732.281862009] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-2] [INFO] [1793681732.281872555] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793681732.281883521] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-2] [INFO] [1793681732.281894346] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793681732.281904963] [robot_state_publisher]: got segment lidar_link
+[robot_state_publisher-2] [INFO] [1793681732.281914950] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-2] [INFO] [1793681732.281925846] [robot_state_publisher]: got segment rear_right_wheel
+[spawn_entity.py-3] [INFO] [1793681732.610336691] [spawn_entity]: Spawn Entity started
+[spawn_entity.py-3] [INFO] [1793681732.610689962] [spawn_entity]: Loading entity published on topic robot_description
+[spawn_entity.py-3] [INFO] [1793681732.612366637] [spawn_entity]: Waiting for entity xml on robot_description
+[spawn_entity.py-3] [INFO] [1793681732.623490340] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[spawn_entity.py-3] [INFO] [1793681732.623788923] [spawn_entity]: Waiting for service /spawn_entity
+[gzserver-1] [INFO] [1793681733.123315518] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+[gzserver-1] [INFO] [1793681733.123920646] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+[spawn_entity.py-3] [INFO] [1793681733.127513421] [spawn_entity]: Calling service /spawn_entity
+[gzserver-1] [INFO] [1793681733.291642536] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+[gzserver-1] [INFO] [1793681733.999967383] [safe_drive.ego.safe_drive_front_camera]: Publishing camera info to [/safe_drive/ego/camera/camera_info]
+[spawn_entity.py-3] [INFO] [1793681734.007273274] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]
+[gzserver-1] [WARN] [1793681734.122152806] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+[gzserver-1] [INFO] [1793681734.123229451] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+[gzserver-1] [INFO] [1793681734.125019972] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+[gzserver-1] [INFO] [1793681734.125516982] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+[gzserver-1] [INFO] [1793681734.127416878] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+[INFO] [spawn_entity.py-3]: process has finished cleanly [pid 99180]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+[INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+[robot_state_publisher-2] [INFO] [1793681735.332108827] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-2] [INFO] [1793681735.334290474] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [robot_state_publisher-2]: process has finished cleanly [pid 99178]
+[INFO] [gzserver-1]: process has finished cleanly [pid 99176]

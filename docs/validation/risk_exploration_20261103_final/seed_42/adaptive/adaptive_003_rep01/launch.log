@@ -1,0 +1,148 @@
+[INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_42/adaptive/adaptive_003_rep01/ros_logs/2026-11-03-13-40-28-370179-suyeon-IdeaPad-5-Pro-14ACN6-88334
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gzserver-1]: process started with pid [88339]
+[INFO] [robot_state_publisher-2]: process started with pid [88341]
+[INFO] [spawn_entity.py-3]: process started with pid [88343]
+[INFO] [waypoint_follower-4]: process started with pid [88345]
+[INFO] [scenario_manager-5]: process started with pid [88347]
+[INFO] [safety_monitor-6]: process started with pid [88349]
+[robot_state_publisher-2] [INFO] [1793680829.118366529] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-2] [INFO] [1793680829.118476118] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-2] [INFO] [1793680829.118488621] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-2] [INFO] [1793680829.118499517] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793680829.118509505] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-2] [INFO] [1793680829.118519633] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793680829.118529621] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-2] [INFO] [1793680829.118539469] [robot_state_publisher]: got segment rear_right_wheel
+[waypoint_follower-4] [INFO] [1793680829.579171761] [waypoint_follower]: Loaded 3 waypoints; target_speed=1.75 m/s
+[scenario_manager-5] [INFO] [1793680829.636164007] [scenario_manager]: SCENARIO-0001-adaptive_003 state=WAITING_FOR_EGO
+[scenario_manager-5] [INFO] [1793680829.636740591] [scenario_manager]: Loaded SCENARIO-0001-adaptive_003 type=sudden_pedestrian seed=42
+[spawn_entity.py-3] [INFO] [1793680829.647580868] [spawn_entity]: Spawn Entity started
+[spawn_entity.py-3] [INFO] [1793680829.647918576] [spawn_entity]: Loading entity published on topic robot_description
+[spawn_entity.py-3] [INFO] [1793680829.649739829] [spawn_entity]: Waiting for entity xml on robot_description
+[spawn_entity.py-3] [INFO] [1793680829.660781753] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[spawn_entity.py-3] [INFO] [1793680829.661114153] [spawn_entity]: Waiting for service /spawn_entity
+[spawn_entity.py-3] [INFO] [1793680830.165142319] [spawn_entity]: Calling service /spawn_entity
+[gzserver-1] [INFO] [1793680830.238899091] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+[gzserver-1] [INFO] [1793680830.239656369] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+[spawn_entity.py-3] [INFO] [1793680830.302760334] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]
+[gzserver-1] [INFO] [1793680830.307786152] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+[gzserver-1] [WARN] [1793680830.415315612] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+[gzserver-1] [INFO] [1793680830.416103133] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+[gzserver-1] [INFO] [1793680830.417529752] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+[gzserver-1] [INFO] [1793680830.418014558] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+[gzserver-1] [INFO] [1793680830.419689970] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+[scenario_manager-5] [INFO] [1793680830.441282235] [scenario_manager]: Pedestrian crossing configured at x=-5.00 m
+[INFO] [spawn_entity.py-3]: process has finished cleanly [pid 88343]
+[scenario_manager-5] [INFO] [1793680830.441711093] [scenario_manager]: SCENARIO-0001-adaptive_003 state=ARMED
+[waypoint_follower-4] [INFO] [1793680830.522439263] [waypoint_follower]: Following waypoint 1
+[scenario_manager-5] [INFO] [1793680830.649922873] [scenario_manager]: Pedestrian spawned and scenario armed
+[waypoint_follower-4] [INFO] [1793680834.865522651] [waypoint_follower]: Following waypoint 2
+[scenario_manager-5] [INFO] [1793680835.466414607] [scenario_manager]: SCENARIO-0001-adaptive_003 state=ACTIVE
+[scenario_manager-5] [INFO] [1793680842.791484277] [scenario_manager]: SCENARIO-0001-adaptive_003 state=COMPLETED
+[safety_monitor-6] [INFO] [1793680842.807883283] [safety_monitor]: Safety result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_42/adaptive/adaptive_003_rep01/safety.json
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [safety_monitor-6]: sending signal 'SIGINT' to process[safety_monitor-6]
+[INFO] [scenario_manager-5]: sending signal 'SIGINT' to process[scenario_manager-5]
+[INFO] [waypoint_follower-4]: sending signal 'SIGINT' to process[waypoint_follower-4]
+[INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+[INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+[robot_state_publisher-2] [INFO] [1793680843.172125443] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[safety_monitor-6] Traceback (most recent call last):
+[safety_monitor-6]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor", line 8, in <module>
+[safety_monitor-6]     main()
+[safety_monitor-6]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/local/lib/python3.10/dist-packages/safe_drive_safety/safety_monitor.py", line 145, in main
+[safety_monitor-6]     node.destroy_node()
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1691, in destroy_node
+[safety_monitor-6]     self.destroy_service(self._services[0])
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1615, in destroy_service
+[safety_monitor-6]     service.destroy()
+[safety_monitor-6]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/service.py", line 93, in destroy
+[safety_monitor-6]     self.__service.destroy_when_not_in_use()
+[safety_monitor-6] KeyboardInterrupt
+[scenario_manager-5] Traceback (most recent call last):
+[scenario_manager-5]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/local/lib/python3.10/dist-packages/safe_drive_scenario/scenario_manager.py", line 205, in main
+[scenario_manager-5]     rclpy.spin(node)
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[scenario_manager-5]     executor.spin_once()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 812, in spin_once
+[scenario_manager-5]     self._spin_once_impl(timeout_sec)
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 809, in _spin_once_impl
+[scenario_manager-5]     raise handler.exception()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 309, in _execute_coroutine_step
+[scenario_manager-5]     result = coro.send(None)
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 478, in handler
+[scenario_manager-5]     arg = take_from_wait_list(entity)
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 400, in _take_subscription
+[scenario_manager-5]     msg_info = sub.handle.take_message(sub.msg_type, sub.raw)
+[scenario_manager-5] RuntimeError: Unable to convert call argument to Python object (compile in debug mode for details)
+[scenario_manager-5] 
+[scenario_manager-5] During handling of the above exception, another exception occurred:
+[scenario_manager-5] 
+[scenario_manager-5] Traceback (most recent call last):
+[scenario_manager-5]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager", line 8, in <module>
+[scenario_manager-5]     main()
+[scenario_manager-5]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/local/lib/python3.10/dist-packages/safe_drive_scenario/scenario_manager.py", line 209, in main
+[waypoint_follower-4] Traceback (most recent call last):
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower", line 7, in <module>
+[waypoint_follower-4]     main()
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/local/lib/python3.10/dist-packages/safe_drive_control/waypoint_follower.py", line 309, in main
+[waypoint_follower-4]     rclpy.spin(node)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[scenario_manager-5]     node.destroy_node()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1691, in destroy_node
+[waypoint_follower-4]     executor.spin_once()
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 812, in spin_once
+[waypoint_follower-4]     self._spin_once_impl(timeout_sec)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 809, in _spin_once_impl
+[waypoint_follower-4]     raise handler.exception()
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 309, in _execute_coroutine_step
+[waypoint_follower-4]     result = coro.send(None)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 478, in handler
+[waypoint_follower-4]     arg = take_from_wait_list(entity)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 400, in _take_subscription
+[waypoint_follower-4]     msg_info = sub.handle.take_message(sub.msg_type, sub.raw)
+[waypoint_follower-4] RuntimeError: Unable to convert call argument to Python object (compile in debug mode for details)
+[waypoint_follower-4] Error in sys.excepthook:
+[waypoint_follower-4] Traceback (most recent call last):
+[waypoint_follower-4]   File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 55, in apport_excepthook
+[scenario_manager-5]     self.destroy_service(self._services[0])
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1615, in destroy_service
+[scenario_manager-5]     service.destroy()
+[scenario_manager-5]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/service.py", line 93, in destroy
+[scenario_manager-5]     self.__service.destroy_when_not_in_use()
+[scenario_manager-5] KeyboardInterrupt
+[robot_state_publisher-2] [INFO] [1793680843.178165987] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[waypoint_follower-4]     import apt_pkg
+[waypoint_follower-4]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[waypoint_follower-4]   File "<frozen importlib._bootstrap>", line 1002, in _find_and_load_unlocked
+[waypoint_follower-4]   File "<frozen importlib._bootstrap>", line 945, in _find_spec
+[waypoint_follower-4]   File "<frozen importlib._bootstrap_external>", line 1439, in find_spec
+[waypoint_follower-4]   File "<frozen importlib._bootstrap_external>", line 1411, in _get_spec
+[waypoint_follower-4]   File "<frozen importlib._bootstrap_external>", line 1547, in find_spec
+[waypoint_follower-4] KeyboardInterrupt
+[waypoint_follower-4] 
+[waypoint_follower-4] Original exception was:
+[waypoint_follower-4] Traceback (most recent call last):
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower", line 7, in <module>
+[waypoint_follower-4]     main()
+[waypoint_follower-4]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/local/lib/python3.10/dist-packages/safe_drive_control/waypoint_follower.py", line 309, in main
+[waypoint_follower-4]     rclpy.spin(node)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[waypoint_follower-4]     executor.spin_once()
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 812, in spin_once
+[waypoint_follower-4]     self._spin_once_impl(timeout_sec)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 809, in _spin_once_impl
+[waypoint_follower-4]     raise handler.exception()
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 309, in _execute_coroutine_step
+[waypoint_follower-4]     result = coro.send(None)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 478, in handler
+[waypoint_follower-4]     arg = take_from_wait_list(entity)
+[waypoint_follower-4]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 400, in _take_subscription
+[waypoint_follower-4]     msg_info = sub.handle.take_message(sub.msg_type, sub.raw)
+[waypoint_follower-4] RuntimeError: Unable to convert call argument to Python object (compile in debug mode for details)
+[ERROR] [safety_monitor-6]: process has died [pid 88349, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor --ros-args -r __node:=safety_monitor --params-file /tmp/launch_params_1989hg1b'].
+[ERROR] [scenario_manager-5]: process has died [pid 88347, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager --ros-args -r __node:=scenario_manager --params-file /tmp/launch_params_0dmahn_i'].
+[INFO] [robot_state_publisher-2]: process has finished cleanly [pid 88341]
+[ERROR] [waypoint_follower-4]: process has died [pid 88345, exit code 1, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/controller.yaml --params-file /tmp/launch_params_irf7iljs'].
+[INFO] [gzserver-1]: process has finished cleanly [pid 88339]

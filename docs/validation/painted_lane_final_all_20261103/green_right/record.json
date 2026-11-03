@@ -1,0 +1,66 @@
+{
+  "case": "green_right",
+  "configuration": {
+    "route_config": "connected_right_loop.yaml",
+    "spawn_x": -27.0,
+    "fixed_state": "GREEN",
+    "pedestrian": false,
+    "expected": {
+      "result_file": "route.json",
+      "lane_result_file": "lane_lines.json"
+    }
+  },
+  "seed": null,
+  "started_utc": "2026-11-03T13:56:36+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "signal_intersection.launch.py",
+    "gui:=false",
+    "world_file:=connected_road.world",
+    "spawn_x:=-27.0",
+    "route_config:=connected_right_loop.yaml",
+    "fixed_state:=GREEN",
+    "pedestrian:=false",
+    "result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/green_right/route.json",
+    "lane_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/green_right/lane_lines.json"
+  ],
+  "expected_files": {
+    "result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/green_right/route.json",
+    "lane_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/green_right/lane_lines.json"
+  },
+  "input_sha256": {
+    "ros2_ws/src/safe_drive_sim/worlds/connected_road.world": "dc0e1b95c51eaeeb0491bfcf4aa4494f893296c7468b32d34b4c719caac6169e",
+    "ros2_ws/src/safe_drive_control/config/connected_right_loop.yaml": "517cc9174b85ddc187020beb556de67e6943c3849d935ed307131752db5274df",
+    "ros2_ws/src/safe_drive_control/config/signal_controller.yaml": "42b4a013becc706d76836d3ad5aa9896de5f72bb2ea9eef297d30adc0020f609",
+    "ros2_ws/src/safe_drive_scenario/config/traffic_signal.yaml": "4f075c20ae1884b90bef1b19604922c0bf009b3312ab92b715950188789393cf",
+    "ros2_ws/src/safe_drive_scenario/config/signal_crossing.yaml": "dfc99d6fa3542654f055ee049c4d53e76909586fafc6434f2e45a2ce5aac7d1e"
+  },
+  "error": "missing route.json",
+  "results": {
+    "lane_result_file": {
+      "measurement": "chassis corners overlapping painted centerline or lane-edge footprints on marked straight arms; unpainted junctions excluded",
+      "markings_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_sim/share/safe_drive_sim/config/connected_road_markings.json",
+      "markings_sha256": "1a3d94e86a2e6934f341d0a272cbe1870f9c2cad471d2aae4fabcacf387e4d3d",
+      "vehicle_length_m": 4.2,
+      "vehicle_width_m": 1.8,
+      "start_sim_time": 0.304,
+      "end_sim_time": 0.544,
+      "odom_samples": 13,
+      "checked_samples": 13,
+      "checked_corners": 52,
+      "centerline_overlap_samples": 0,
+      "edge_line_overlap_samples": 0,
+      "max_centerline_overlap_m": 0.0,
+      "max_edge_line_overlap_m": 0.0,
+      "worst_centerline_pose": null,
+      "worst_edge_pose": null,
+      "measurement_valid": true,
+      "passed": true
+    }
+  },
+  "passed": false,
+  "finished_utc": "2026-11-03T13:56:39+00:00",
+  "elapsed_wall_seconds": 3.675
+}

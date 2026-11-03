@@ -1,0 +1,59 @@
+# Headless scene-validation cases. These are not risk-search trials.
+cases:
+  red_crossing:
+    route_config: connected_straight_loop.yaml
+    fixed_state: RED
+    pedestrian: true
+    expected:
+      red_result_file: red_stop.json
+      pedestrian_result_file: crossing.json
+      pedestrian_safety_file: safety.json
+      lane_result_file: lane_lines.json
+  green_left:
+    route_config: connected_left_loop.yaml
+    fixed_state: GREEN
+    pedestrian: false
+    expected:
+      result_file: route.json
+      lane_result_file: lane_lines.json
+  green_right:
+    route_config: connected_right_loop.yaml
+    spawn_x: -27.0
+    fixed_state: GREEN
+    pedestrian: false
+    expected:
+      result_file: route.json
+      lane_result_file: lane_lines.json
+  green_straight:
+    route_config: connected_straight_loop.yaml
+    fixed_state: GREEN
+    pedestrian: false
+    expected:
+      result_file: route.json
+      lane_result_file: lane_lines.json
+  continuous_right:
+    route_config: connected_right_loop.yaml
+    spawn_x: -16.0
+    fixed_state: ''
+    pedestrian: true
+    monitor_red_stop: true
+    expected:
+      red_result_file: red_stop.json
+      pedestrian_result_file: crossing.json
+      pedestrian_safety_file: safety.json
+      result_file: route.json
+      lane_result_file: lane_lines.json
+  continuous_late_crossing:
+    route_config: connected_right_loop.yaml
+    spawn_x: -16.0
+    fixed_state: ''
+    pedestrian: true
+    crossing_config: late_green_crossing.yaml
+    monitor_red_stop: true
+    allow_collision: true
+    risk_distance_m: 1.5
+    expected:
+      red_result_file: red_stop.json
+      pedestrian_result_file: crossing.json
+      pedestrian_safety_file: safety.json
+      lane_result_file: lane_lines.json

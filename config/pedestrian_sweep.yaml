@@ -1,0 +1,17 @@
+# Fixed validation sweep; no Random or Adaptive search is implemented here.
+scenario_template: ros2_ws/src/safe_drive_scenario/config/sudden_pedestrian.yaml
+fixed_pedestrian_spawn_distance_m: 10.0
+risk:
+  collision_is_risk: true
+  minimum_actor_center_distance_below_m: 3.0
+cases:
+  baseline:
+    seed: 42
+    ego_speed_mps: 2.0
+    trigger_distance_m: 8.0
+    pedestrian_speed_mps: 1.0
+  late_entry:
+    seed: 42
+    ego_speed_mps: 2.0
+    trigger_distance_m: 3.0
+    pedestrian_speed_mps: 1.0

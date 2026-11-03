@@ -1,0 +1,20 @@
+1793681731.7142732 [INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/sensors_20261103/ros_logs/2026-11-03-13-55-31-713316-suyeon-IdeaPad-5-Pro-14ACN6-99155
+1793681731.7144010 [INFO] [launch]: Default logging verbosity is set to INFO
+1793681732.2523067 [INFO] [gzserver-1]: process started with pid [99176]
+1793681732.2525012 [INFO] [robot_state_publisher-2]: process started with pid [99178]
+1793681732.2525942 [INFO] [spawn_entity.py-3]: process started with pid [99180]
+1793681733.1236579 [gzserver-1] [INFO] [1793681733.123315518] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+1793681733.1240299 [gzserver-1] [INFO] [1793681733.123920646] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+1793681733.2919359 [gzserver-1] [INFO] [1793681733.291642536] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+1793681734.0003450 [gzserver-1] [INFO] [1793681733.999967383] [safe_drive.ego.safe_drive_front_camera]: Publishing camera info to [/safe_drive/ego/camera/camera_info]
+1793681734.1224530 [gzserver-1] [WARN] [1793681734.122152806] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+1793681734.1233749 [gzserver-1] [INFO] [1793681734.123229451] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+1793681734.1251550 [gzserver-1] [INFO] [1793681734.125019972] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+1793681734.1256211 [gzserver-1] [INFO] [1793681734.125516982] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+1793681734.1275072 [gzserver-1] [INFO] [1793681734.127416878] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+1793681734.1510074 [INFO] [spawn_entity.py-3]: process has finished cleanly [pid 99180]
+1793681735.3323061 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1793681735.3341367 [INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+1793681735.3345630 [INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+1793681735.4399178 [INFO] [robot_state_publisher-2]: process has finished cleanly [pid 99178]
+1793681735.5348580 [INFO] [gzserver-1]: process has finished cleanly [pid 99176]

@@ -15,7 +15,7 @@ def generate_launch_description() -> LaunchDescription:
         FindPackageShare('safe_drive_control'), 'config', LaunchConfiguration('route_config')
     ])
     world = PathJoinSubstitution([
-        FindPackageShare('safe_drive_sim'), 'worlds', 'signal_intersection.world'
+        FindPackageShare('safe_drive_sim'), 'worlds', LaunchConfiguration('world_file')
     ])
     simulation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution([
@@ -64,13 +64,31 @@ def generate_launch_description() -> LaunchDescription:
             'output_file': LaunchConfiguration('result_file'),
         }],
     )
+    lane_monitor = Node(
+        package='safe_drive_safety',
+        executable='connected_lane_monitor',
+        name='connected_lane_monitor',
+        output='screen',
+        condition=IfCondition(PythonExpression([
+            "'", LaunchConfiguration('world_file'),
+            "' == 'connected_road.world'",
+        ])),
+        parameters=[{
+            'markings_file': PathJoinSubstitution([
+                FindPackageShare('safe_drive_sim'), 'config',
+                'connected_road_markings.json',
+            ]),
+            'output_file': LaunchConfiguration('lane_result_file'),
+        }],
+    )
     red_stop_monitor = Node(
         package='safe_drive_safety',
         executable='red_stop_monitor',
         name='red_stop_monitor',
         output='screen',
         condition=IfCondition(PythonExpression([
-            "'", LaunchConfiguration('fixed_state'), "' == 'RED'",
+            "'", LaunchConfiguration('fixed_state'), "' == 'RED' or '",
+            LaunchConfiguration('monitor_red_stop'), "' == 'true'",
         ])),
         parameters=[
             PathJoinSubstitution([
@@ -90,7 +108,7 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[
             PathJoinSubstitution([
                 FindPackageShare('safe_drive_scenario'), 'config',
-                'signal_crossing.yaml'
+                LaunchConfiguration('crossing_config')
             ]),
             {
                 'pedestrian_model': PathJoinSubstitution([
@@ -117,8 +135,12 @@ def generate_launch_description() -> LaunchDescription:
     )
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true'),
+        DeclareLaunchArgument('world_file', default_value='signal_intersection.world',
+                              description='World file in safe_drive_sim/worlds.'),
         DeclareLaunchArgument('spawn_x', default_value='-210.0'),
         DeclareLaunchArgument('pedestrian', default_value='false'),
+        DeclareLaunchArgument('crossing_config',
+                              default_value='signal_crossing.yaml'),
         DeclareLaunchArgument(
             'pedestrian_result_file',
             default_value='/tmp/safe_drive_signal_crossing.json',
@@ -131,12 +153,16 @@ def generate_launch_description() -> LaunchDescription:
             'route_config', default_value='right_turn.yaml',
             description=(
                 'Controller route file: fast_straight.yaml, right_turn.yaml, '
-                'or left_turn.yaml.'
+                'left_turn.yaml, or a connected-road route.'
             ),
         ),
         DeclareLaunchArgument(
             'result_file', default_value='/tmp/safe_drive_route_result.json',
             description='JSON result path for route completion and corridor measurement.',
+        ),
+        DeclareLaunchArgument(
+            'lane_result_file', default_value='/tmp/safe_drive_lane_lines.json',
+            description='JSON painted-line result for the connected road.',
         ),
         DeclareLaunchArgument(
             'red_result_file', default_value='/tmp/safe_drive_red_stop.json',
@@ -146,10 +172,15 @@ def generate_launch_description() -> LaunchDescription:
             'fixed_state', default_value='',
             description='RED or GREEN for a fixed validation run; empty cycles.',
         ),
+        DeclareLaunchArgument(
+            'monitor_red_stop', default_value='false',
+            description='Measure an initial stop during a cycling signal.',
+        ),
         simulation,
         signal,
         controller,
         route_monitor,
+        lane_monitor,
         red_stop_monitor,
         crossing,
         crossing_safety,

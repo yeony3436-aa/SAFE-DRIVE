@@ -1,0 +1,12 @@
+[INFO] [1793682271.543706174] [robot_state_publisher]: got segment base_footprint
+[INFO] [1793682271.543860738] [robot_state_publisher]: got segment base_link
+[INFO] [1793682271.543876243] [robot_state_publisher]: got segment camera_link
+[INFO] [1793682271.543887139] [robot_state_publisher]: got segment camera_optical_frame
+[INFO] [1793682271.543897196] [robot_state_publisher]: got segment front_left_wheel
+[INFO] [1793682271.543908022] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[INFO] [1793682271.543918359] [robot_state_publisher]: got segment front_right_wheel
+[INFO] [1793682271.543928486] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[INFO] [1793682271.543938544] [robot_state_publisher]: got segment lidar_link
+[INFO] [1793682271.543947484] [robot_state_publisher]: got segment rear_left_wheel
+[INFO] [1793682271.543955656] [robot_state_publisher]: got segment rear_right_wheel
+[INFO] [1793682284.454103478] [rclcpp]: signal_handler(SIGINT/SIGTERM)

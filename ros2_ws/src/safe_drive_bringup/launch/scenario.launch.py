@@ -43,6 +43,9 @@ def _launch_setup(context):
             'launch',
             'safety_monitor.launch.py',
         ])),
+        launch_arguments={
+            'output_file': LaunchConfiguration('safety_result_file'),
+        }.items(),
     )
     return [vehicle, scenario_manager, safety_monitor]
 
@@ -63,8 +66,13 @@ def generate_launch_description() -> LaunchDescription:
         default_value=default_config,
         description='Absolute path to a sudden-pedestrian YAML definition.',
     )
+    safety_result_argument = DeclareLaunchArgument(
+        'safety_result_file', default_value='',
+        description='Optional JSON path for final ground-truth safety result.',
+    )
     return LaunchDescription([
         gui_argument,
         config_argument,
+        safety_result_argument,
         OpaqueFunction(function=_launch_setup),
     ])

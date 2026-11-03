@@ -1,0 +1,13 @@
+seed,method,run,ego_speed_mps,trigger_distance_m,pedestrian_speed_mps,classification,collision,min_center_distance_m,min_los_ttc_s,valid,record_file
+42,random,1,2.0,6.0,1.0,risky,True,2.380056035171534,1.5315614115400504,True,seed_42/random/random_001_rep01/record.json
+42,random,2,2.1394267984578836,3.1500645313360014,0.8650175910214715,risky,True,1.1799963085727252,1.8511503551683985,True,seed_42/random/random_002_rep01/record.json
+42,random,3,1.7232107381488229,7.418827284984074,1.1060196924537469,risky,False,2.565266196938854,2.2522545915549563,True,seed_42/random/random_003_rep01/record.json
+42,adaptive,1,2.0,6.0,1.0,risky,True,2.38004171256084,1.5250170665275133,True,seed_42/adaptive/adaptive_001_rep01/record.json
+42,adaptive,2,1.75,4.5,0.85,risky,True,2.38003434967484,2.1054247173243237,True,seed_42/adaptive/adaptive_002_rep01/record.json
+42,adaptive,3,1.625,3.75,0.7749999999999999,risky,True,1.4551546767213275,1.8282956242280644,True,seed_42/adaptive/adaptive_003_rep01/record.json
+137,random,1,2.0,6.0,1.0,risky,True,2.3800302270155083,1.5250170665275133,True,seed_137/random/random_001_rep01/record.json
+137,random,2,1.5723665742694708,5.4605707224747455,1.2941528299113085,risky,True,2.450493786098239,1.957388864184887,True,seed_137/random/random_002_rep01/record.json
+137,random,3,1.730922255578243,5.092664972398905,1.1923867765287275,risky,True,2.3800386502700555,1.742117803082812,True,seed_137/random/random_003_rep01/record.json
+137,adaptive,1,2.0,6.0,1.0,risky,True,2.380045100704701,1.525803621800635,True,seed_137/adaptive/adaptive_001_rep01/record.json
+137,adaptive,2,1.75,4.5,0.85,risky,True,2.3800739579278507,2.1049951444070185,True,seed_137/adaptive/adaptive_002_rep01/record.json
+137,adaptive,3,1.75,4.5,1.15,risky,True,2.380018358695622,1.927775518975519,True,seed_137/adaptive/adaptive_003_rep01/record.json

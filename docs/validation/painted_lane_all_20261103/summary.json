@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T13:14:01+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/connected_validation.yaml",
+  "config_sha256": "bb9da7aad9d7cec7b6740c98318eafc88cbcec26aa067e4cad92fe9ed520db0a",
+  "git_commit": "461c5a3e401fb97dc3b1b56e96a3544452bd5981",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "red_crossing",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_all_20261103/red_crossing/record.json",
+      "error": null
+    },
+    {
+      "case": "green_left",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_all_20261103/green_left/record.json",
+      "error": null
+    },
+    {
+      "case": "green_right",
+      "passed": false,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_all_20261103/green_right/record.json",
+      "error": null
+    },
+    {
+      "case": "green_straight",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_all_20261103/green_straight/record.json",
+      "error": null
+    }
+  ],
+  "finished_utc": "2026-11-03T13:26:00+00:00",
+  "passed": false
+}

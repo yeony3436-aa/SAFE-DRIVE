@@ -1,0 +1,10 @@
+{
+  "collision": false,
+  "emergency_braking": true,
+  "min_distance": 7.334665060510316,
+  "min_ttc": 9.577518269525804,
+  "scenario_completed": true,
+  "scenario_id": "UNSIGNALIZED-CROSSING-0001",
+  "state": "COMPLETED",
+  "end_sim_time": 19.1
+}

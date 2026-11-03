@@ -4,7 +4,8 @@ ROS 2 Humble and Gazebo Classic 11 project for autonomous-driving risk-scenario
 exploration. The first implementation phase builds and validates a repeatable
 traffic simulation. The current scenes include a Prius visual model, road and
 crossing, timed vehicle and pedestrian signals, mapped routes, and a separate
-distance-triggered pedestrian scenario. Automated search is planned.
+distance-triggered pedestrian scenario. A small measured Random/Adaptive
+scenario-selection loop and forward camera and planar LiDAR are implemented.
 
 ## Build
 
@@ -30,6 +31,10 @@ vehicle. Closing the Gazebo window also stops the launched server.
 | Straight route and destination stop | `ros2 launch safe_drive_bringup vehicle.launch.py` |
 | Pedestrian crossing and live safety result | `ros2 launch safe_drive_bringup scenario.launch.py` |
 | Timed signal and right-turn route | `ros2 launch safe_drive_bringup signal_intersection.launch.py` |
+| Connected road, right-turn return route | `ros2 launch safe_drive_bringup signal_intersection.launch.py world_file:=connected_road.world spawn_x:=-27 route_config:=connected_right_loop.yaml` |
+| Connected road, left-turn return route | `ros2 launch safe_drive_bringup signal_intersection.launch.py world_file:=connected_road.world spawn_x:=-30 route_config:=connected_left_loop.yaml` |
+| Connected road, straight-through return route | `ros2 launch safe_drive_bringup signal_intersection.launch.py world_file:=connected_road.world spawn_x:=-30 route_config:=connected_straight_loop.yaml` |
+| Unsignalized right turn yielding to a pedestrian | `ros2 launch safe_drive_bringup unsignalized_right_turn.launch.py` |
 | Fixed red stop with JSON result | `ros2 launch safe_drive_bringup signal_intersection.launch.py fixed_state:=RED route_config:=fast_straight.yaml red_result_file:=/tmp/red_stop.json` |
 | Fixed green right turn on extended south road | `ros2 launch safe_drive_bringup signal_intersection.launch.py fixed_state:=GREEN route_config:=right_turn.yaml result_file:=/tmp/right_turn.json` |
 | Fixed green left turn from nearby start | `ros2 launch safe_drive_bringup signal_intersection.launch.py fixed_state:=GREEN spawn_x:=-30 route_config:=left_turn.yaml result_file:=/tmp/left_turn.json` |
@@ -38,6 +43,96 @@ vehicle. Closing the Gazebo window also stops the launched server.
 | Pedestrian crossing, then green-signal departure | `ros2 launch safe_drive_bringup signal_intersection.launch.py spawn_x:=-30 pedestrian:=true route_config:=fast_straight.yaml` |
 | Gentle bend | `ros2 launch safe_drive_bringup curve_course.launch.py result_file:=/tmp/curve.json` |
 
+To rerun a connected-scene check from the sourced `ros2_ws` shell, use a new
+output directory for each invocation:
+
+```bash
+python3 ../scripts/run_connected_validation.py --case red_crossing \
+  --output-dir /tmp/safe_drive_connected_check_01
+```
+
+Cases are defined in `config/connected_validation.yaml`. Omit `--case` to run
+all six cases sequentially, each in a fresh Gazebo process. The runner saves
+raw results, a launch log,
+settings, input-file hashes, Git revision, and `summary.json`. It exits
+nonzero for a failed case. The right loop now starts and returns near
+`(-27,-1.75) m`; its 1.2 m/s configured run passed twice after a curve
+tracking correction. This runner validates
+the scene and does not implement risk-scenario search.
+
+The `continuous_right` case is one uninterrupted drive with a cycling signal:
+the ego stops on red while a pedestrian crosses, proceeds on green, turns
+right, and completes the connected return route. Run it alone with
+`--case continuous_right`, or watch it in Gazebo with:
+
+```bash
+ros2 launch safe_drive_bringup signal_intersection.launch.py \
+  world_file:=connected_road.world spawn_x:=-16 \
+  route_config:=connected_right_loop.yaml pedestrian:=true \
+  monitor_red_stop:=true
+```
+
+This is a safe baseline; the pedestrian clears the crossing before the car
+continues. The continuous mission currently has one controlled intersection
+and the `continuous_late_crossing` case separately triggers a pedestrian
+against DONT_WALK after the vehicle begins moving on green. That case ends
+after the crossing outcome is measured; a recorded collision is a valid risk
+outcome, not a safe-driving pass or a completed return route.
+
+To vary requested route speed and retain independent route or red-stop
+measurements, run a selected case and speed from a sourced workspace:
+
+```bash
+python3 ../scripts/run_speed_validation.py --case green_right \
+  --speed 1.2 --speed 1.6 --output-dir /tmp/safe_drive_speed_check_01
+```
+
+The full low-speed case list is in `config/speed_validation.yaml`. Each run
+uses a fresh Gazebo process and saves its generated route YAML, actual maximum
+speed, raw result, and JSON/CSV summary. The 1.75 m route-corridor check and
+the connected road's painted-centerline/lane-edge check are separate results.
+The latter checks chassis corners on painted straight arms; unpainted junctions
+are outside its scope. A speed request is not proof of the speed reached.
+
+To repeat two configured sudden-pedestrian conditions twice each and save
+the measured outcomes and predefined risk labels:
+
+```bash
+python3 ../scripts/run_pedestrian_sweep.py --repeats 2 \
+  --output-dir /tmp/safe_drive_pedestrian_sweep_01
+```
+
+The conditions and 3.0 m actor-center threshold are in
+`config/pedestrian_sweep.yaml`. The current seed is recorded, but the scenario
+has no random draw. This fixed sweep does not compare search methods.
+
+To run the measured search-method comparison with equal budgets, use a fresh
+output directory:
+
+```bash
+python3 ../scripts/run_risk_exploration.py \
+  --output-dir /tmp/safe_drive_risk_exploration_01
+```
+
+`config/risk_exploration.yaml` fixes the parameter ranges, risk rule, seeds,
+and four runs per method and seed. Each run saves its generated scenario,
+launch log, raw safety result, and record; `summary.json` and `runs.csv`
+compare the measured outcomes. The first center point is shared. Random uses
+a seeded uniform draw for later points; Adaptive subdivides measured regions
+into octants and prioritizes collision or smaller clearance. The scenario
+itself makes no random draw, and Adaptive currently uses deterministic tie
+order. This small default budget is a functional demonstration, not a
+performance claim.
+
+To validate actual camera and LiDAR messages against the roadside bollard:
+
+```bash
+python3 ../scripts/validate_sensors.py \
+  --output-dir /tmp/safe_drive_sensors_01
+```
+
+See [sensor topics, frames, rates, and sample](docs/sensors.md).
+
 Add `gui:=false` to a launch for a headless run. The intersection route monitor
 writes JSON after the vehicle settles at the goal; its default path is
 `/tmp/safe_drive_route_result.json`. The bend uses
@@ -45,6 +140,22 @@ writes JSON after the vehicle settles at the goal; its default path is
 separate stop-line result to `red_result_file` after the vehicle holds still
 near the line for five simulated seconds. It does not produce a completed
 route result.
+The connected road joins the central signalized intersection to an outer grid;
+all four approaches reconnect. Its return routes are initial map-validation
+routes, and only the original eastbound central approach has signal control.
+Use `fixed_state:=GREEN` to isolate steering during a route check. Geometry and
+verification status are in [road layout](docs/road-layout.md). All three
+configured loops returned to their starts in headless Gazebo runs. The first
+right loop exceeded the strict lane-corridor criterion; its revised route
+passed at configured 1.2 and 1.6 m/s with curve-aware speed limiting. A later
+painted-line check found a right-turn edge overlap; the first-turn radius was
+adjusted to 4.0 m and separate 1.2 and 1.6 m/s runs then passed both checks.
+The painted-line result covers marked straight arms, not unmarked junctions.
+The separate unsignalized right-turn launch starts at `x=10 m` and uses the
+east-side junction at `x=36 m`. It stops before the painted crossing while a
+configured pedestrian is active, then turns after the crossing completes. Its
+yield decision uses the scenario's ROS state, not camera or LiDAR perception.
+The launch saves independent route, yield-stop, and ground-truth safety JSON.
 With `pedestrian:=true`, the fixed-red integration also saves crossing and
 ground-truth safety JSON to `/tmp/safe_drive_signal_crossing.json` and
 `/tmp/safe_drive_signal_safety.json`. The pedestrian starts on the pedestrian
@@ -82,12 +193,23 @@ ros2 topic echo --once --full-length --qos-reliability reliable \
 - **Implemented and verified separately:** distance-triggered pedestrian
   crossing with live ground-truth distance, TTC, and contact reporting. The
   current vehicle controller does not react to the pedestrian.
-- **Planned core study:** a repeat runner for the sudden-pedestrian parameter
-  space, predefined risk criteria, and equal-budget Random Sampling versus
-  Risk-Guided Adaptive Grid Refinement. No automatic search result exists yet;
-  see [risk-scenario exploration plan](docs/experiments.md).
-- **Planned environment extensions:** camera and LiDAR topics, repeated
-  integrated validation runs, and sensor-based pedestrian response.
+- **Implemented and verified for the connected scene:** a configuration-driven
+  validation runner; the fixed-red signal and pedestrian case passed in two
+  fresh headless runs with recorded raw results.
+- **Implemented and verified headless:** an unsignalized right turn that yields
+  to the configured pedestrian, then completes its route. Other unsignalized
+  cross-traffic conflicts are not yet modeled.
+- **Implemented small measured search loop:** a fixed two-condition sweep and
+  an equal-budget Random/Adaptive selector record configurations, selection
+  seeds, ground-truth outcomes, and predefined risk labels. The 16-run check
+  validates execution and accounting; it does not establish a method
+  advantage. See [risk-scenario exploration](docs/experiments.md).
+- **Implemented and headless-verified sensors:** front camera and planar
+  LiDAR publish ROS 2 data with a visible/returned roadside target.
+  [Sensor validation](docs/sensors.md) records frames, rates, and Gazebo
+  performance samples. Driving still does not use these sensor messages.
+- **Planned environment extensions:** broader integrated validation and
+  sensor-based pedestrian response.
   Radar is optional.
 - **Optional presentation aid:** a live results dashboard after the experiment
   loop works. It would display saved measurements, not create risk scores.

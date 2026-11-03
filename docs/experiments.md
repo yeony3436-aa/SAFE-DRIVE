@@ -19,11 +19,73 @@ Fixed red and green vehicle-signal behavior, faster turn routes, and one
 signal-coordinated pedestrian crossing have stored results in
 [validation/results.md](validation/results.md). The earlier fast straight run
 reached about 61 km/h but failed its geometric lane-corridor threshold; two
-later runs at about 50 km/h passed after steering changes. Camera/LiDAR cases
-and repeated integrated runs remain planned. Record
+later runs at about 50 km/h passed after steering changes. A stationary
+camera/LiDAR target case passed; broader repeated integrated runs remain
+planned. See [sensors.md](sensors.md). Record
 configuration, model/world version or revision, ROS/Gazebo versions, seed when
 used, timestamp, measured outcomes, and simulator real-time factor. Save JSON
 or CSV directly from runs; do not transcribe or fabricate results.
+
+A connected-scene validation runner is implemented in
+`scripts/run_connected_validation.py`, with cases in
+`config/connected_validation.yaml`. It starts a fresh Gazebo process for each
+case and stores actual JSON outcomes, launch logs, selected settings, input
+file hashes, Git revision, and wall time. Two separate fixed-RED
+signal-plus-pedestrian runs passed on 2026-11-03. That runner checks fixed
+scene cases.
+
+The `continuous_right` case adds one uninterrupted cyclic-signal mission:
+red stop and pedestrian crossing first, then green departure and right-loop
+completion. It records the independent stop, crossing, safety, route, and
+painted-line outcomes from one Gazebo process. The current pedestrian clears
+the crossing before green, so this is a safe integrated baseline rather than
+a new close-conflict condition or a search-performance result.
+
+The `continuous_late_crossing` case is a separate event-driven risk check.
+During one run, the vehicle first holds at the red signal, then a pedestrian
+enters against DONT_WALK when the green-moving ego is within a configured
+3 m of the crossing. The case stops after the crossing outcome is measured;
+its validity pass is distinct from the collision/risk classification and
+does not imply that the route finished.
+
+`scripts/run_speed_validation.py` and `config/speed_validation.yaml` now
+repeat selected connected-map cases at configured requested speeds. The runner
+copies route YAML per speed, changing target and maximum speed together, and
+records the actual maximum speed plus route-corridor or fixed-red stop-line
+measurements. Initial 1.2 and 1.6 m/s right-loop checks and a 1.6 m/s red
+stop check have stored results. A speed request is not evidence that the car
+actually reached that speed. The current 1.75 m corridor is distance from
+chassis corners to a route polyline. Connected-road runs now additionally
+save independent centerline and lane-edge overlap measurements from the
+generated map's painted intervals. The checker samples chassis corners from
+odometry on painted straight arms and excludes unpainted junction gaps.
+
+The fixed sudden-pedestrian sweep in
+`scripts/run_pedestrian_sweep.py` varies the sudden-pedestrian trigger
+distance and stores each run's YAML, seed, raw safety JSON, JSON summary, and
+CSV. Its predefined exploratory label is collision or measured actor-center
+distance below 3.0 m. The current scenario draws no random values, so the
+seed is recorded but has no behavioral effect. Neither validation runner
+measures a true simulator real-time factor.
+
+The separate measured comparison is implemented by
+`scripts/run_risk_exploration.py` and `config/risk_exploration.yaml`. The
+configuration fixes three parameter ranges, a crossing position, a collision
+or actor-center distance risk criterion, two selection seeds, and four runs
+per method per seed. Both selectors begin at the same center point. Random
+uses seeded continuous uniform draws; Adaptive divides a measured region
+into eight cells and gives priority to children of collision or smaller
+clearance. Each run starts a fresh Gazebo process and saves its exact scenario
+YAML, launch log, raw safety JSON, seed, selected point, selection order,
+classification, wall time, and Gazebo real-time-factor samples. A missing
+measurement remains `unknown` and
+consumes a run budget. This is an executable small-budget demonstration, not
+evidence of which method is generally better. The Adaptive tie order is
+deterministic; the current scenario seed affects selection only for Random.
+The real-time-factor median is a per-run simulator performance diagnostic,
+not a risk score. The first 16-run comparison predates its collection; the
+sensor-equipped repeat collected it for every run. See
+[validation/results.md](validation/results.md).
 
 Possible result fields include `scenario_id`, `case`, `seed`,
 `route_completed`, `stop_line_violation`, `collision`,
@@ -35,10 +97,11 @@ line-of-sight closing speed; preserve those definitions in results.
 These tests validate behavior in a defined simulator scene. They do not
 estimate real-world accident probability or real-vehicle sensor performance.
 
-## Planned core study: scenario exploration
+## Small implemented comparison and planned larger study
 
-The planned comparison is Random Scenario Sampling versus Risk-Guided Adaptive
-Grid Refinement. Start with one sudden-pedestrian scenario space whose current
+The implemented small comparison is Random Scenario Sampling versus
+Risk-Guided Adaptive Grid Refinement. It uses one sudden-pedestrian scenario
+space whose current
 YAML already exposes the following tunable values:
 
 ```text
@@ -57,20 +120,16 @@ The current waypoint controller does not react to pedestrian observations.
 Initial search results therefore describe the risk of this fixed controller
 under the configured pedestrian conditions, not pedestrian-aware avoidance.
 
-First add a repeat runner that launches one configuration per run and stores
-the parameter set, seed, timestamp, simulator revision, raw measurements, and
-outcome. Then implement Random Sampling as a baseline and Adaptive Grid
-Refinement as the proposed method. Give both methods the same ranges,
-simulation budget, controller, environment, metrics, initialization rules,
-and recorded seeds. Compare risky conditions discovered per run and the number
-of runs needed to find the first one. Repeat with multiple seeds before making
-an efficiency claim. None of this experiment loop or comparison is implemented
-yet; current JSON files validate individual scene behaviors.
+The fixed sweep validates the scene and measurement pipeline. The new
+comparison records risky conditions discovered per run and the first risky
+run under equal budgets, ranges, controller, environment, metrics, and
+initialization. Larger budgets and independent scenario variation are needed
+before an efficiency claim; the present pedestrian scenario has no random
+draw and the default budget is only four runs per method and seed.
 
 ### Optional live dashboard for a scenario-search demonstration
 
-The scenario-search backend is not implemented yet. After the planned study's
-repeat runner is working, runs may look similar in Gazebo even while the search
+The search backend is implemented. Runs may look similar in Gazebo while search
 covers different parameter combinations. Show the simulator beside a live dashboard
 so an audience can see what is being tested and what the measurements show.
 

@@ -13,3 +13,10 @@ def test_starts_only_on_walk_and_finishes_during_clearance():
     assert crossing.y == -2.75
     assert crossing.step('DONT_WALK', 5.0) == ScenarioState.COMPLETED
     assert crossing.y == 4.25
+
+
+def test_late_trigger_starts_without_walk():
+    crossing = SignalCrossing(-4.25, 4.25, 1.0)
+    assert crossing.step(None, 1.0) == ScenarioState.ARMED
+    assert crossing.step(None, 1.0, trigger=True) == ScenarioState.ACTIVE
+    assert crossing.y == -3.25

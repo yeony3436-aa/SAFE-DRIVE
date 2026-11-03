@@ -1,0 +1,2 @@
+run_id,case,repeat,seed,ego_speed_mps,trigger_distance_m,pedestrian_speed_mps,scenario_completed,collision,min_distance_m,min_ttc_s,measurement_valid,risk_classification,elapsed_wall_seconds
+baseline_rep01,baseline,1,42,2.0,8.0,1.0,True,False,2.1690070239654804,1.7424605337982615,True,risky,14.33

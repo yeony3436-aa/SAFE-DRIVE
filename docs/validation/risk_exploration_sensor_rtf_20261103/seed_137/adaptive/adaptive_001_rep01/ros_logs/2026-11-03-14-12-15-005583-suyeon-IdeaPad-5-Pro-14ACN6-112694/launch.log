@@ -1,0 +1,29 @@
+1793682735.0066736 [INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_sensor_rtf_20261103/seed_137/adaptive/adaptive_001_rep01/ros_logs/2026-11-03-14-12-15-005583-suyeon-IdeaPad-5-Pro-14ACN6-112694
+1793682735.0068047 [INFO] [launch]: Default logging verbosity is set to INFO
+1793682735.7407515 [INFO] [gzserver-1]: process started with pid [112699]
+1793682735.7410202 [INFO] [robot_state_publisher-2]: process started with pid [112701]
+1793682735.7411368 [INFO] [spawn_entity.py-3]: process started with pid [112703]
+1793682735.7412298 [INFO] [waypoint_follower-4]: process started with pid [112705]
+1793682735.7413206 [INFO] [scenario_manager-5]: process started with pid [112707]
+1793682735.7414124 [INFO] [safety_monitor-6]: process started with pid [112709]
+1793682736.7202229 [gzserver-1] [INFO] [1793682736.719877087] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+1793682736.7206228 [gzserver-1] [INFO] [1793682736.720512969] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+1793682736.9478009 [gzserver-1] [INFO] [1793682736.947481522] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+1793682737.6539757 [gzserver-1] [INFO] [1793682737.653683347] [safe_drive.ego.safe_drive_front_camera]: Publishing camera info to [/safe_drive/ego/camera/camera_info]
+1793682737.7769725 [gzserver-1] [WARN] [1793682737.776647694] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+1793682737.7780299 [gzserver-1] [INFO] [1793682737.777810859] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+1793682737.7803044 [gzserver-1] [INFO] [1793682737.780073636] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+1793682737.7808573 [gzserver-1] [INFO] [1793682737.780721391] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+1793682737.7832386 [gzserver-1] [INFO] [1793682737.783061620] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+1793682737.8052964 [INFO] [spawn_entity.py-3]: process has finished cleanly [pid 112703]
+1793682749.6895177 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1793682749.6925220 [INFO] [safety_monitor-6]: sending signal 'SIGINT' to process[safety_monitor-6]
+1793682749.6933742 [INFO] [scenario_manager-5]: sending signal 'SIGINT' to process[scenario_manager-5]
+1793682749.6943917 [INFO] [waypoint_follower-4]: sending signal 'SIGINT' to process[waypoint_follower-4]
+1793682749.6950996 [INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+1793682749.6957388 [INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+1793682749.7462132 [ERROR] [waypoint_follower-4]: process has died [pid 112705, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/controller.yaml --params-file /tmp/launch_params_5jdrzwc9'].
+1793682749.7551029 [ERROR] [safety_monitor-6]: process has died [pid 112709, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor --ros-args -r __node:=safety_monitor --params-file /tmp/launch_params_ug4pw4de'].
+1793682749.7598047 [ERROR] [scenario_manager-5]: process has died [pid 112707, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager --ros-args -r __node:=scenario_manager --params-file /tmp/launch_params_ob4unvbq'].
+1793682749.8004827 [INFO] [robot_state_publisher-2]: process has finished cleanly [pid 112701]
+1793682749.9070346 [INFO] [gzserver-1]: process has finished cleanly [pid 112699]

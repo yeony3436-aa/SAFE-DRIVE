@@ -1,0 +1,41 @@
+{
+  "run_id": "late_entry_rep02",
+  "case": "late_entry",
+  "repeat": 2,
+  "seed": 42,
+  "parameters": {
+    "ego_speed": 2.0,
+    "pedestrian_speed": 1.0,
+    "pedestrian_spawn_distance": 10.0,
+    "trigger_distance": 3.0
+  },
+  "risk_criterion": {
+    "collision_is_risk": true,
+    "minimum_actor_center_distance_below_m": 3.0
+  },
+  "started_utc": "2026-11-03T04:02:15+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "scenario.launch.py",
+    "gui:=false",
+    "scenario_config:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/pedestrian_sweep_20261103/late_entry_rep02/scenario.yaml",
+    "safety_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/pedestrian_sweep_20261103/late_entry_rep02/safety.json"
+  ],
+  "scenario_sha256": "f07027ab6f8e8c5343a8cf26cade1e77fe3e77887ee09fec85542770e3196558",
+  "safety": {
+    "collision": true,
+    "emergency_braking": true,
+    "min_distance": 1.1799705443389266,
+    "min_ttc": 1.6179265801683538,
+    "scenario_completed": true,
+    "scenario_id": "SCENARIO-0001-late_entry",
+    "state": "COMPLETED",
+    "end_sim_time": 14.1
+  },
+  "measurement_valid": true,
+  "risk_classification": "risky",
+  "elapsed_wall_seconds": 16.785,
+  "finished_utc": "2026-11-03T04:02:32+00:00"
+}

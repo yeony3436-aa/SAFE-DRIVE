@@ -1,0 +1,115 @@
+{
+  "case": "red_crossing",
+  "configuration": {
+    "route_config": "connected_straight_loop.yaml",
+    "fixed_state": "RED",
+    "pedestrian": true,
+    "expected": {
+      "red_result_file": "red_stop.json",
+      "pedestrian_result_file": "crossing.json",
+      "pedestrian_safety_file": "safety.json",
+      "lane_result_file": "lane_lines.json"
+    }
+  },
+  "seed": null,
+  "started_utc": "2026-11-03T13:50:04+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "signal_intersection.launch.py",
+    "gui:=false",
+    "world_file:=connected_road.world",
+    "spawn_x:=-30",
+    "route_config:=connected_straight_loop.yaml",
+    "fixed_state:=RED",
+    "pedestrian:=true",
+    "red_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/red_stop.json",
+    "pedestrian_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/crossing.json",
+    "pedestrian_safety_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/safety.json",
+    "lane_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/lane_lines.json"
+  ],
+  "expected_files": {
+    "red_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/red_stop.json",
+    "pedestrian_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/crossing.json",
+    "pedestrian_safety_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/safety.json",
+    "lane_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/painted_lane_final_all_20261103/red_crossing/lane_lines.json"
+  },
+  "input_sha256": {
+    "ros2_ws/src/safe_drive_sim/worlds/connected_road.world": "dc0e1b95c51eaeeb0491bfcf4aa4494f893296c7468b32d34b4c719caac6169e",
+    "ros2_ws/src/safe_drive_control/config/connected_straight_loop.yaml": "606b5087c349b50522a6519a89275a6af1d29322e7acaa10da8fda4cd9633cf9",
+    "ros2_ws/src/safe_drive_control/config/signal_controller.yaml": "42b4a013becc706d76836d3ad5aa9896de5f72bb2ea9eef297d30adc0020f609",
+    "ros2_ws/src/safe_drive_scenario/config/traffic_signal.yaml": "4f075c20ae1884b90bef1b19604922c0bf009b3312ab92b715950188789393cf",
+    "ros2_ws/src/safe_drive_scenario/config/signal_crossing.yaml": "dfc99d6fa3542654f055ee049c4d53e76909586fafc6434f2e45a2ce5aac7d1e"
+  },
+  "results": {
+    "red_result_file": {
+      "scenario": "fixed_red_stop",
+      "signal_observed": "RED",
+      "start_sim_time": 0.207,
+      "end_sim_time": 25.067,
+      "sample_count": 1244,
+      "stop_line_x_m": -9.25,
+      "front_offset_m": 2.1,
+      "required_margin_m": 0.6,
+      "approach_window_m": 3.0,
+      "speed_threshold_mps": 0.15,
+      "settle_seconds": 5.0,
+      "final_center_x_m": -12.300160669397536,
+      "final_front_x_m": -10.200160669397537,
+      "minimum_front_gap_m": 0.9180907192642316,
+      "final_speed_mps": 0.016025458689056016,
+      "max_speed_mps": 0.991950569676641,
+      "reason": "stopped_with_margin",
+      "passed": true,
+      "measurement": "odometry x plus configured front offset; fixed red signal ROS topic"
+    },
+    "pedestrian_result_file": {
+      "scenario_id": "SIGNAL-CROSSING-0001",
+      "type": "signal_crossing",
+      "crossing_x_m": -5.0,
+      "start_y_m": -4.25,
+      "end_y_m": 5.2,
+      "pedestrian_speed_mps": 1.0,
+      "start_signal": "WALK",
+      "start_sim_time": 0.3,
+      "end_sim_time": 9.8,
+      "completed": true,
+      "final_y_m": 5.2,
+      "seed": null
+    },
+    "pedestrian_safety_file": {
+      "collision": false,
+      "emergency_braking": false,
+      "min_distance": 18.038437121037223,
+      "min_ttc": 19.74668437259114,
+      "scenario_completed": true,
+      "scenario_id": "SIGNAL-CROSSING-0001",
+      "state": "COMPLETED",
+      "end_sim_time": 9.8
+    },
+    "lane_result_file": {
+      "measurement": "chassis corners overlapping painted centerline or lane-edge footprints on marked straight arms; unpainted junctions excluded",
+      "markings_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_sim/share/safe_drive_sim/config/connected_road_markings.json",
+      "markings_sha256": "1a3d94e86a2e6934f341d0a272cbe1870f9c2cad471d2aae4fabcacf387e4d3d",
+      "vehicle_length_m": 4.2,
+      "vehicle_width_m": 1.8,
+      "start_sim_time": 0.10700000000000001,
+      "end_sim_time": 25.207,
+      "odom_samples": 1256,
+      "checked_samples": 1256,
+      "checked_corners": 4966,
+      "centerline_overlap_samples": 0,
+      "edge_line_overlap_samples": 0,
+      "max_centerline_overlap_m": 0.0,
+      "max_edge_line_overlap_m": 0.0,
+      "worst_centerline_pose": null,
+      "worst_edge_pose": null,
+      "measurement_valid": true,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "finished_utc": "2026-11-03T13:50:33+00:00",
+  "elapsed_wall_seconds": 28.849
+}

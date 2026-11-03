@@ -1,0 +1,5 @@
+run_id,case,repeat,seed,ego_speed_mps,trigger_distance_m,pedestrian_speed_mps,scenario_completed,collision,min_distance_m,min_ttc_s,measurement_valid,risk_classification,elapsed_wall_seconds
+baseline_rep01,baseline,1,42,2.0,8.0,1.0,True,False,2.1742031750013484,1.7471487213823937,True,risky,13.278
+baseline_rep02,baseline,2,42,2.0,8.0,1.0,True,False,2.1570828392732033,1.726650317876094,True,risky,13.278
+late_entry_rep01,late_entry,1,42,2.0,3.0,1.0,True,True,1.1799677399931334,1.6216188703914833,True,risky,16.782
+late_entry_rep02,late_entry,2,42,2.0,3.0,1.0,True,True,1.1799705443389266,1.6179265801683538,True,risky,16.785

@@ -8,6 +8,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 install(
   PROGRAMS scripts/scenario_manager scripts/traffic_signal scripts/signal_crossing
+           scripts/unsignalized_yield
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -19,6 +20,7 @@ install(
 
 install(
   FILES config/sudden_pedestrian.yaml config/traffic_signal.yaml config/signal_crossing.yaml
+        config/unsignalized_crossing.yaml config/late_green_crossing.yaml
   DESTINATION share/${PROJECT_NAME}/config
 )
 
@@ -27,6 +29,7 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_sudden_pedestrian test/test_sudden_pedestrian.py)
   ament_add_pytest_test(test_traffic_signal test/test_traffic_signal.py)
   ament_add_pytest_test(test_signal_crossing test/test_signal_crossing.py)
+  ament_add_pytest_test(test_unsignalized_yield test/test_unsignalized_yield.py)
 endif()
 
 ament_package()

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "kind": "measured_risk_exploration",
+  "started_utc": "2026-11-03T05:09:08+00:00",
+  "config": {
+    "scenario_template": "ros2_ws/src/safe_drive_scenario/config/sudden_pedestrian.yaml",
+    "fixed_pedestrian_spawn_distance_m": 10.0,
+    "risk": {
+      "collision_is_risk": true,
+      "minimum_actor_center_distance_below_m": 1.5
+    },
+    "parameters": {
+      "ego_speed_mps": [
+        1.5,
+        2.5
+      ],
+      "trigger_distance_m": [
+        3.0,
+        10.0
+      ],
+      "pedestrian_speed_mps": [
+        0.7,
+        1.3
+      ]
+    },
+    "seeds": [
+      42,
+      137
+    ],
+    "budget_per_method": 4,
+    "adaptive_max_depth": 3
+  },
+  "config_sha256": "3fe5aa25651a05e9740ad20695bd8a57a5b49f5cfa7341b6ecd055c079747831",
+  "scenario_template_sha256": "00eba17e016ca47c15ada0b21242f1d9e7b01b30fdd74601732d38204e93c6a5",
+  "git_commit": "461c5a3e401fb97dc3b1b56e96a3544452bd5981",
+  "working_tree_dirty": true,
+  "selection_note": "Both methods evaluate the domain center first. Random then uses uniform continuous samples; adaptive splits measured cells into octants and prioritizes children of smaller clearance or collision.",
+  "seed_note": "Seeds control selection only; the current pedestrian scenario has no random draw.",
+  "groups": [
+    {
+      "seed": 42,
+      "method": "random",
+      "budget": 4,
+      "valid_runs": 4,
+      "risky_runs": 3,
+      "first_risky_run": 1,
+      "unique_risky_conditions": 3,
+      "records": [
+        "seed_42/random/random_001_rep01/record.json",
+        "seed_42/random/random_002_rep01/record.json",
+        "seed_42/random/random_003_rep01/record.json",
+        "seed_42/random/random_004_rep01/record.json"
+      ]
+    },
+    {
+      "seed": 42,
+      "method": "adaptive",
+      "budget": 4,
+      "valid_runs": 4,
+      "risky_runs": 3,
+      "first_risky_run": 1,
+      "unique_risky_conditions": 3,
+      "records": [
+        "seed_42/adaptive/adaptive_001_rep01/record.json",
+        "seed_42/adaptive/adaptive_002_rep01/record.json",
+        "seed_42/adaptive/adaptive_003_rep01/record.json",
+        "seed_42/adaptive/adaptive_004_rep01/record.json"
+      ]
+    },
+    {
+      "seed": 137,
+      "method": "random",
+      "budget": 4,
+      "valid_runs": 4,
+      "risky_runs": 4,
+      "first_risky_run": 1,
+      "unique_risky_conditions": 4,
+      "records": [
+        "seed_137/random/random_001_rep01/record.json",
+        "seed_137/random/random_002_rep01/record.json",
+        "seed_137/random/random_003_rep01/record.json",
+        "seed_137/random/random_004_rep01/record.json"
+      ]
+    },
+    {
+      "seed": 137,
+      "method": "adaptive",
+      "budget": 4,
+      "valid_runs": 4,
+      "risky_runs": 3,
+      "first_risky_run": 1,
+      "unique_risky_conditions": 3,
+      "records": [
+        "seed_137/adaptive/adaptive_001_rep01/record.json",
+        "seed_137/adaptive/adaptive_002_rep01/record.json",
+        "seed_137/adaptive/adaptive_003_rep01/record.json",
+        "seed_137/adaptive/adaptive_004_rep01/record.json"
+      ]
+    }
+  ],
+  "finished_utc": "2026-11-03T05:13:19+00:00",
+  "all_measurements_valid": true,
+  "world_sha256": "9184586c1097aeb4dabeeb58ac8df6b8c796584d92ef5f6d08a4a58f611096c0",
+  "vehicle_xacro_sha256": "1a96a175055ce11e0407915e12778e0243b3c6c00bac76ea9e8b8d224d132a17",
+  "ros_distro": "humble",
+  "gazebo_package_version": "11.10.2+dfsg-1",
+  "metadata_added_utc": "2026-11-03T05:15:43+00:00",
+  "all_performance_recorded": true
+}

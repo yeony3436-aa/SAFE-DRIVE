@@ -214,3 +214,221 @@ with a 1.136 m maximum chassis-corner error and zero corridor violations.
 The safety monitor marked `emergency_braking: true` during this run; that
 metric has not been attributed to a pedestrian response. This headless run
 does not verify the visual sidewalk position in Gazebo GUI.
+
+## 2026-11-03 — connected-grid validation
+
+The connected grid has three configured routes that return to `(-30,-1.75) m`.
+All three reached the goal in separate fixed-GREEN headless runs. The
+[left loop](connected_left_loop_20261103.json) passed the 1.75 m chassis-corner
+corridor with maximum error 1.530 m and zero outside samples. The
+[straight loop](connected_straight_loop_20261103.json) passed with maximum
+error 1.410 m and zero outside samples. The
+[right loop](connected_right_loop_20261103.json) reached the goal but failed
+the corridor: maximum error 1.796 m, 197 outside samples. A slower
+[right trial](connected_right_loop_slow_20261103.json) reached the goal but
+increased maximum error to 1.821 m. A larger-radius
+[turn trial](connected_right_loop_wide_20261103.json) also reached the goal
+but increased the maximum to 1.871 m. The original 4 m lower-west turn is
+retained. These failures are route tracking measurements, not broken road
+surface connections.
+
+The [fixed-RED stop](connected_red_stop_20261103.json) passed with a minimum
+front-bumper-to-line gap of 0.918 m. A new
+[case runner](connected_validation_20261103/summary.json) then ran the fixed
+RED plus pedestrian crossing case in a fresh process and saved its
+[record](connected_validation_20261103/red_crossing/record.json), raw
+[crossing](connected_validation_20261103/red_crossing/crossing.json),
+[stop](connected_validation_20261103/red_crossing/red_stop.json), and
+[ground-truth safety](connected_validation_20261103/red_crossing/safety.json)
+results. It passed twice in separate runs. The stored run measured a 0.918 m
+minimum front gap, pedestrian completion, no contact, and an 18.036 m minimum
+actor-center distance. The vehicle stopped for RED, not because it detected
+the pedestrian. These runs did not measure a true Gazebo real-time factor or
+verify GUI rendering.
+
+## 2026-11-03 — connected-route recheck and unsignalized yield
+
+The [four-case recheck](connected_recheck_20261103/summary.json) used fresh
+headless launches. Fixed RED with a pedestrian, left loop, and straight loop
+passed. Left and straight reached their goals with maximum chassis-corner
+errors 1.496 m and 1.426 m, respectively, and zero outside samples. The
+right loop again reached its goal but failed the 1.75 m corridor with a
+1.817 m maximum and 568 outside samples. The fixed-RED minimum front gap was
+0.918 m. The suite exits nonzero because the right corridor check failed.
+
+At the outer junction with no vehicle signal, the
+[yield result](unsignalized_right_yield_20261103.json) measured a 7.08 s stop
+while the pedestrian scenario was active. The vehicle front remained at least
+0.975 m before the `x=22.75 m` yield line, exceeding the required 0.6 m.
+It entered after the crossing completed. The independent
+[route result](unsignalized_right_route_20261103.json) reached the southbound
+goal with a 1.638 m maximum corner error and zero outside samples. The
+[safety result](unsignalized_right_safety_20261103.json) reported no contact
+and a 7.335 m minimum actor-center distance. Yielding used the scenario state
+and odometry, not camera/LiDAR sensing or cross-traffic detection.
+
+The fixed sudden-pedestrian
+[parameter sweep](pedestrian_sweep_20261103/summary.json) ran two conditions
+twice each. In both baseline runs (`trigger_distance=8 m`), no contact was
+reported and minimum actor-center distance was 2.157–2.174 m. In both
+later-entry runs (`trigger_distance=3 m`), contact was reported and minimum
+distance was about 1.180 m. The predeclared exploratory label marks a run
+risky on contact or center distance below 3.0 m, so all four runs were labeled
+risky. The [CSV](pedestrian_sweep_20261103/runs.csv) and per-run records retain
+the actual values. These four runs validate parameter passing and measurement;
+they do not compare search methods or estimate real-world accident risk.
+
+## 2026-11-03 — measured Random/Adaptive selection check
+
+The [search summary](risk_exploration_20261103_final/summary.json) and
+[per-run CSV](risk_exploration_20261103_final/runs.csv) retain 16 fresh Gazebo
+runs: two selection seeds, four runs per method and seed. Every run produced a
+completed scenario, a collision flag, and a finite actor-center minimum
+distance, so all 16 measurements passed the runner's validity check. The
+criterion was fixed before these runs: collision or actor-center minimum
+distance below 1.5 m. Both methods used the same bounds, crossing position,
+controller, world, and first center point. The runner retained each generated
+scenario YAML, launch log, raw safety JSON, selection index, and record.
+
+| Selection seed | Random risky / 4 | Adaptive risky / 4 | First risky run |
+| --- | ---: | ---: | --- |
+| 42 | 3 | 3 | 1 for both |
+| 137 | 4 | 3 | 1 for both |
+
+These observations validate execution and accounting, not a general search
+performance advantage. The scenario itself does not draw random values, the
+Adaptive tie order is deterministic, and the method budget is very small.
+Wall duration is stored, but a true simulator real-time factor was not
+measured. The controller does not avoid the pedestrian using sensor input.
+
+## 2026-11-03 — camera and LiDAR target check
+
+The [sensor check](sensors_20261103/result.json) launched a stationary ego on
+the minimal road. It received 12 camera images and 12 planar LiDAR scans with
+simulation timestamps. The 320×240 RGB camera reported
+`camera_optical_frame` at 10.40 Hz; the 360-sample scan reported `lidar_link`
+at 10.00 Hz. CameraInfo used the same optical frame. The
+[saved image](sensors_20261103/camera_sample.png) visibly shows the road and
+orange roadside bollard. The target-sector LiDAR range was 11.99 m, consistent
+with the known static target at `(-3.0, -4.65)` from the initial ego pose.
+The validator recorded actual Gazebo real-time-factor samples, including
+startup; those samples do not establish sustained performance. This check
+passed sensor publication and one visible target, not pedestrian detection.
+
+## 2026-11-03 — sensor-equipped regression and performance records
+
+After adding the ego sensors, the [connected regression](sensor_regression_20261103/summary.json)
+again passed the fixed-red pedestrian stop and green left-turn return route.
+The [fixed pedestrian check](performance_check_20261103/summary.json) produced
+a valid safety result and 55 Gazebo real-time-factor samples; its median was
+0.860. The [final equal-budget comparison](risk_exploration_sensor_rtf_20261103/summary.json)
+then completed 16 valid runs with per-run real-time-factor samples and medians
+in the [CSV](risk_exploration_sensor_rtf_20261103/runs.csv). Across the 16
+run medians, the median was 0.861. The risky counts matched the earlier run:
+seed 42 gave Random 3/4 and Adaptive 3/4; seed 137 gave Random 4/4 and
+Adaptive 3/4. These measurements include simulator startup and the current
+camera/LiDAR load. They still do not support a general method advantage.
+
+## 2026-11-03 — revised right loop and first speed checks
+
+The initial connected right loop returned to its start but failed the 1.75 m
+chassis-corner corridor. The revised loop starts at `x=-27 m` so its last bend
+has a straight exit. A route-specific path-heading correction and a
+curvature-based speed profile limit speed before tighter bends. The first
+[revised 1.2 m/s run](right_loop_heading_v2_20261103/green_right/route.json)
+reached its goal with maximum corner error 1.690 m and zero outside samples.
+With the final curvature speed profile, a separate
+[1.2 m/s run](speed_right_curve_cap_baseline_20261103/summary.json) again
+passed: actual maximum speed 1.005 m/s, maximum corner error 1.710 m, zero
+outside samples. A [1.6 m/s run](speed_right_curve_cap_20261103/summary.json)
+passed with actual maximum speed 1.331 m/s, maximum corner error 1.641 m,
+and zero outside samples. A prior 1.6 m/s run without curvature limiting
+[failed](speed_right_20261103/summary.json) at 1.792 m and 83 outside samples.
+
+The new [speed runner](../../scripts/run_speed_validation.py) generates one
+route YAML per requested speed and launches fresh Gazebo instances. Its
+[fixed-RED 1.6 m/s check](speed_red_1p6_20261103/summary.json) stopped with
+0.884 m front-bumper clearance, no contact, and a completed pedestrian
+crossing. Its actual maximum approach speed was 1.324 m/s, below the
+requested 1.6 m/s because the approach is short. The route corridor metric
+remains a path-relative proxy. A separate painted-centerline and lane-edge
+crossing measurement has not yet been implemented.
+
+## 2026-11-03 — independent painted-line validation
+
+The connected-world generator now exports the actual straight-arm painted
+intervals to `connected_road_markings.json`. A separate odometry monitor
+checks the four chassis corners against the painted centerline and outer lane
+edge. It excludes unpainted junction gaps and records overlap depth, sample
+counts, and worst poses. This is independent of the route-corridor proxy.
+
+The first [four-case run](painted_lane_all_20261103/summary.json) passed the
+route tests but failed the new painted-line criterion on the right loop: 21
+edge-overlap samples, maximum 0.203 m; no centerline overlap. The red, left,
+and straight cases had zero painted-line overlaps. Lowering curve speed
+[did not resolve it](painted_lane_right_slow_curve_20261103/green_right/lane_lines.json).
+Shifting the path inward produced a
+[centerline violation](painted_lane_right_offset_20261103/green_right/lane_lines.json).
+Raising the allowed steering angle alone
+[did not resolve it](painted_lane_right_steer_20261103/green_right/lane_lines.json).
+A tighter 3.3 m turn removed the edge overlap but crossed the
+[centerline](painted_lane_right_early_turn_20261103/green_right/lane_lines.json).
+
+The 4.0 m first-turn radius with a 0.70 rad right-route steering limit
+[passed at requested 1.2 m/s](painted_lane_right_radius4_20261103/summary.json):
+goal reached, maximum route-corner error 1.629 m, zero route-outside samples,
+zero centerline overlaps, and zero edge-line overlaps across 9,127 checked
+odometry samples. Actual maximum speed was 1.007 m/s. This does not validate
+the unpainted intersection interior or continuous space between time samples.
+The separate [1.6 m/s speed run](painted_lane_right_speed1p6_20261103/summary.json)
+also passed: actual maximum speed 1.339 m/s, maximum route-corner error
+1.571 m, zero route-outside samples, and zero painted-line overlaps.
+
+In the final integrated recheck, [fixed RED with crossing](painted_lane_final_all_20261103/red_crossing/record.json)
+passed with 0.918 m minimum front-bumper stop-line gap and zero painted-line
+overlaps. The [left, right, and straight return routes](painted_lane_final_routes_20261103/summary.json)
+each passed destination, route-corridor, and painted-line criteria; their
+maximum chassis-corner route errors were 1.530, 1.643, and 1.430 m,
+respectively, with zero centerline or edge-line overlap samples. The first
+all-case attempt had a Gazebo server crash at left-case startup, so the left,
+right, and straight cases were rerun in a new process group. The runner now
+recognizes a Gazebo server exit promptly instead of waiting for its wall
+timeout. These passing records come from two commands, not one uninterrupted
+four-case run.
+The [1.6 m/s fixed-RED speed run](painted_lane_red_speed1p6_20261103/summary.json)
+also passed: actual maximum speed 1.322 m/s, minimum front-bumper stop-line
+gap 0.883 m, no collision, completed pedestrian crossing, and zero painted
+centerline or edge-line overlap samples across 1,058 checked odometry samples.
+
+## 2026-11-03 — first uninterrupted signal-to-route mission
+
+The new `continuous_right` case uses one cycling-signal Gazebo process. The
+ego spawns at `(-16, -1.75) m`, the pedestrian finishes crossing at simulation
+time 10.2 s, and the ego completes a measured red stop at 11.346 s with
+0.849 m minimum front-bumper gap. The signal then changes to green at 12 s.
+The ego proceeds through the central junction, turns right, and reaches the
+configured loop destination near `(-27, -1.75) m` at 179.326 s. The
+[run record](continuous_right_second_20261103/continuous_right/record.json)
+passed: maximum route-corner error 1.606 m, zero route-outside samples, zero
+painted centerline and edge-line overlap samples, no pedestrian contact, and
+7.888 m minimum pedestrian actor-center distance. This is a safe continuous
+baseline, not a close-conflict trial. The spawn point is closer to the signal
+than the loop's nominal start to ensure a stop during the first red phase, so
+the destination is not the exact spawn point. The first attempt failed before
+launch because ROS rejected an explicit empty `fixed_state` argument; the
+runner now omits it for cycling mode.
+
+## 2026-11-03 — event-driven late crossing in one run
+
+The [late-crossing record](continuous_late_crossing_event_20261103/continuous_late_crossing/record.json)
+used the same initial red stop, with 0.849 m minimum front gap at 11.343 s.
+The pedestrian then entered at 18.1 s while the vehicle signal was GREEN and
+the pedestrian indication was DONT_WALK; ego center x was -7.973 m, 2.973 m
+from the crossing. The pedestrian completed at 27.6 s. The ground-truth
+safety result recorded contact and a minimum actor-center distance of
+1.864 m. Painted-line sampling before termination found 90 centerline
+overlap samples and zero edge-line overlap samples. The configured risk rule
+(contact or actor-center distance under 1.5 m) classified this as risky due
+to contact. The case's `passed=true` means the event and measurements were
+recorded; the ego did not finish the return route. A first trial waited for
+route completion after the contact, timed out, and is retained separately.

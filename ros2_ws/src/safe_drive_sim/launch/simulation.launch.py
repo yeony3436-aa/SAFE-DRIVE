@@ -73,6 +73,13 @@ def generate_launch_description() -> LaunchDescription:
         'drive_mode', default_value='ackermann',
         description='Vehicle dynamics: ackermann or skid_steer.',
     )
+    sensor_arguments = [
+        DeclareLaunchArgument(name, default_value=default)
+        for name, default in (
+            ('camera_rate_hz', '10'), ('camera_width', '320'),
+            ('camera_height', '240'), ('lidar_rate_hz', '10'),
+            ('lidar_samples', '360'))
+    ]
 
     vehicle_xacro = PathJoinSubstitution([
         FindPackageShare('safe_drive_sim'),
@@ -80,7 +87,12 @@ def generate_launch_description() -> LaunchDescription:
         'ego_vehicle.gazebo.urdf.xacro',
     ])
     robot_description = Command([
-        'xacro ', vehicle_xacro, ' drive_mode:=', LaunchConfiguration('drive_mode')
+        'xacro ', vehicle_xacro, ' drive_mode:=', LaunchConfiguration('drive_mode'),
+        ' camera_rate_hz:=', LaunchConfiguration('camera_rate_hz'),
+        ' camera_width:=', LaunchConfiguration('camera_width'),
+        ' camera_height:=', LaunchConfiguration('camera_height'),
+        ' lidar_rate_hz:=', LaunchConfiguration('lidar_rate_hz'),
+        ' lidar_samples:=', LaunchConfiguration('lidar_samples'),
     ])
 
     gazebo = IncludeLaunchDescription(
@@ -141,6 +153,7 @@ def generate_launch_description() -> LaunchDescription:
         spawn_y_argument,
         spawn_yaw_argument,
         drive_mode_argument,
+        *sensor_arguments,
         # gazebo_ros adds package exports to these values. Preserve Gazebo's
         # built-in ground-plane and shader paths when the shell has not sourced
         # /usr/share/gazebo-11/setup.sh.

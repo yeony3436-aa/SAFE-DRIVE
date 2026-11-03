@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T04:02:51+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/connected_validation.yaml",
+  "config_sha256": "1af10c1f7482d944225a41c6dce535207ca84a94bd5f5105ea743dbc21a2e2a4",
+  "git_commit": "461c5a3e401fb97dc3b1b56e96a3544452bd5981",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "red_crossing",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_recheck_20261103/red_crossing/record.json",
+      "error": null
+    },
+    {
+      "case": "green_left",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_recheck_20261103/green_left/record.json",
+      "error": null
+    },
+    {
+      "case": "green_right",
+      "passed": false,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_recheck_20261103/green_right/record.json",
+      "error": null
+    },
+    {
+      "case": "green_straight",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_recheck_20261103/green_straight/record.json",
+      "error": null
+    }
+  ],
+  "finished_utc": "2026-11-03T04:14:47+00:00",
+  "passed": false
+}

@@ -1,0 +1,13 @@
+# Small, predeclared exploratory study. Increase seeds and budget for research claims.
+scenario_template: ros2_ws/src/safe_drive_scenario/config/sudden_pedestrian.yaml
+fixed_pedestrian_spawn_distance_m: 10.0
+risk:
+  collision_is_risk: true
+  minimum_actor_center_distance_below_m: 1.5
+parameters:
+  ego_speed_mps: [1.5, 2.5]
+  trigger_distance_m: [3.0, 10.0]
+  pedestrian_speed_mps: [0.7, 1.3]
+seeds: [42, 137]
+budget_per_method: 4
+adaptive_max_depth: 3

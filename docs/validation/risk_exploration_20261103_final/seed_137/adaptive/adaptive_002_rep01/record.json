@@ -1,0 +1,50 @@
+{
+  "run_id": "adaptive_002_rep01",
+  "case": "adaptive_002",
+  "repeat": 1,
+  "seed": 137,
+  "parameters": {
+    "ego_speed": 1.75,
+    "pedestrian_speed": 0.85,
+    "pedestrian_spawn_distance": 10.0,
+    "trigger_distance": 4.75
+  },
+  "risk_criterion": {
+    "collision_is_risk": true,
+    "minimum_actor_center_distance_below_m": 1.5
+  },
+  "started_utc": "2026-11-03T04:42:08+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "scenario.launch.py",
+    "gui:=false",
+    "scenario_config:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_137/adaptive/adaptive_002_rep01/scenario.yaml",
+    "safety_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_137/adaptive/adaptive_002_rep01/safety.json"
+  ],
+  "scenario_sha256": "a85c1b0a6b09ccf44f4459077bebd9b15fd7c7060ca000aab4fe9531bbbfdffe",
+  "safety": {
+    "collision": true,
+    "emergency_braking": false,
+    "min_distance": 2.3803596339987734,
+    "min_ttc": 2.0012470842344254,
+    "scenario_completed": true,
+    "scenario_id": "SCENARIO-0001-adaptive_002",
+    "state": "COMPLETED",
+    "end_sim_time": 15.0
+  },
+  "measurement_valid": true,
+  "risk_classification": "risky",
+  "elapsed_wall_seconds": 17.782,
+  "finished_utc": "2026-11-03T04:42:26+00:00",
+  "method": "adaptive",
+  "selection_seed": 137,
+  "sampled_parameters": {
+    "ego_speed_mps": 1.75,
+    "trigger_distance_m": 4.75,
+    "pedestrian_speed_mps": 0.85
+  },
+  "selection_index": 2,
+  "adaptive_cell_depth": 1
+}

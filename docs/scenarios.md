@@ -103,6 +103,30 @@ does not detect the pedestrian. With fixed GREEN, the pedestrian remains
 
 ## Mapped steering routes
 
+For the connected grid, use `world_file:=connected_road.world` and one of
+`connected_right_loop.yaml`, `connected_left_loop.yaml`, or
+`connected_straight_loop.yaml`. Use `spawn_x:=-27` for the revised right loop
+and `spawn_x:=-30` for left and straight. Each route
+returns to its starting location after the named movement at the existing
+signal. The other grid junctions have no traffic lights or stop decisions.
+These routes check map continuity and waypoint following; they are not
+independent traffic-scenario experiments.
+
+The `red_crossing` case in `config/connected_validation.yaml` combines the
+connected grid, fixed RED, and the signal-triggered pedestrian. Run it with
+`python3 ../scripts/run_connected_validation.py --case red_crossing
+--output-dir /tmp/connected_check_01` from a sourced `ros2_ws` shell. The
+runner saves separate stop, crossing, and ground-truth safety JSON files.
+
+`unsignalized_right_turn.launch.py` uses the outer crossing at `x=27 m`.
+The scenario state `ACTIVE` publishes `/safe_drive/ego/yield_required=true`
+and `COMPLETED` releases it. The controller limits speed before the `x=22.75 m`
+yield line, retaining entry permission once it has crossed the line. A stale
+yield heartbeat also commands a stop before the line. The independent yield
+monitor checks an active-phase stop, front clearance, and progression only
+after crossing completion. This decision uses scenario state and odometry;
+there is no visual pedestrian detection or cross-traffic vehicle model yet.
+
 `signal_intersection.launch.py` accepts `route_config:=fast_straight.yaml`,
 `right_turn.yaml`, or `left_turn.yaml`. The default is the right-turn route.
 For a turning test, set `fixed_state:=GREEN`. `curve_course.launch.py` tests
@@ -123,14 +147,29 @@ The route monitor writes a JSON result at `result_file`. It reports the
 settled destination position and speed, centreline error, and the largest
 distance from any of four chassis corners to the configured path. A sample
 outside the 1.75 m half-width sets `corridor_clear: false`. This corridor is
-an approximate lane-boundary test; markings at the intersection and road-edge
-collisions are not used for the calculation. Stored samples and limitations are
-listed in [validation/results.md](validation/results.md).
+a route-relative proxy. Connected-road runs also save `lane_lines.json`, which
+checks chassis-corner overlap with painted centerlines and lane edges on
+straight arms. Its unpainted junction gaps are excluded. Stored samples and
+limitations are listed in [validation/results.md](validation/results.md).
 
 With `fixed_state:=RED`, the separate red-stop monitor writes JSON to
 `red_result_file` after five simulated seconds of standing near the line.
 It uses the vehicle-signal ROS topic and odometry; a front crossing of the
 line produces an immediate failure result. Acceptance requires a front gap
 of at least 0.6 m and speed below 0.15 m/s. This check is intended for a
-fresh fixed-red launch, not a vehicle that entered on green before a phase
-change.
+fresh fixed-red launch or the initial red phase of the continuous mission,
+not a vehicle that entered on green before a phase change.
+
+The `continuous_right` case uses the same connected grid with a cycling
+signal, starts the ego at `x=-16 m`, and keeps one Gazebo process active from
+the red stop and pedestrian crossing through green departure, right turn,
+and destination stop. The runner requires both stop-line and route results,
+their time order, completed crossing, no contact, and zero painted-line
+overlap. It is a safe baseline because the pedestrian clears before green.
+
+The `continuous_late_crossing` case keeps the initial red stop but delays the
+pedestrian until the green-moving ego is within 3 m of the same crossing.
+This is an explicitly unpermitted entry while pedestrian DONT_WALK is shown.
+Its runner exits after the crossing, recording collision, actor-center
+distance, and painted-line overlap. Here `passed` means complete valid risk
+measurements; it does not mean safe driving or route completion.

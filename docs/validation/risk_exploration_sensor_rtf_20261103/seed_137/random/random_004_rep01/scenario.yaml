@@ -1,0 +1,15 @@
+scenario:
+  id: SCENARIO-0001-random_004
+  type: sudden_pedestrian
+  seed: 137
+  parameters:
+    ego_speed: 2.399838699896039
+    pedestrian_speed: 1.277072014202242
+    pedestrian_spawn_distance: 10.0
+    trigger_distance: 6.605899313501972
+  environment:
+    pedestrian_start_y: -4.25
+    pedestrian_end_y: 4.25
+    update_rate_hz: 20.0
+  termination:
+    timeout: 30.0

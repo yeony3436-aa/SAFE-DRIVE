@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T14:37:33+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/connected_validation.yaml",
+  "config_sha256": "e2816cbe3f40277b98b4ef77c6f4bb912ddd64948be21bba132401401616086c",
+  "git_commit": "461c5a3e401fb97dc3b1b56e96a3544452bd5981",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "continuous_right",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/continuous_right_second_20261103/continuous_right/record.json",
+      "error": null
+    }
+  ],
+  "finished_utc": "2026-11-03T14:40:36+00:00",
+  "passed": true
+}

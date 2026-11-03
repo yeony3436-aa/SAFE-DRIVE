@@ -1,0 +1,3 @@
+[INFO] [1793680735.809556715] [waypoint_follower]: Loaded 3 waypoints; target_speed=2.00 m/s
+[INFO] [1793680736.859988657] [waypoint_follower]: Following waypoint 1
+[INFO] [1793680740.798434239] [waypoint_follower]: Following waypoint 2

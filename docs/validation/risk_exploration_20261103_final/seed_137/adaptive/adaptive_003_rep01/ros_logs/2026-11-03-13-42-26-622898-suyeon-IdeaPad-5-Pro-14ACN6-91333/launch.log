@@ -1,0 +1,28 @@
+1793680946.6238694 [INFO] [launch]: All log files can be found below /home/suyeon/workspace/SAFE_DRIVE/docs/validation/risk_exploration_20261103_final/seed_137/adaptive/adaptive_003_rep01/ros_logs/2026-11-03-13-42-26-622898-suyeon-IdeaPad-5-Pro-14ACN6-91333
+1793680946.6240244 [INFO] [launch]: Default logging verbosity is set to INFO
+1793680947.3762951 [INFO] [gzserver-1]: process started with pid [91342]
+1793680947.3764989 [INFO] [robot_state_publisher-2]: process started with pid [91344]
+1793680947.3765924 [INFO] [spawn_entity.py-3]: process started with pid [91346]
+1793680947.3766730 [INFO] [waypoint_follower-4]: process started with pid [91348]
+1793680947.3767593 [INFO] [scenario_manager-5]: process started with pid [91350]
+1793680947.3768370 [INFO] [safety_monitor-6]: process started with pid [91352]
+1793680948.3194749 [gzserver-1] [INFO] [1793680948.319038672] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+1793680948.3200040 [gzserver-1] [INFO] [1793680948.319870957] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+1793680948.5491066 [gzserver-1] [INFO] [1793680948.548748944] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+1793680948.6586916 [gzserver-1] [WARN] [1793680948.658416756] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+1793680948.6594808 [gzserver-1] [INFO] [1793680948.659338933] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+1793680948.6609483 [gzserver-1] [INFO] [1793680948.660837689] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+1793680948.6614120 [gzserver-1] [INFO] [1793680948.661305168] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+1793680948.6631963 [gzserver-1] [INFO] [1793680948.663079117] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+1793680948.6832042 [INFO] [spawn_entity.py-3]: process has finished cleanly [pid 91346]
+1793680960.9201655 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1793680960.9232409 [INFO] [safety_monitor-6]: sending signal 'SIGINT' to process[safety_monitor-6]
+1793680960.9240441 [INFO] [scenario_manager-5]: sending signal 'SIGINT' to process[scenario_manager-5]
+1793680960.9247353 [INFO] [waypoint_follower-4]: sending signal 'SIGINT' to process[waypoint_follower-4]
+1793680960.9252834 [INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+1793680960.9257505 [INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+1793680960.9794297 [ERROR] [waypoint_follower-4]: process has died [pid 91348, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/controller.yaml --params-file /tmp/launch_params_g9lbuqse'].
+1793680960.9863327 [ERROR] [safety_monitor-6]: process has died [pid 91352, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor --ros-args -r __node:=safety_monitor --params-file /tmp/launch_params_sgjx59am'].
+1793680960.9907990 [ERROR] [scenario_manager-5]: process has died [pid 91350, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/scenario_manager --ros-args -r __node:=scenario_manager --params-file /tmp/launch_params_nnjjh1f0'].
+1793680961.0295143 [INFO] [robot_state_publisher-2]: process has finished cleanly [pid 91344]
+1793680961.1328328 [INFO] [gzserver-1]: process has finished cleanly [pid 91342]

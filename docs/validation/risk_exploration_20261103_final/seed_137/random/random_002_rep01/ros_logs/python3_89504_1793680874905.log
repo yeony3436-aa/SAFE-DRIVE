@@ -1,0 +1,7 @@
+[INFO] [1793680874.959852631] [spawn_entity]: Spawn Entity started
+[INFO] [1793680874.960251175] [spawn_entity]: Loading entity published on topic robot_description
+[INFO] [1793680874.962146527] [spawn_entity]: Waiting for entity xml on robot_description
+[INFO] [1793680874.973246100] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[INFO] [1793680874.973590164] [spawn_entity]: Waiting for service /spawn_entity
+[INFO] [1793680875.477596698] [spawn_entity]: Calling service /spawn_entity
+[INFO] [1793680875.606692912] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]

@@ -21,6 +21,9 @@ install(
 install(
   FILES config/controller.yaml config/fast_straight.yaml config/signal_controller.yaml
         config/right_turn.yaml config/left_turn.yaml config/curve.yaml
+        config/connected_right_loop.yaml config/connected_left_loop.yaml
+        config/connected_straight_loop.yaml
+        config/connected_unsignalized_right_turn.yaml
   DESTINATION share/${PROJECT_NAME}/config
 )
 

@@ -1,0 +1,10 @@
+{
+  "collision": false,
+  "emergency_braking": false,
+  "min_distance": 2.1612683566436934,
+  "min_ttc": 2.001733933549372,
+  "scenario_completed": true,
+  "scenario_id": "SCENARIO-0001-adaptive_004",
+  "state": "COMPLETED",
+  "end_sim_time": 12.4
+}

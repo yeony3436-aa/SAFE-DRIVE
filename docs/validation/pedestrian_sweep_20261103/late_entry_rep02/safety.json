@@ -1,0 +1,10 @@
+{
+  "collision": true,
+  "emergency_braking": true,
+  "min_distance": 1.1799705443389266,
+  "min_ttc": 1.6179265801683538,
+  "scenario_completed": true,
+  "scenario_id": "SCENARIO-0001-late_entry",
+  "state": "COMPLETED",
+  "end_sim_time": 14.1
+}

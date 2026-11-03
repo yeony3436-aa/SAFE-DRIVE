@@ -48,6 +48,9 @@ class RouteMonitor(Node):
         self._last_trace_stamp: Optional[float] = None
         self._trace: list[dict] = []
         self._near_goal_stamp: Optional[float] = None
+        # A loop starts near its final waypoint. Arm completion only after the
+        # vehicle has actually left the goal area.
+        self._goal_region_exited = False
         self._finished = False
         self.create_subscription(Odometry, '/safe_drive/ego/odom', self._on_odom, 10)
 
@@ -77,6 +80,8 @@ class RouteMonitor(Node):
         )
 
         goal_distance = math.dist((position.x, position.y), self._waypoints[-1])
+        if goal_distance > max(3.0, 4.0 * self._goal_tolerance):
+            self._goal_region_exited = True
         speed = abs(message.twist.twist.linear.x)
         self._max_speed = max(self._max_speed, speed)
         if self._last_trace_stamp is None or stamp - self._last_trace_stamp >= 1.0:
@@ -112,7 +117,9 @@ class RouteMonitor(Node):
             self.get_logger().error(f'Route corridor exited: {self._output_file}')
             self._finished = True
             return
-        if goal_distance <= max(1.0, self._goal_tolerance) and self._near_goal_stamp is None:
+        if (self._goal_region_exited
+                and goal_distance <= max(1.0, self._goal_tolerance)
+                and self._near_goal_stamp is None):
             self._near_goal_stamp = stamp
         if self._near_goal_stamp is not None and stamp - self._near_goal_stamp >= 10.0:
             result = {
