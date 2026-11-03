@@ -1,0 +1,2 @@
+case,requested_speed_mps,repeat,passed,achieved_max_speed_mps,minimum_front_gap_m,stop_line_passed,collision,scenario_completed,painted_lane_passed,centerline_overlap_samples,edge_line_overlap_samples,max_centerline_overlap_m,max_edge_line_overlap_m
+red_crossing,4.0,1,True,2.5361222640087866,0.6828387596648859,True,False,True,True,0,0,0.0,0.0

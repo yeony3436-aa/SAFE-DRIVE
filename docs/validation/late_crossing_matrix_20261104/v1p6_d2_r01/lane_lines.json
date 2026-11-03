@@ -1,0 +1,27 @@
+{
+  "measurement": "chassis corners overlapping painted centerline or lane-edge footprints on marked straight arms; unpainted junctions excluded",
+  "markings_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_sim/share/safe_drive_sim/config/connected_road_markings.json",
+  "markings_sha256": "1a3d94e86a2e6934f341d0a272cbe1870f9c2cad471d2aae4fabcacf387e4d3d",
+  "vehicle_length_m": 4.2,
+  "vehicle_width_m": 1.8,
+  "start_sim_time": 0.164,
+  "end_sim_time": 27.304,
+  "odom_samples": 1358,
+  "checked_samples": 1148,
+  "checked_corners": 4273,
+  "centerline_overlap_samples": 115,
+  "edge_line_overlap_samples": 0,
+  "max_centerline_overlap_m": 2.2585407948680905,
+  "max_edge_line_overlap_m": 0.0,
+  "worst_centerline_pose": {
+    "sim_time": 21.504,
+    "x": -3.4566745246279824,
+    "y": 0.07997075176499542,
+    "yaw": -0.7821699245149194,
+    "road": "main",
+    "direction": "east"
+  },
+  "worst_edge_pose": null,
+  "measurement_valid": true,
+  "passed": false
+}

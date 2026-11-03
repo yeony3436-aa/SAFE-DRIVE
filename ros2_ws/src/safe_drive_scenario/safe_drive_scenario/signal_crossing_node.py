@@ -4,8 +4,9 @@ import json
 import math
 from pathlib import Path
 from typing import Optional
+from xml.etree import ElementTree
 
-from gazebo_msgs.msg import EntityState
+from gazebo_msgs.msg import ContactsState, EntityState
 from gazebo_msgs.srv import SetEntityState, SpawnEntity
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry
@@ -13,6 +14,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile
 from std_msgs.msg import String
+from std_srvs.srv import Empty
 
 from safe_drive_scenario.signal_crossing import SignalCrossing
 from safe_drive_scenario.sudden_pedestrian import ScenarioState
@@ -31,10 +33,28 @@ class SignalCrossingNode(Node):
         self.declare_parameter('update_rate_hz', 20.0)
         self.declare_parameter('scenario_id', 'SIGNAL-CROSSING-0001')
         self.declare_parameter('late_trigger_distance', 0.0)
+        self.declare_parameter('late_trigger_min_speed', 0.05)
+        self.declare_parameter('stop_on_contact', False)
+        self.declare_parameter('pause_on_contact', False)
+        self.declare_parameter('pedestrian_contact_radius', 0.28)
         model_path = str(self.get_parameter('pedestrian_model').value)
         if not model_path:
             raise ValueError('pedestrian_model is required')
         self._model_xml = Path(model_path).read_text(encoding='utf-8')
+        contact_radius = float(
+            self.get_parameter('pedestrian_contact_radius').value)
+        self._contact_radius = contact_radius
+        if not 0.0 < contact_radius <= 0.28:
+            raise ValueError('pedestrian_contact_radius must be in (0, 0.28]')
+        if contact_radius != 0.28:
+            model_root = ElementTree.fromstring(self._model_xml)
+            radius = model_root.find(
+                './/collision[@name="collision"]/geometry/cylinder/radius')
+            if radius is None:
+                raise ValueError('pedestrian collision cylinder is missing')
+            radius.text = str(contact_radius)
+            self._model_xml = ElementTree.tostring(
+                model_root, encoding='unicode')
         self._output_file = Path(str(self.get_parameter('output_file').value))
         self._x = float(self.get_parameter('crossing_x').value)
         self._crossing = SignalCrossing(
@@ -45,12 +65,20 @@ class SignalCrossingNode(Node):
         self._scenario_id = str(self.get_parameter('scenario_id').value)
         self._late_trigger_distance = float(
             self.get_parameter('late_trigger_distance').value)
+        self._late_trigger_min_speed = float(
+            self.get_parameter('late_trigger_min_speed').value)
+        self._stop_on_contact = bool(self.get_parameter('stop_on_contact').value)
+        self._pause_on_contact = bool(self.get_parameter('pause_on_contact').value)
         if self._late_trigger_distance < 0.0:
             raise ValueError('late_trigger_distance must be nonnegative')
+        if self._late_trigger_min_speed < 0.0:
+            raise ValueError('late_trigger_min_speed must be nonnegative')
         self._signal: str | None = None
         self._vehicle_signal: str | None = None
         self._ego_x: float | None = None
+        self._ego_speed: float | None = None
         self._start_ego_x: float | None = None
+        self._start_ego_speed: float | None = None
         self._start_vehicle_signal: str | None = None
         self._spawn_requested = False
         self._spawned = False
@@ -77,6 +105,12 @@ class SignalCrossingNode(Node):
                 self._on_vehicle_signal, qos)
             self.create_subscription(
                 Odometry, '/safe_drive/ego/odom', self._on_ego_odom, 10)
+        if self._stop_on_contact:
+            self.create_subscription(
+                ContactsState, '/safe_drive/ego/contacts',
+                self._on_contacts, 10)
+        self._pause_client = (self.create_client(Empty, '/pause_physics')
+                              if self._pause_on_contact else None)
         self._spawn_client = self.create_client(SpawnEntity, '/spawn_entity')
         self._pose_client = self.create_client(
             SetEntityState, '/safe_drive/gazebo/set_entity_state'
@@ -85,6 +119,7 @@ class SignalCrossingNode(Node):
             'id': self._scenario_id, 'type': 'signal_crossing', 'seed': None,
             'crossing_x': self._x, 'pedestrian_speed': self._crossing.speed,
             'late_trigger_distance': self._late_trigger_distance,
+            'pedestrian_contact_radius_m': self._contact_radius,
         })))
         self._state_publisher.publish(String(data=ScenarioState.ARMED.value))
         rate = float(self.get_parameter('update_rate_hz').value)
@@ -100,6 +135,23 @@ class SignalCrossingNode(Node):
 
     def _on_ego_odom(self, message: Odometry) -> None:
         self._ego_x = message.pose.pose.position.x
+        self._ego_speed = message.twist.twist.linear.x
+
+    def _on_contacts(self, message: ContactsState) -> None:
+        if self._finished or self._crossing.state != ScenarioState.ACTIVE:
+            return
+        if any('safe_drive_pedestrian' in state.collision1_name
+               or 'safe_drive_pedestrian' in state.collision2_name
+               for state in message.states):
+            self._finish(self.get_clock().now().nanoseconds / 1e9,
+                         contact_terminated=True)
+            if self._pause_client is not None:
+                if self._pause_client.service_is_ready():
+                    self._pause_client.call_async(Empty.Request())
+                    self.get_logger().info('Paused Gazebo at first contact')
+                else:
+                    self.get_logger().warning(
+                        'Gazebo pause service unavailable at contact')
 
     def _pose(self) -> Pose:
         pose = Pose()
@@ -110,6 +162,8 @@ class SignalCrossingNode(Node):
         return pose
 
     def _update(self) -> None:
+        if self._finished:
+            return
         if not self._spawned:
             self._request_spawn()
             return
@@ -131,6 +185,8 @@ class SignalCrossingNode(Node):
         late_trigger = (self._late_trigger_distance > 0.0
                         and self._vehicle_signal == 'GREEN'
                         and self._ego_x is not None
+                        and self._ego_speed is not None
+                        and self._ego_speed > self._late_trigger_min_speed
                         and 0.0 <= self._x - self._ego_x
                         <= self._late_trigger_distance)
         self._crossing.step(
@@ -142,6 +198,7 @@ class SignalCrossingNode(Node):
             self._start_signal = self._signal
             self._start_vehicle_signal = self._vehicle_signal
             self._start_ego_x = self._ego_x
+            self._start_ego_speed = self._ego_speed
             trigger_name = ('late green approach' if late_trigger else 'WALK')
             self.get_logger().info(
                 f'Pedestrian entering crossing on {trigger_name}')
@@ -204,7 +261,7 @@ class SignalCrossingNode(Node):
             self.get_logger().error(f'Pedestrian pose update failed: {error}')
             self._last_pose_y = float('nan')
 
-    def _finish(self, stamp: float) -> None:
+    def _finish(self, stamp: float, contact_terminated: bool = False) -> None:
         result = {
             'scenario_id': self._scenario_id,
             'type': 'signal_crossing',
@@ -215,17 +272,22 @@ class SignalCrossingNode(Node):
             'start_signal': self._start_signal,
             'start_vehicle_signal': self._start_vehicle_signal,
             'start_ego_x_m': self._start_ego_x,
+            'start_ego_speed_mps': self._start_ego_speed,
             'late_trigger_distance_m': self._late_trigger_distance,
+            'late_trigger_min_speed_mps': self._late_trigger_min_speed,
+            'pedestrian_contact_radius_m': self._contact_radius,
             'start_sim_time': self._start_stamp,
             'end_sim_time': stamp,
-            'completed': True,
+            'completed': not contact_terminated,
+            'contact_terminated': contact_terminated,
             'final_y_m': self._crossing.y,
             'seed': None,
         }
         self._output_file.parent.mkdir(parents=True, exist_ok=True)
         self._output_file.write_text(json.dumps(result, indent=2) + '\n')
         self._state_publisher.publish(
-            String(data=ScenarioState.COMPLETED.value))
+            String(data='CONTACT' if contact_terminated
+                   else ScenarioState.COMPLETED.value))
         self.get_logger().info(
             f'Pedestrian crossing result saved: {self._output_file}')
         self._finished = True

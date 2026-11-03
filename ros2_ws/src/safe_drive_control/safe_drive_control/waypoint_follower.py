@@ -54,6 +54,10 @@ class WaypointFollower(Node):
         self.declare_parameter('yield_line_margin', 0.6)
         self.declare_parameter('yield_timeout', 1.0)
         self.declare_parameter('yield_deceleration', 1.0)
+        self.declare_parameter('pedestrian_stop_enabled', False)
+        self.declare_parameter('pedestrian_crossing_x', -5.0)
+        self.declare_parameter('pedestrian_stop_margin', 0.6)
+        self.declare_parameter('pedestrian_deceleration', 1.0)
         self.declare_parameter('drive_mode', 'ackermann')
         self.declare_parameter('wheelbase', 2.5)
         self.declare_parameter('max_steer', 0.65)
@@ -134,6 +138,13 @@ class WaypointFollower(Node):
             self.create_subscription(
                 Bool, '/safe_drive/ego/yield_required', self._on_yield, 10
             )
+        self._pedestrian_stop_enabled = bool(
+            self.get_parameter('pedestrian_stop_enabled').value)
+        self._pedestrian_state: Optional[str] = None
+        if self._pedestrian_stop_enabled:
+            self.create_subscription(
+                String, '/safe_drive/scenario/state',
+                self._on_pedestrian_state, 10)
 
         self._command_publisher = self.create_publisher(
             Twist,
@@ -173,6 +184,9 @@ class WaypointFollower(Node):
     def _on_yield(self, message: Bool) -> None:
         self._yield_required = message.data
         self._last_yield_time = self.get_clock().now()
+
+    def _on_pedestrian_state(self, message: String) -> None:
+        self._pedestrian_state = message.data
 
     def _control_step(self) -> None:
         if self._position is None or self._last_odom_time is None:
@@ -271,6 +285,25 @@ class WaypointFollower(Node):
             if log_state != self._last_yield_log:
                 self.get_logger().info(f'Unsignalized crossing {log_state}')
                 self._last_yield_log = log_state
+        if self._pedestrian_stop_enabled and not self._controller.completed:
+            if self._pedestrian_state == 'CONTACT':
+                self._publish_stop()
+                return
+            if self._pedestrian_state == 'ACTIVE':
+                limit = signal_speed_limit(
+                    x=self._position[0], signal_state=None,
+                    stop_line_x=float(self.get_parameter(
+                        'pedestrian_crossing_x').value),
+                    front_offset=float(self.get_parameter(
+                        'vehicle_front_offset').value),
+                    safety_margin=float(self.get_parameter(
+                        'pedestrian_stop_margin').value),
+                    deceleration=float(self.get_parameter(
+                        'pedestrian_deceleration').value),
+                    max_speed=linear)
+                if limit < linear:
+                    angular *= limit / linear if linear > 0.0 else 0.0
+                    linear = limit
         message = Twist()
         message.linear.x = (
             low_speed_command(

@@ -1,0 +1,4 @@
+case,requested_speed_mps,repeat,passed,achieved_max_speed_mps,goal_reached,max_corner_error_m,outside_corridor_samples,corridor_passed,painted_lane_passed,centerline_overlap_samples,edge_line_overlap_samples,max_centerline_overlap_m,max_edge_line_overlap_m
+green_straight,2.0,1,False,1.6837390339786222,False,1.4290569777642026,0,False,True,0,0,0.0,0.0
+green_straight,3.0,1,False,2.5014662108535624,False,1.5439867585692753,0,False,True,0,0,0.0,0.0
+green_straight,4.0,1,False,3.302997084419742,False,2.9890828926468562,952,False,False,0,66,0.0,0.41371582283507546

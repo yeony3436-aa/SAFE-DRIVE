@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T16:59:06+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/quality_demo.yaml",
+  "config_sha256": "bdb81852cad281427f3188c35859c8b40341b3e02c3e6ca61a87c155318d9cde",
+  "git_commit": "9d514deb67f918502ff36ebdcf669e137f117f6d",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "contact_cut",
+      "passed": true,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/quality_demo_contact_front_trial_20261104/contact_cut/record.json",
+      "error": null
+    }
+  ],
+  "finished_utc": "2026-11-03T16:59:30+00:00",
+  "passed": true
+}

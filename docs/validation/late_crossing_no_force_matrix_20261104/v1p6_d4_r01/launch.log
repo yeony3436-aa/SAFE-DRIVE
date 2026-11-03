@@ -1,0 +1,139 @@
+[INFO] [launch]: All log files can be found below /tmp/safe_drive_ros_log/2026-11-04-01-26-01-796389-suyeon-IdeaPad-5-Pro-14ACN6-482352
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gzserver-1]: process started with pid [482357]
+[INFO] [robot_state_publisher-2]: process started with pid [482359]
+[INFO] [spawn_entity.py-3]: process started with pid [482361]
+[INFO] [traffic_signal-4]: process started with pid [482363]
+[INFO] [waypoint_follower-5]: process started with pid [482365]
+[INFO] [route_monitor-6]: process started with pid [482367]
+[INFO] [connected_lane_monitor-7]: process started with pid [482369]
+[INFO] [red_stop_monitor-8]: process started with pid [482371]
+[INFO] [signal_crossing-9]: process started with pid [482373]
+[INFO] [safety_monitor-10]: process started with pid [482375]
+[robot_state_publisher-2] [INFO] [1793723162.584749161] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-2] [INFO] [1793723162.584884167] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-2] [INFO] [1793723162.584903304] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-2] [INFO] [1793723162.584918949] [robot_state_publisher]: got segment camera_optical_frame
+[robot_state_publisher-2] [INFO] [1793723162.584932848] [robot_state_publisher]: got segment front_left_wheel
+[robot_state_publisher-2] [INFO] [1793723162.584946677] [robot_state_publisher]: got segment front_left_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793723162.584960925] [robot_state_publisher]: got segment front_right_wheel
+[robot_state_publisher-2] [INFO] [1793723162.584975732] [robot_state_publisher]: got segment front_right_wheel_steering_link
+[robot_state_publisher-2] [INFO] [1793723162.585032584] [robot_state_publisher]: got segment lidar_link
+[robot_state_publisher-2] [INFO] [1793723162.585047181] [robot_state_publisher]: got segment rear_left_wheel
+[robot_state_publisher-2] [INFO] [1793723162.585061219] [robot_state_publisher]: got segment rear_right_wheel
+[waypoint_follower-5] [INFO] [1793723163.415073941] [waypoint_follower]: Loaded 99 waypoints; target_speed=1.60 m/s
+[spawn_entity.py-3] [INFO] [1793723163.430253524] [spawn_entity]: Spawn Entity started
+[spawn_entity.py-3] [INFO] [1793723163.430931908] [spawn_entity]: Loading entity published on topic robot_description
+[spawn_entity.py-3] [INFO] [1793723163.433306427] [spawn_entity]: Waiting for entity xml on robot_description
+[spawn_entity.py-3] [INFO] [1793723163.444574459] [spawn_entity]: Waiting for service /spawn_entity, timeout = 30
+[spawn_entity.py-3] [INFO] [1793723163.444952798] [spawn_entity]: Waiting for service /spawn_entity
+[gzserver-1] [INFO] [1793723163.895498782] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo models at [/safe_drive/gazebo/model_states]
+[gzserver-1] [INFO] [1793723163.896300927] [safe_drive.gazebo.safe_drive_ground_truth]: Publishing states of gazebo links at [/safe_drive/gazebo/link_states]
+[spawn_entity.py-3] [INFO] [1793723163.949663197] [spawn_entity]: Calling service /spawn_entity
+[waypoint_follower-5] [INFO] [1793723164.000730500] [waypoint_follower]: Waiting for ego odometry
+[gzserver-1] [INFO] [1793723164.112846632] [safe_drive.ego.safe_drive_contact]: Publishing contact states to [/safe_drive/ego/contacts]
+[gzserver-1] [INFO] [1793723164.818813850] [safe_drive.ego.safe_drive_front_camera]: Publishing camera info to [/safe_drive/ego/camera/camera_info]
+[spawn_entity.py-3] [INFO] [1793723164.826801641] [spawn_entity]: Spawn status: SpawnEntity: Successfully spawned entity [safe_drive_ego]
+[gzserver-1] [WARN] [1793723164.944008062] [safe_drive.ego.safe_drive_ackermann_drive]: Steering wheel joint [steering_wheel_joint] not found.
+[gzserver-1] [INFO] [1793723164.945321667] [safe_drive.ego.safe_drive_ackermann_drive]: Subscribed to [/safe_drive/ego/cmd_vel]
+[gzserver-1] [INFO] [1793723164.947858430] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise odometry on [/safe_drive/ego/odom]
+[gzserver-1] [INFO] [1793723164.949121609] [safe_drive.ego.safe_drive_ackermann_drive]: Advertise steerangle on [/safe_drive/ego/steerangle]
+[gzserver-1] [INFO] [1793723164.952780538] [safe_drive.ego.safe_drive_ackermann_drive]: Publishing odom transforms between [odom] and [base_footprint]
+[INFO] [spawn_entity.py-3]: process has finished cleanly [pid 482361]
+[traffic_signal-4] [INFO] [1793723164.992398077] [traffic_signal]: Ego odometry ready; starting signal cycle
+[traffic_signal-4] [INFO] [1793723165.015296696] [traffic_signal]: Vehicle RED; pedestrian WALK at t=0.0 s
+[waypoint_follower-5] [INFO] [1793723165.015527527] [waypoint_follower]: Traffic signal UNKNOWN; speed limit 1.60 m/s
+[waypoint_follower-5] [INFO] [1793723165.016256128] [waypoint_follower]: Following waypoint 5
+[waypoint_follower-5] [INFO] [1793723165.116831002] [waypoint_follower]: Traffic signal RED; speed limit 1.60 m/s
+[signal_crossing-9] [INFO] [1793723165.212005415] [signal_crossing]: Pedestrian waiting for green approach at crosswalk
+[waypoint_follower-5] [INFO] [1793723165.856257993] [waypoint_follower]: Following waypoint 6
+[waypoint_follower-5] [INFO] [1793723168.065118563] [waypoint_follower]: Following waypoint 7
+[red_stop_monitor-8] [INFO] [1793723175.344134102] [red_stop_monitor]: Red stop result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/late_crossing_no_force_matrix_20261104/v1p6_d4_r01/red_stop.json; passed=True; gap=0.85 m
+[traffic_signal-4] [INFO] [1793723175.689936717] [traffic_signal]: Vehicle RED; pedestrian DONT_WALK at t=10.6 s
+[traffic_signal-4] [INFO] [1793723177.093131813] [traffic_signal]: Vehicle GREEN; pedestrian DONT_WALK at t=12.0 s
+[waypoint_follower-5] [INFO] [1793723177.194213261] [waypoint_follower]: Traffic signal GREEN; speed limit 1.60 m/s
+[waypoint_follower-5] [INFO] [1793723178.300341762] [waypoint_follower]: Following waypoint 8
+[waypoint_follower-5] [INFO] [1793723180.207044866] [waypoint_follower]: Following waypoint 9
+[signal_crossing-9] [INFO] [1793723180.809760429] [signal_crossing]: Pedestrian entering crossing on late green approach
+[waypoint_follower-5] [INFO] [1793723181.613771440] [waypoint_follower]: Following waypoint 10
+[waypoint_follower-5] [INFO] [1793723182.918626646] [waypoint_follower]: Following waypoint 11
+[waypoint_follower-5] [INFO] [1793723184.321968083] [waypoint_follower]: Following waypoint 12
+[waypoint_follower-5] [INFO] [1793723184.823366063] [waypoint_follower]: Following waypoint 13
+[waypoint_follower-5] [INFO] [1793723185.527491202] [waypoint_follower]: Following waypoint 14
+[waypoint_follower-5] [INFO] [1793723186.130032862] [waypoint_follower]: Following waypoint 15
+[waypoint_follower-5] [INFO] [1793723186.832779793] [waypoint_follower]: Following waypoint 16
+[waypoint_follower-5] [INFO] [1793723187.534395480] [waypoint_follower]: Following waypoint 17
+[waypoint_follower-5] [INFO] [1793723188.236452294] [waypoint_follower]: Following waypoint 18
+[waypoint_follower-5] [INFO] [1793723188.940425599] [waypoint_follower]: Following waypoint 19
+[waypoint_follower-5] [INFO] [1793723189.642962516] [waypoint_follower]: Following waypoint 20
+[waypoint_follower-5] [INFO] [1793723190.344252878] [waypoint_follower]: Following waypoint 21
+[signal_crossing-9] [INFO] [1793723190.344502845] [signal_crossing]: Pedestrian crossing result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/late_crossing_no_force_matrix_20261104/v1p6_d4_r01/crossing.json
+[safety_monitor-10] [INFO] [1793723190.363133506] [safety_monitor]: Safety result saved: /home/suyeon/workspace/SAFE_DRIVE/docs/validation/late_crossing_no_force_matrix_20261104/v1p6_d4_r01/safety.json
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [safety_monitor-10]: sending signal 'SIGINT' to process[safety_monitor-10]
+[INFO] [signal_crossing-9]: sending signal 'SIGINT' to process[signal_crossing-9]
+[INFO] [red_stop_monitor-8]: sending signal 'SIGINT' to process[red_stop_monitor-8]
+[INFO] [connected_lane_monitor-7]: sending signal 'SIGINT' to process[connected_lane_monitor-7]
+[INFO] [route_monitor-6]: sending signal 'SIGINT' to process[route_monitor-6]
+[INFO] [waypoint_follower-5]: sending signal 'SIGINT' to process[waypoint_follower-5]
+[INFO] [traffic_signal-4]: sending signal 'SIGINT' to process[traffic_signal-4]
+[INFO] [robot_state_publisher-2]: sending signal 'SIGINT' to process[robot_state_publisher-2]
+[ERROR] [red_stop_monitor-8]: process has died [pid 482371, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/red_stop_monitor --ros-args -r __node:=red_stop_monitor --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/share/safe_drive_safety/config/red_stop_monitor.yaml --params-file /tmp/launch_params__2_2eivn'].
+[INFO] [gzserver-1]: sending signal 'SIGINT' to process[gzserver-1]
+[robot_state_publisher-2] [INFO] [1793723190.602466651] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[safety_monitor-10] Traceback (most recent call last):
+[safety_monitor-10]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor", line 8, in <module>
+[safety_monitor-10]     main()
+[safety_monitor-10]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/local/lib/python3.10/dist-packages/safe_drive_safety/safety_monitor.py", line 145, in main
+[safety_monitor-10]     node.destroy_node()
+[safety_monitor-10]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1691, in destroy_node
+[safety_monitor-10]     self.destroy_service(self._services[0])
+[safety_monitor-10]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1615, in destroy_service
+[safety_monitor-10]     service.destroy()
+[safety_monitor-10]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/service.py", line 93, in destroy
+[safety_monitor-10]     self.__service.destroy_when_not_in_use()
+[safety_monitor-10] KeyboardInterrupt
+[connected_lane_monitor-7] Traceback (most recent call last):
+[connected_lane_monitor-7]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/connected_lane_monitor", line 6, in <module>
+[connected_lane_monitor-7]     main()
+[connected_lane_monitor-7]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/local/lib/python3.10/dist-packages/safe_drive_safety/connected_lane_monitor.py", line 121, in main
+[connected_lane_monitor-7]     node.save()
+[connected_lane_monitor-7]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/local/lib/python3.10/dist-packages/safe_drive_safety/connected_lane_monitor.py", line 108, in save
+[connected_lane_monitor-7]     self.get_logger().info(
+[connected_lane_monitor-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/impl/rcutils_logger.py", line 329, in info
+[connected_lane_monitor-7]     return self.log(message, LoggingSeverity.INFO, **kwargs)
+[connected_lane_monitor-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/impl/rcutils_logger.py", line 287, in log
+[connected_lane_monitor-7]     caller_id = CallerId()
+[connected_lane_monitor-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/impl/rcutils_logger.py", line 59, in __new__
+[signal_crossing-9] Traceback (most recent call last):
+[signal_crossing-9]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/signal_crossing", line 8, in <module>
+[signal_crossing-9]     main()
+[signal_crossing-9]   File "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/local/lib/python3.10/dist-packages/safe_drive_scenario/signal_crossing_node.py", line 255, in main
+[signal_crossing-9]     node.destroy_node()
+[signal_crossing-9]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1696, in destroy_node
+[connected_lane_monitor-7]     frame = _find_caller(inspect.currentframe())
+[connected_lane_monitor-7]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/impl/rcutils_logger.py", line 47, in _find_caller
+[connected_lane_monitor-7]     file_path = os.path.realpath(inspect.getframeinfo(frame).filename)
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/inspect.py", line 1624, in getframeinfo
+[connected_lane_monitor-7]     lines, lnum = findsource(frame)
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/inspect.py", line 952, in findsource
+[connected_lane_monitor-7]     module = getmodule(object, file)
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/inspect.py", line 878, in getmodule
+[connected_lane_monitor-7]     os.path.realpath(f)] = module.__name__
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/posixpath.py", line 394, in realpath
+[connected_lane_monitor-7]     return abspath(path)
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/posixpath.py", line 383, in abspath
+[connected_lane_monitor-7]     return normpath(path)
+[connected_lane_monitor-7]   File "/usr/lib/python3.10/posixpath.py", line 364, in normpath
+[connected_lane_monitor-7]     new_comps.append(comp)
+[connected_lane_monitor-7] KeyboardInterrupt
+[signal_crossing-9]     self.__node.destroy_when_not_in_use()
+[signal_crossing-9] KeyboardInterrupt
+[ERROR] [robot_state_publisher-2]: process has died [pid 482359, exit code -2, cmd '/opt/ros/humble/lib/robot_state_publisher/robot_state_publisher --ros-args -r __node:=robot_state_publisher --params-file /tmp/launch_params_w4i0d3u5'].
+[ERROR] [waypoint_follower-5]: process has died [pid 482365, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/lib/safe_drive_control/waypoint_follower --ros-args -r __node:=waypoint_follower --params-file /home/suyeon/workspace/SAFE_DRIVE/docs/validation/late_crossing_no_force_matrix_20261104/variants/v1p6_d4_r01_route.yaml --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_control/share/safe_drive_control/config/signal_controller.yaml'].
+[ERROR] [route_monitor-6]: process has died [pid 482367, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/route_monitor --ros-args -r __node:=route_monitor --params-file /tmp/launch_params_3b_seca0'].
+[ERROR] [traffic_signal-4]: process has died [pid 482363, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/traffic_signal --ros-args -r __node:=traffic_signal --params-file /home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/share/safe_drive_scenario/config/traffic_signal.yaml --params-file /tmp/launch_params_1anmhyse'].
+[ERROR] [connected_lane_monitor-7]: process has died [pid 482369, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/connected_lane_monitor --ros-args -r __node:=connected_lane_monitor --params-file /tmp/launch_params_1158jga8'].
+[ERROR] [safety_monitor-10]: process has died [pid 482375, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_safety/lib/safe_drive_safety/safety_monitor --ros-args -r __node:=safety_monitor --params-file /tmp/launch_params_d430ndp6'].
+[ERROR] [signal_crossing-9]: process has died [pid 482373, exit code -2, cmd '/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_scenario/lib/safe_drive_scenario/signal_crossing --ros-args -r __node:=signal_crossing --params-file /home/suyeon/workspace/SAFE_DRIVE/docs/validation/late_crossing_no_force_matrix_20261104/variants/v1p6_d4_r01_crossing.yaml --params-file /tmp/launch_params_j3qn8u60'].
+[INFO] [gzserver-1]: process has finished cleanly [pid 482357]

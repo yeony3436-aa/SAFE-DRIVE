@@ -22,6 +22,7 @@ class SafetyMonitor(Node):
         super().__init__('safety_monitor')
         self.declare_parameter('safety_config', '')
         self.declare_parameter('output_file', '')
+        self.declare_parameter('vehicle_front_offset', 2.1)
         output_file = str(self.get_parameter('output_file').value)
         self._output_file = Path(output_file) if output_file else None
         self._result_saved = False
@@ -36,6 +37,10 @@ class SafetyMonitor(Node):
 
         self._metrics = SafetyMetrics()
         self._scenario_id: Optional[str] = None
+        self._crossing_x: Optional[float] = None
+        self._front_offset = float(self.get_parameter('vehicle_front_offset').value)
+        self._minimum_front_gap_during_crossing: Optional[float] = None
+        self._last_active_ego_speed: Optional[float] = None
         self._state = 'WAITING_FOR_EGO'
         self._finalized = False
         self._previous_command: Optional[tuple[float, float]] = None
@@ -64,12 +69,18 @@ class SafetyMonitor(Node):
         )
 
     def _on_current(self, message: String) -> None:
-        self._scenario_id = str(json.loads(message.data)['id'])
+        scenario = json.loads(message.data)
+        self._scenario_id = str(scenario['id'])
+        crossing_x = scenario.get('crossing_x')
+        if isinstance(crossing_x, (int, float)):
+            self._crossing_x = float(crossing_x)
         self._publish_result()
 
     def _on_state(self, message: String) -> None:
         self._state = message.data
-        if self._state in ('COMPLETED', 'TIMED_OUT'):
+        if self._state == 'CONTACT':
+            self._metrics.collision = True
+        if self._state in ('COMPLETED', 'TIMED_OUT', 'CONTACT'):
             self._finalized = True
         self._publish_result()
 
@@ -88,6 +99,14 @@ class SafetyMonitor(Node):
             return ActorMotion(pose.x, pose.y, velocity.x, velocity.y)
 
         _, ttc = self._metrics.observe(motion(ego_index), motion(pedestrian_index))
+        if self._state == 'ACTIVE':
+            ego = message.pose[ego_index].position
+            self._last_active_ego_speed = message.twist[ego_index].linear.x
+            if self._crossing_x is not None:
+                gap = self._crossing_x - self._front_offset - ego.x
+                if (self._minimum_front_gap_during_crossing is None
+                        or gap < self._minimum_front_gap_during_crossing):
+                    self._minimum_front_gap_during_crossing = gap
         ttc_message = Float64()
         ttc_message.data = ttc if ttc is not None else float('nan')
         self._ttc_publisher.publish(ttc_message)
@@ -123,6 +142,9 @@ class SafetyMonitor(Node):
             'collision': self._metrics.collision,
             'emergency_braking': self._metrics.emergency_braking,
             'scenario_completed': self._state == 'COMPLETED',
+            'minimum_front_gap_during_crossing_m':
+                self._minimum_front_gap_during_crossing,
+            'ego_speed_at_crossing_end_mps': self._last_active_ego_speed,
         }, sort_keys=True)
         self._result_publisher.publish(message)
         if self._finalized and self._output_file is not None and not self._result_saved:

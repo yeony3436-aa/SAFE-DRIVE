@@ -273,3 +273,4 @@ waypoint_follower:
     - -1.636
     - -1.75
     - -1.75
+    max_lateral_acceleration: 0.45

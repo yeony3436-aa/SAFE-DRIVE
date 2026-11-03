@@ -1,0 +1,12 @@
+{
+  "collision": true,
+  "ego_speed_at_crossing_end_mps": 0.10298841451880797,
+  "emergency_braking": true,
+  "min_distance": 1.7892816586231803,
+  "min_ttc": 4.933102894434514,
+  "minimum_front_gap_during_crossing_m": -0.7662215867160214,
+  "scenario_completed": false,
+  "scenario_id": "LATE-CROSSING-DEMO-CONTACT-0001",
+  "state": "CONTACT",
+  "end_sim_time": 20.2
+}

@@ -50,6 +50,10 @@ before using a different spawn distance for visual demonstrations.
 The pedestrian is rendered as a fixed walking pose facing its +y travel
 direction. Its gait is not animated; the scenario still moves the model pose
 with the Gazebo entity-state service. The collision cylinder is unchanged.
+Its surface reports Gazebo contact without applying contact force. This avoids
+the pose-driven pedestrian pushing the vehicle sideways. After contact the
+models can overlap, so `collision: true` is a risk-event measurement, not a
+validated injury or crash-dynamics outcome.
 
 Scenario states are published on `/safe_drive/scenario/state`:
 
@@ -173,3 +177,49 @@ This is an explicitly unpermitted entry while pedestrian DONT_WALK is shown.
 Its runner exits after the crossing, recording collision, actor-center
 distance, and painted-line overlap. Here `passed` means complete valid risk
 measurements; it does not mean safe driving or route completion.
+The 2 m late-entry setting is intended to produce a close conflict and can
+produce contact because the current waypoint follower does not brake for this
+pedestrian. The prior 2/4/8 m matrix used a contact surface that pushed the
+vehicle during overlap; its distance and lane-line measurements should not
+be compared directly with the revised no-force runs.
+
+The late-crossing sweep varies requested ego speed and the maximum
+ego-to-crosswalk distance that permits entry. It also requires measured ego
+speed above 0.3 m/s before entry, so the actual entry distance can be shorter
+than the configured threshold. The recorded entry speed and x position should
+be used to interpret each result. Run
+`python3 ../scripts/run_late_crossing_sweep.py --output-dir /tmp/late_matrix_01`
+from a sourced `ros2_ws` shell.
+
+The sweep defaults to `gui:=false` so six separate Gazebo processes can run
+without opening windows. Add `--gui --speed 1.2 --distance 2.0` to watch one
+case. The GUI closes once the crossing outcome is recorded. `Ctrl+C` now
+stops the entire sweep and saves a partial summary with `interrupted: true`.
+
+For connected-road speed checks, run `scripts/run_speed_validation.py` with
+`--case green_straight`, `--case red_crossing`, or `--case continuous_right`,
+plus `--speed` in m/s. The straight return loop uses route-distance braking
+and a bend speed cap. The fixed-red approach starts too close to the stop line
+to attain a 6 m/s request; inspect `achieved_max_speed_mps` and, for the
+continuous mission, `approach_max_speed_mps` in `runs.csv`. The current
+painted-line monitor covers marked straight arms, not junction interiors.
+
+The separate `config/quality_demo.yaml` has two opt-in visual cases. Both use
+the existing connected road and late pedestrian entry. In
+`brake_before_crossing`, the pedestrian enters within 6 m and the follower
+uses the published scenario state to brake before the configured crossing.
+The acceptance check requires at least 0.3 m measured front gap throughout
+the active crossing, at most 0.15 m/s ego speed immediately before crossing
+completion, no contact, and a valid initial red stop. A 1.5 m configured
+stopping margin accounts for the current Gazebo vehicle's stopping lag. In
+`contact_cut`, the pedestrian enters within 5 m and the ego does not perform
+pedestrian-aware braking. The crossing node records `contact_terminated=true`,
+pauses Gazebo, and ends the scene at the first contact after a short GUI hold.
+Its acceptance check requires contact near the ego lane center and front
+bumper, rather than an ambiguous first touch at the vehicle side.
+The contact demo alone overrides the pedestrian collision radius to 0.14 m
+to reduce the visible gap at contact. The regular crossing model and six-run
+risk matrix retain the 0.28 m radius. The external GUI appearance still needs
+direct visual approval; this adjustment does not validate impact physics.
+The contact case demonstrates detection and cutoff, not impact dynamics.
+Neither case uses camera or LiDAR for its decision.

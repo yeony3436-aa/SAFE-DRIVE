@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "connected_scene_validation",
+  "started_utc": "2026-11-03T16:46:31+00:00",
+  "config_file": "/home/suyeon/workspace/SAFE_DRIVE/config/quality_demo.yaml",
+  "config_sha256": "13f93eda453c0e2459e8c9aae1aa0524ac88b19b29e1c7232640f7cb13958840",
+  "git_commit": "9d514deb67f918502ff36ebdcf669e137f117f6d",
+  "working_tree_dirty": true,
+  "ros_distro": "humble",
+  "cases": [
+    {
+      "case": "brake_before_crossing",
+      "passed": false,
+      "record_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/quality_demo_stop_check_20261104/brake_before_crossing/record.json",
+      "error": null
+    }
+  ],
+  "finished_utc": "2026-11-03T16:46:58+00:00",
+  "passed": false
+}

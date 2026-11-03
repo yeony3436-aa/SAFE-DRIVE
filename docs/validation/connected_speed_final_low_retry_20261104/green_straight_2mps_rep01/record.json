@@ -1,0 +1,60 @@
+{
+  "case": "green_straight_2mps_rep01",
+  "configuration": {
+    "route_config": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/route_variants/green_straight_2mps_rep01.yaml",
+    "fixed_state": "GREEN",
+    "pedestrian": false,
+    "expected": {
+      "result_file": "route.json",
+      "lane_result_file": "lane_lines.json"
+    }
+  },
+  "seed": null,
+  "started_utc": "2026-11-03T16:11:31+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "signal_intersection.launch.py",
+    "gui:=false",
+    "world_file:=connected_road.world",
+    "spawn_x:=-30",
+    "route_config:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/route_variants/green_straight_2mps_rep01.yaml",
+    "fixed_state:=GREEN",
+    "monitor_red_stop:=false",
+    "pedestrian:=false",
+    "crossing_config:=signal_crossing.yaml",
+    "result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/green_straight_2mps_rep01/route.json",
+    "lane_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/green_straight_2mps_rep01/lane_lines.json"
+  ],
+  "expected_files": {
+    "result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/green_straight_2mps_rep01/route.json",
+    "lane_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_final_low_retry_20261104/green_straight_2mps_rep01/lane_lines.json"
+  },
+  "input_sha256": {
+    "ros2_ws/src/safe_drive_sim/worlds/connected_road.world": "dc0e1b95c51eaeeb0491bfcf4aa4494f893296c7468b32d34b4c719caac6169e",
+    "docs/validation/connected_speed_final_low_retry_20261104/route_variants/green_straight_2mps_rep01.yaml": "7860582fea938d2148a4c4ac9358c2c131555914162ad1b572b8ee4d6cd32570",
+    "ros2_ws/src/safe_drive_control/config/signal_controller.yaml": "42b4a013becc706d76836d3ad5aa9896de5f72bb2ea9eef297d30adc0020f609",
+    "ros2_ws/src/safe_drive_scenario/config/traffic_signal.yaml": "4f075c20ae1884b90bef1b19604922c0bf009b3312ab92b715950188789393cf",
+    "ros2_ws/src/safe_drive_scenario/config/signal_crossing.yaml": "dfc99d6fa3542654f055ee049c4d53e76909586fafc6434f2e45a2ce5aac7d1e"
+  },
+  "error": "Gazebo is already running on this master port; close the previous run or use a different GAZEBO_MASTER_URI",
+  "results": {},
+  "passed": false,
+  "finished_utc": "2026-11-03T16:11:32+00:00",
+  "elapsed_wall_seconds": 1.002,
+  "requested_speed_mps": 2.0,
+  "route_variant_sha256": "7860582fea938d2148a4c4ac9358c2c131555914162ad1b572b8ee4d6cd32570",
+  "measurements": {
+    "achieved_max_speed_mps": null,
+    "goal_reached": null,
+    "max_corner_error_m": null,
+    "outside_corridor_samples": null,
+    "corridor_passed": null,
+    "painted_lane_passed": null,
+    "centerline_overlap_samples": null,
+    "edge_line_overlap_samples": null,
+    "max_centerline_overlap_m": null,
+    "max_edge_line_overlap_m": null
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "scenario_id": "LATE-CROSSING-DEMO-0001",
+  "type": "signal_crossing",
+  "crossing_x_m": -5.0,
+  "start_y_m": -4.25,
+  "end_y_m": 5.2,
+  "pedestrian_speed_mps": 1.0,
+  "start_signal": "DONT_WALK",
+  "start_vehicle_signal": "GREEN",
+  "start_ego_x_m": -10.979436546988754,
+  "start_ego_speed_mps": 0.8262989253117528,
+  "late_trigger_distance_m": 6.0,
+  "late_trigger_min_speed_mps": 0.3,
+  "start_sim_time": 14.7,
+  "end_sim_time": 24.2,
+  "completed": true,
+  "contact_terminated": false,
+  "final_y_m": 5.2,
+  "seed": null
+}

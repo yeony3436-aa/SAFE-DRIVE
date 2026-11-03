@@ -7,6 +7,9 @@
       <collision name="collision">
         <pose>0 0 0.9 0 0 0</pose>
         <geometry><cylinder><radius>0.28</radius><length>1.8</length></cylinder></geometry>
+        <!-- The actor is pose-driven. Keep contact events for risk measurement,
+             but do not let a teleported static body shove the ego vehicle. -->
+        <surface><contact><collide_without_contact>true</collide_without_contact></contact></surface>
       </collision>
       <!-- Local +x is forward; the scenario faces this model toward +y. -->
       <visual name="jacket">

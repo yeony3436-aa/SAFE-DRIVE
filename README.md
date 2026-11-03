@@ -79,6 +79,62 @@ against DONT_WALK after the vehicle begins moving on green. That case ends
 after the crossing outcome is measured; a recorded collision is a valid risk
 outcome, not a safe-driving pass or a completed return route.
 
+To repeat that late-crossing event across requested speeds and pedestrian
+entry distances, run this from a sourced `ros2_ws` shell:
+
+```bash
+python3 ../scripts/run_late_crossing_sweep.py \
+  --output-dir /tmp/safe_drive_late_crossing_matrix_01
+```
+
+The matrix command runs headless by default. To watch **one** condition in
+the Gazebo window, use a new output directory and add `--gui`:
+
+```bash
+python3 ../scripts/run_late_crossing_sweep.py --gui \
+  --speed 1.2 --distance 2.0 \
+  --output-dir /tmp/safe_drive_late_preview_01
+```
+
+The window opens after the ego spawns and closes when that case is measured.
+`Ctrl+C` stops the current case and the entire matrix, while retaining a
+partial summary. The output directory must be new for each invocation.
+Close any earlier Gazebo run using the same master port before starting this
+preview; a port conflict is reported directly in the terminal.
+
+`config/late_crossing_sweep.yaml` defines the small 2×3 matrix. Each fresh
+Gazebo run saves its route and crossing variants, actual ego speed at entry,
+stop gap, contact, minimum actor-center distance, painted-line overlap, and
+a separate event-valid/risk label in JSON and CSV. This deterministic matrix
+has one run per condition and does not establish a real-world risk rate.
+The late-entry 2 m case deliberately creates a close pedestrian conflict;
+the current follower does not avoid the pedestrian. Gazebo contact is recorded
+as a risk event. The pose-driven pedestrian now has contact force disabled so
+it cannot push the ego sideways, but the scene does not model realistic impact
+physics or injury. Earlier late-crossing matrix measurements used the old
+contact response and should be treated as a separate simulator configuration.
+
+For the focused visual demonstration, use the configured braking and contact
+cutoff cases from a sourced `ros2_ws` shell. Use a fresh output directory each
+time, and set a free `GAZEBO_MASTER_URI` if the default port is occupied:
+
+```bash
+python3 ../scripts/run_connected_validation.py --gui \
+  --config ../config/quality_demo.yaml --case brake_before_crossing \
+  --output-dir /tmp/safe_drive_brake_demo_01
+python3 ../scripts/run_connected_validation.py --gui \
+  --config ../config/quality_demo.yaml --case contact_cut \
+  --output-dir /tmp/safe_drive_contact_demo_01
+```
+
+The first case applies a scenario-state-based crossing stop and checks measured
+front gap and speed. The second ends when contact is detected so the actor does
+not continue walking through the ego. This demonstration controller uses the
+scenario state and configured crossing position, not camera or LiDAR perception.
+The contact demo uses a narrower collision proxy than the experiment matrix;
+its GUI appearance is still under review after a reported visible gap. Use the
+braking case as the verified visual behavior for presentations for now.
+
 To vary requested route speed and retain independent route or red-stop
 measurements, run a selected case and speed from a sourced workspace:
 
@@ -93,6 +149,15 @@ speed, raw result, and JSON/CSV summary. The 1.75 m route-corridor check and
 the connected road's painted-centerline/lane-edge check are separate results.
 The latter checks chassis corners on painted straight arms; unpainted junctions
 are outside its scope. A speed request is not proof of the speed reached.
+For a faster connected-map check, select `green_straight`, `red_crossing`, or
+`continuous_right` with `--speed 4.0` or `--speed 6.0` and a new output path.
+The straight-loop controller now brakes using the remaining route distance
+and limits bend speed. In the stored single-run 6.0 m/s requests, the straight
+loop reached 4.921 m/s and the continuous right mission reached 4.674 m/s;
+both passed their route and painted-line checks. The fixed-red approach reached
+only 2.535 m/s before stopping, so it does not validate a 6 m/s red approach.
+`continuous_right` records both whole-route maximum speed and red-approach
+maximum speed. See [measured speed results](docs/validation/results.md).
 
 To repeat two configured sudden-pedestrian conditions twice each and save
 the measured outcomes and predefined risk labels:

@@ -48,6 +48,26 @@ enters against DONT_WALK when the green-moving ego is within a configured
 its validity pass is distinct from the collision/risk classification and
 does not imply that the route finished.
 
+`scripts/run_late_crossing_sweep.py` uses
+`config/late_crossing_sweep.yaml` to repeat this event at requested ego speeds
+of 1.2 and 1.6 m/s and entry-distance thresholds of 2, 4, and 8 m. Each
+combination starts a fresh Gazebo process and saves the exact generated route
+and crossing YAML, input hashes, raw outcomes, actual ego speed at entry,
+and a CSV row. The crossing starts only after the green-moving ego exceeds
+0.3 m/s. The validity flag checks a moving GREEN/DONT_WALK entry and measured
+outcomes; the risk flag uses contact or actor-center distance below 1.5 m.
+Only one deterministic run per condition has been stored, so the matrix
+illustrates parameter sensitivity in this simulator, not a probability.
+The original matrix used a pose-driven static pedestrian with physical
+contact force; this could shove the ego after contact and distort subsequent
+distance and lane measurements. The revised collision surface keeps Gazebo
+contact detection but disables contact force. Treat any new matrix as a
+different simulator configuration and compare only like-for-like runs.
+The opt-in `config/quality_demo.yaml` exercises a measured crossing stop and
+a first-contact cutoff. Its pass criteria validate the demonstration behavior;
+these cases are separate from the six-condition risk matrix and do not measure
+search-method performance.
+
 `scripts/run_speed_validation.py` and `config/speed_validation.yaml` now
 repeat selected connected-map cases at configured requested speeds. The runner
 copies route YAML per speed, changing target and maximum speed together, and
@@ -59,6 +79,13 @@ chassis corners to a route polyline. Connected-road runs now additionally
 save independent centerline and lane-edge overlap measurements from the
 generated map's painted intervals. The checker samples chassis corners from
 odometry on painted straight arms and excludes unpainted junction gaps.
+For a continuous mission, the summary reports whole-route maximum speed and
+separate maximum speed during the initial red approach. The fixed-red case has
+only the latter. Recorded single runs at requested 4 and 6 m/s passed for the
+straight loop, fixed-red stop, and continuous right mission after route-length
+braking and straight-loop bend limiting. Achieved straight-loop maxima were
+3.321 and 4.921 m/s; the 6 m/s fixed-red approach achieved only 2.535 m/s.
+These are controller and scene checks, not search-method comparisons.
 
 The fixed sudden-pedestrian sweep in
 `scripts/run_pedestrian_sweep.py` varies the sudden-pedestrian trigger

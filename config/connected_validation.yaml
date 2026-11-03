@@ -49,6 +49,7 @@ cases:
     fixed_state: ''
     pedestrian: true
     crossing_config: late_green_crossing.yaml
+    late_trigger_distance_m: 3.0
     monitor_red_stop: true
     allow_collision: true
     risk_distance_m: 1.5

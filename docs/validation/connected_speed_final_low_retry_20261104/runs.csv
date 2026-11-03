@@ -1,0 +1,3 @@
+case,requested_speed_mps,repeat,passed,achieved_max_speed_mps,goal_reached,max_corner_error_m,outside_corridor_samples,corridor_passed,painted_lane_passed,centerline_overlap_samples,edge_line_overlap_samples,max_centerline_overlap_m,max_edge_line_overlap_m
+green_straight,2.0,1,False,,,,,,,,,,
+green_straight,3.0,1,False,,,,,,,,,,

@@ -50,8 +50,14 @@ simulation-specific vehicle model, not a calibrated real-car dynamics model.
 The revised connected right loop uses an optional path-heading correction
 and curvature-based speed profile. The profile limits speed in bends using a
 configured lateral-acceleration bound and propagates braking limits backward
-along waypoints. Both settings default to disabled on other routes. The
-speed-validation runner copies a route YAML per requested speed and records
+along waypoints. These settings default to disabled unless a route enables
+them. The
+connected straight loop also uses a 0.45 m/s² lateral-acceleration bound.
+For every route, the follower estimates remaining polyline distance to the
+destination and applies the configured stopping-deceleration speed limit before
+the final waypoint is selected. This prevents late braking when requested
+speed increases. The speed-validation runner copies a route YAML per requested
+speed and records
 the actual maximum speed plus independent route, red-stop, and connected-road
 painted-line measurements. The line monitor uses the generated marking
 inventory and odometry-derived chassis corners. It reports line overlap on
@@ -60,7 +66,17 @@ painted straight arms; junction gaps have no painted line to check.
 The Prius exterior and selected MCity surface textures are visual-only assets;
 their source and license are recorded in [the asset inventory](asset-inventory.md).
 The road contact surface and pedestrian collision cylinder are unchanged. The
-pedestrian has a fixed walking pose without articulated gait animation.
+pedestrian has a fixed walking pose without articulated gait animation. It is
+a pose-driven static model, so its collision surface disables contact force
+while retaining contact checks. The contact flag denotes geometric contact;
+this scene does not simulate a credible pedestrian-vehicle impact response.
+The opt-in quality-demo follower subscribes to `/safe_drive/scenario/state`
+and applies a configured crossing stop while the pedestrian is `ACTIVE`.
+For its contact-cut case, the crossing node stops advancing the actor at the
+first Gazebo contact, requests a physics pause, and publishes `CONTACT`. The
+safety monitor finalizes its result then, and the GUI runner holds the paused
+frame for five seconds before closing Gazebo. These are scenario
+state and Gazebo-contact decisions, not sensor-based pedestrian perception.
 
 The Gazebo vehicle carries a 320×240 forward camera and a 360-sample planar
 LiDAR, both at 10 Hz by default. ROS topics, fixed frames, launch parameters,
@@ -88,6 +104,14 @@ the route, safety, and painted-line monitors record independent outcomes in
 that same process. Its YAML case list is
 `config/connected_validation.yaml`. It does not select risk-scenario parameters
 or implement either search method.
+
+The separate `run_late_crossing_sweep.py` copies the connected right route and
+late-crossing YAML per requested speed and entry-distance threshold. The
+crossing node reads ego odometry and both signal states, starts the configured
+unpermitted crossing only after the green-moving ego exceeds a minimum speed,
+and records the actual ego pose and speed at entry. The runner separates
+event validity from collision/risk classification and ends after the crossing
+outcome, without requiring a completed vehicle route.
 
 `scripts/run_risk_exploration.py` launches a fresh scenario for each selected
 parameter set. It uses the same measured risk classifier and Gazebo launch path

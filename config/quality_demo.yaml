@@ -1,0 +1,42 @@
+# Two visual outcomes on the same road and route: response versus no response.
+cases:
+  brake_before_crossing:
+    route_config: connected_right_loop.yaml
+    spawn_x: -16.0
+    fixed_state: ''
+    pedestrian: true
+    pedestrian_stop: true
+    pedestrian_stop_margin: 1.5
+    crossing_config: late_crossing_demo.yaml
+    late_trigger_distance_m: 6.0
+    monitor_red_stop: true
+    allow_collision: false
+    minimum_pedestrian_front_gap_m: 0.3
+    maximum_crossing_end_speed_mps: 0.15
+    expected:
+      red_result_file: red_stop.json
+      pedestrian_result_file: crossing.json
+      pedestrian_safety_file: safety.json
+      lane_result_file: lane_lines.json
+  contact_cut:
+    route_config: connected_right_loop.yaml
+    spawn_x: -16.0
+    fixed_state: ''
+    pedestrian: true
+    pedestrian_stop: false
+    pedestrian_stop_margin: 1.5
+    crossing_config: late_crossing_demo_contact.yaml
+    late_trigger_distance_m: 5.0
+    monitor_red_stop: true
+    allow_collision: true
+    stop_on_contact: true
+    contact_hold_seconds: 5.0
+    contact_lane_y_m: -1.75
+    contact_lateral_tolerance_m: 0.5
+    contact_front_gap_min_m: -0.3
+    contact_front_gap_max_m: 0.6
+    expected:
+      red_result_file: red_stop.json
+      pedestrian_result_file: crossing.json
+      pedestrian_safety_file: safety.json
+      lane_result_file: lane_lines.json

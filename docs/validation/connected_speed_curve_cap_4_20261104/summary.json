@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "kind": "connected_speed_validation",
+  "started_utc": "2026-11-03T15:59:25+00:00",
+  "config": {
+    "base_validation_config": "config/connected_validation.yaml",
+    "speeds_mps": [
+      4.0
+    ],
+    "repeats": 1,
+    "cases": [
+      "green_straight"
+    ]
+  },
+  "config_sha256": "8b663480062f5e10cab62c7b362eafb1ff5bf4f9ada19ec714208d5d2b6d3a0d",
+  "base_validation_sha256": "9f7f4b6f933746ab931e1070d19238346b74eb7dffb83c8955c2314bac05b4c2",
+  "git_commit": "9d514deb67f918502ff36ebdcf669e137f117f6d",
+  "working_tree_dirty": true,
+  "gui": false,
+  "criterion_note": "Route results use a 1.75 m chassis-corner distance to the configured path. A separate monitor checks painted centerline and lane-edge overlap on marked straight arms, excluding unmarked junctions. Red results use the independent front-bumper-to-stop-line monitor.",
+  "runs": [
+    {
+      "case": "green_straight",
+      "speed_mps": 4.0,
+      "repeat": 1,
+      "passed": true,
+      "record_file": "green_straight_4mps_rep01/record.json",
+      "measurements": {
+        "achieved_max_speed_mps": 3.3210361675701554,
+        "goal_reached": true,
+        "max_corner_error_m": 1.4592773023821741,
+        "outside_corridor_samples": 0,
+        "corridor_passed": true,
+        "painted_lane_passed": true,
+        "centerline_overlap_samples": 0,
+        "edge_line_overlap_samples": 0,
+        "max_centerline_overlap_m": 0.0,
+        "max_edge_line_overlap_m": 0.0
+      }
+    }
+  ],
+  "finished_utc": "2026-11-03T16:01:20+00:00",
+  "interrupted": false,
+  "all_passed": true
+}

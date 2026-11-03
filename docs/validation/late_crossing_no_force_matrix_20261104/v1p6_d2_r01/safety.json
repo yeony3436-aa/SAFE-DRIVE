@@ -1,0 +1,10 @@
+{
+  "collision": true,
+  "emergency_braking": true,
+  "min_distance": 0.7593618459303746,
+  "min_ttc": 2.9469626733116216,
+  "scenario_completed": true,
+  "scenario_id": "LATE-GREEN-CROSSING-0001",
+  "state": "COMPLETED",
+  "end_sim_time": 26.9
+}

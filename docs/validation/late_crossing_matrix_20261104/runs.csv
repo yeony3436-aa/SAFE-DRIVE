@@ -1,0 +1,7 @@
+case,requested_speed_mps,trigger_distance_m,repeat,event_valid,risk_observed,collision,minimum_actor_center_distance_m,ego_speed_at_entry_mps,ego_x_at_entry_m,entry_sim_time_s,vehicle_signal_at_entry,pedestrian_signal_at_entry,minimum_red_stop_gap_m,centerline_overlap_samples,edge_line_overlap_samples
+continuous_late_crossing,1.2,2.0,1,True,True,True,1.268924670223792,0.9855041334565965,-6.9855004580733135,19.1,GREEN,DONT_WALK,0.8486006347617732,175,0
+continuous_late_crossing,1.2,4.0,1,True,True,True,2.380340609030332,0.9662298000140263,-8.94519219563309,16.7,GREEN,DONT_WALK,0.8511981867804064,0,0
+continuous_late_crossing,1.2,8.0,1,True,False,False,3.864546921940723,0.3009635648062605,-12.125383559815617,12.9,GREEN,DONT_WALK,0.8489177012492153,0,0
+continuous_late_crossing,1.6,2.0,1,True,True,True,1.1800370514158962,1.3013184094134846,-6.959247972135419,17.4,GREEN,DONT_WALK,0.8437863382281865,115,0
+continuous_late_crossing,1.6,4.0,1,True,True,True,2.380023902999027,1.2521711638281159,-8.890355671698167,15.9,GREEN,DONT_WALK,0.8437863382281865,0,0
+continuous_late_crossing,1.6,8.0,1,True,False,False,3.012724612012705,0.31339253442446824,-12.132182493456844,12.6,GREEN,DONT_WALK,0.8437863382281865,0,0

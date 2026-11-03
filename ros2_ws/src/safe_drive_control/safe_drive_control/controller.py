@@ -75,6 +75,12 @@ class WaypointController:
         self._allow_in_place_rotation = allow_in_place_rotation
         self._path_heading_gain = path_heading_gain
         self._speed_profile = [self._target_speed] * len(self._waypoints)
+        self._distance_from_waypoint_to_goal = [0.0] * len(self._waypoints)
+        for index in range(len(self._waypoints) - 2, -1, -1):
+            self._distance_from_waypoint_to_goal[index] = (
+                self._distance_from_waypoint_to_goal[index + 1]
+                + math.dist(self._waypoints[index],
+                            self._waypoints[index + 1]))
         if max_lateral_acceleration > 0.0:
             for index in range(1, len(self._waypoints) - 1):
                 curvature = waypoint_curvature(
@@ -149,12 +155,13 @@ class WaypointController:
         if speed_limit is not None:
             linear = min(linear, speed_limit)
 
-        if self._waypoint_index == len(self._waypoints) - 1:
-            stopping_distance = max(0.0, distance - self._goal_tolerance)
-            stopping_speed = math.sqrt(
-                2.0 * self._max_linear_deceleration * stopping_distance
-            )
-            linear = min(linear, stopping_speed)
+        remaining_path = (
+            distance
+            + self._distance_from_waypoint_to_goal[self._waypoint_index])
+        stopping_distance = max(0.0, remaining_path - self._goal_tolerance)
+        stopping_speed = math.sqrt(
+            2.0 * self._max_linear_deceleration * stopping_distance)
+        linear = min(linear, stopping_speed)
 
         curvature = 2.0 * math.sin(heading_error) / effective_lookahead
         angular = linear * curvature

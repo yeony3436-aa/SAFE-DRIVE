@@ -130,6 +130,21 @@ def test_controller_slows_for_final_waypoint():
     assert 0.0 < command.linear < 1.0
 
 
+def test_controller_brakes_before_reaching_final_waypoint():
+    controller = WaypointController(
+        waypoints=[(2.0, 0.0), (4.0, 0.0), (6.0, 0.0)],
+        target_speed=4.0, goal_tolerance=0.1,
+        lookahead_distance=0.5, max_linear_speed=4.0,
+        max_angular_speed=1.0, max_linear_deceleration=1.0,
+    )
+
+    command = controller.calculate_command(2.5, 0.0, 0.0)
+
+    assert controller.waypoint_index == 1
+    assert 0.0 < command.linear < 4.0
+    assert command.linear == pytest.approx(math.sqrt(2.0 * 3.4))
+
+
 def test_speed_limit_applies_before_turn_curvature():
     controller = make_controller(waypoints=[(2.0, 1.0), (4.0, 1.0)])
     command = controller.calculate_command(0.0, 0.0, 0.0, speed_limit=0.4)

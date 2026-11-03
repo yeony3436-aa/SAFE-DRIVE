@@ -1,0 +1,3 @@
+case,requested_speed_mps,repeat,passed,achieved_max_speed_mps,approach_max_speed_mps,minimum_front_gap_m,stop_line_passed,collision,scenario_completed,goal_reached,max_corner_error_m,outside_corridor_samples,corridor_passed,painted_lane_passed,centerline_overlap_samples,edge_line_overlap_samples,max_centerline_overlap_m,max_edge_line_overlap_m
+red_crossing,6.0,1,True,2.535243531553727,2.535243531553727,0.7084017081506175,True,False,True,,,,,True,0,0,0.0,0.0
+continuous_right,6.0,1,True,4.673729263334226,0.9868803810875888,0.846309955221459,True,False,True,True,1.658863243275725,0,True,True,0,0,0.0,0.0

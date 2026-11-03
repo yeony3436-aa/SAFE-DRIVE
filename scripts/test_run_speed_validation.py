@@ -40,6 +40,22 @@ class SpeedValidationTests(unittest.TestCase):
         self.assertEqual(
             measurements(red, True)['achieved_max_speed_mps'], 1.1)
 
+    def test_continuous_case_uses_route_speed_and_reports_red_approach(self):
+        record = {'results': {
+            'red_result_file': {'max_speed_mps': 1.0,
+                                'minimum_front_gap_m': 0.8,
+                                'passed': True},
+            'result_file': {'max_speed_mps': 3.3, 'goal_reached': True,
+                            'max_corner_error_m': 1.5,
+                            'outside_corridor_samples': 0,
+                            'passed': True},
+            'pedestrian_safety_file': {'collision': False,
+                                       'scenario_completed': True}}}
+        values = measurements(record, True)
+        self.assertEqual(values['achieved_max_speed_mps'], 3.3)
+        self.assertEqual(values['approach_max_speed_mps'], 1.0)
+        self.assertTrue(values['goal_reached'])
+
 
 if __name__ == '__main__':
     unittest.main()

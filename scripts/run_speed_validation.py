@@ -55,14 +55,21 @@ def measurements(record: dict, pedestrian: bool) -> dict:
         'max_edge_line_overlap_m': lane.get('max_edge_line_overlap_m'),
     }
     if pedestrian:
-        result = results.get('red_result_file', {})
+        stop = results.get('red_result_file', {})
+        route = results.get('result_file', {})
         safety = results.get('pedestrian_safety_file', {})
         return {
-            'achieved_max_speed_mps': result.get('max_speed_mps'),
-            'minimum_front_gap_m': result.get('minimum_front_gap_m'),
-            'stop_line_passed': result.get('passed'),
+            'achieved_max_speed_mps': route.get(
+                'max_speed_mps', stop.get('max_speed_mps')),
+            'approach_max_speed_mps': stop.get('max_speed_mps'),
+            'minimum_front_gap_m': stop.get('minimum_front_gap_m'),
+            'stop_line_passed': stop.get('passed'),
             'collision': safety.get('collision'),
             'scenario_completed': safety.get('scenario_completed'),
+            'goal_reached': route.get('goal_reached'),
+            'max_corner_error_m': route.get('max_corner_error_m'),
+            'outside_corridor_samples': route.get('outside_corridor_samples'),
+            'corridor_passed': route.get('passed'),
             **lane_values,
         }
     result = results.get('result_file', {})
@@ -84,6 +91,8 @@ def main() -> int:
                         help='Only run this named case; may be repeated')
     parser.add_argument('--speed', type=float, action='append',
                         help='Only run this speed in m/s; may be repeated')
+    parser.add_argument('--gui', action='store_true',
+                        help='Show Gazebo GUI for each selected case')
     parser.add_argument('--timeout-wall', type=float, default=420.0)
     args = parser.parse_args()
     config = yaml.safe_load(args.config.read_text(encoding='utf-8'))
@@ -97,6 +106,8 @@ def main() -> int:
     selected = {**config, 'cases': names, 'speeds_mps': speeds}
     validate(selected, base_cases)
     output = args.output_dir.resolve()
+    if output.exists():
+        parser.error(f'output directory exists: {output}; use a new path')
     output.mkdir(parents=True, exist_ok=False)
     variants = output / 'route_variants'
     variants.mkdir()
@@ -107,6 +118,7 @@ def main() -> int:
         'base_validation_sha256': sha256(base_path),
         'git_commit': git_value('rev-parse', 'HEAD'),
         'working_tree_dirty': bool(git_value('status', '--porcelain')),
+        'gui': args.gui,
         'criterion_note': (
             'Route results use a 1.75 m chassis-corner distance to the '
             'configured path. A separate monitor checks painted centerline '
@@ -116,12 +128,17 @@ def main() -> int:
         'runs': [],
     }
     rows = []
+    interrupted = False
     for name in names:
+        if interrupted:
+            break
         base_case = base_cases[name]
         route_source = ROOT / 'ros2_ws/src/safe_drive_control/config' / (
             base_case['route_config'])
         template = yaml.safe_load(route_source.read_text(encoding='utf-8'))
         for speed in speeds:
+            if interrupted:
+                break
             for repeat in range(1, config['repeats'] + 1):
                 tag = f'{name}_{speed:g}mps_rep{repeat:02d}'.replace('.', 'p')
                 route_path = variants / f'{tag}.yaml'
@@ -130,7 +147,8 @@ def main() -> int:
                                    sort_keys=False), encoding='utf-8')
                 case = {**base_case, 'route_config': str(route_path)}
                 print(f'Running {tag}', flush=True)
-                record = run_case(tag, case, output, args.timeout_wall)
+                record = run_case(tag, case, output, args.timeout_wall,
+                                  gui=args.gui)
                 observed = measurements(record, bool(base_case['pedestrian']))
                 record.update({
                     'requested_speed_mps': float(speed),
@@ -151,10 +169,18 @@ def main() -> int:
                     'repeat': repeat, 'passed': record['passed'],
                     **observed,
                 })
-                print(f"{tag}: {'PASS' if record['passed'] else 'FAIL'}",
-                      flush=True)
+                status = ('INTERRUPTED' if record.get('interrupted') else
+                          'PASS' if record['passed'] else 'FAIL')
+                detail = (f" ({record['error']})"
+                          if record.get('error') else '')
+                print(f'{tag}: {status}{detail}', flush=True)
+                if record.get('interrupted'):
+                    interrupted = True
+                    break
     summary['finished_utc'] = utc_now()
-    summary['all_passed'] = all(run['passed'] for run in summary['runs'])
+    summary['interrupted'] = interrupted
+    summary['all_passed'] = (not interrupted
+                             and all(run['passed'] for run in summary['runs']))
     (output / 'summary.json').write_text(
         json.dumps(summary, indent=2) + '\n', encoding='utf-8')
     fields = list(dict.fromkeys(key for row in rows for key in row))
@@ -163,7 +189,7 @@ def main() -> int:
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
-    return 0 if summary['all_passed'] else 1
+    return 130 if interrupted else (0 if summary['all_passed'] else 1)
 
 
 if __name__ == '__main__':

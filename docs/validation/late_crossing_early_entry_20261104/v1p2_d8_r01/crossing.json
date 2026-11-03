@@ -1,0 +1,18 @@
+{
+  "scenario_id": "LATE-GREEN-CROSSING-0001",
+  "type": "signal_crossing",
+  "crossing_x_m": -5.0,
+  "start_y_m": -4.25,
+  "end_y_m": 5.2,
+  "pedestrian_speed_mps": 1.0,
+  "start_signal": "DONT_WALK",
+  "start_vehicle_signal": "GREEN",
+  "start_ego_x_m": -12.192328141959484,
+  "start_ego_speed_mps": -0.0023572575319083366,
+  "late_trigger_distance_m": 8.0,
+  "start_sim_time": 12.3,
+  "end_sim_time": 21.8,
+  "completed": true,
+  "final_y_m": 5.2,
+  "seed": null
+}

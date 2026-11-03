@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "continuous_late_crossing_sweep",
+  "started_utc": "2026-11-03T15:08:44+00:00",
+  "config": {
+    "base_validation_config": "config/connected_validation.yaml",
+    "case": "continuous_late_crossing",
+    "speeds_mps": [
+      1.2,
+      1.6
+    ],
+    "trigger_distances_m": [
+      8.0
+    ],
+    "repeats": 1
+  },
+  "config_sha256": "8db5a2382c218fd3aef3396f3876dda7d56b0114ebe4590a533f2237c1c26e36",
+  "base_validation_sha256": "9f7f4b6f933746ab931e1070d19238346b74eb7dffb83c8955c2314bac05b4c2",
+  "git_commit": "9d514deb67f918502ff36ebdcf669e137f117f6d",
+  "working_tree_dirty": true,
+  "criterion_note": "Valid means red stop, moving green/DONT_WALK entry, completed crossing, and finite distance were measured. Risk means contact or actor-center distance below the configured 1.5 m threshold. Route completion and painted-line compliance are separate.",
+  "runs": [
+    {
+      "case": "continuous_late_crossing",
+      "requested_speed_mps": 1.2,
+      "trigger_distance_m": 8.0,
+      "repeat": 1,
+      "event_valid": true,
+      "risk_observed": false,
+      "collision": false,
+      "minimum_actor_center_distance_m": 4.076119620695791,
+      "ego_speed_at_entry_mps": 0.08037468030570179,
+      "ego_x_at_entry_m": -12.187487681609396,
+      "entry_sim_time_s": 12.8,
+      "vehicle_signal_at_entry": "GREEN",
+      "pedestrian_signal_at_entry": "DONT_WALK",
+      "minimum_red_stop_gap_m": 0.8486006347617732,
+      "centerline_overlap_samples": 0,
+      "edge_line_overlap_samples": 0,
+      "record_file": "v1p2_d8_r01/record.json"
+    },
+    {
+      "case": "continuous_late_crossing",
+      "requested_speed_mps": 1.6,
+      "trigger_distance_m": 8.0,
+      "repeat": 1,
+      "event_valid": true,
+      "risk_observed": false,
+      "collision": false,
+      "minimum_actor_center_distance_m": 3.195839181542319,
+      "ego_speed_at_entry_mps": 0.08341556477415116,
+      "ego_x_at_entry_m": -12.180688576137287,
+      "entry_sim_time_s": 12.4,
+      "vehicle_signal_at_entry": "GREEN",
+      "pedestrian_signal_at_entry": "DONT_WALK",
+      "minimum_red_stop_gap_m": 0.8402028813693327,
+      "centerline_overlap_samples": 0,
+      "edge_line_overlap_samples": 0,
+      "record_file": "v1p6_d8_r01/record.json"
+    }
+  ],
+  "finished_utc": "2026-11-03T15:09:36+00:00",
+  "all_valid": true
+}

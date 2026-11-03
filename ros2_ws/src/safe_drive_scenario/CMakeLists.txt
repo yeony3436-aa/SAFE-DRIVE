@@ -21,6 +21,7 @@ install(
 install(
   FILES config/sudden_pedestrian.yaml config/traffic_signal.yaml config/signal_crossing.yaml
         config/unsignalized_crossing.yaml config/late_green_crossing.yaml
+        config/late_crossing_demo.yaml config/late_crossing_demo_contact.yaml
   DESTINATION share/${PROJECT_NAME}/config
 )
 

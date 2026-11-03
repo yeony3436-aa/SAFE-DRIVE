@@ -1,0 +1,999 @@
+{
+  "case": "continuous_right_6mps_rep01",
+  "configuration": {
+    "route_config": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/route_variants/continuous_right_6mps_rep01.yaml",
+    "spawn_x": -16.0,
+    "fixed_state": "",
+    "pedestrian": true,
+    "monitor_red_stop": true,
+    "expected": {
+      "red_result_file": "red_stop.json",
+      "pedestrian_result_file": "crossing.json",
+      "pedestrian_safety_file": "safety.json",
+      "result_file": "route.json",
+      "lane_result_file": "lane_lines.json"
+    }
+  },
+  "seed": null,
+  "started_utc": "2026-11-03T16:07:16+00:00",
+  "command": [
+    "ros2",
+    "launch",
+    "safe_drive_bringup",
+    "signal_intersection.launch.py",
+    "gui:=false",
+    "world_file:=connected_road.world",
+    "spawn_x:=-16.0",
+    "route_config:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/route_variants/continuous_right_6mps_rep01.yaml",
+    "monitor_red_stop:=true",
+    "pedestrian:=true",
+    "crossing_config:=signal_crossing.yaml",
+    "red_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/red_stop.json",
+    "pedestrian_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/crossing.json",
+    "pedestrian_safety_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/safety.json",
+    "result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/route.json",
+    "lane_result_file:=/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/lane_lines.json"
+  ],
+  "expected_files": {
+    "red_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/red_stop.json",
+    "pedestrian_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/crossing.json",
+    "pedestrian_safety_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/safety.json",
+    "result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/route.json",
+    "lane_result_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/continuous_right_6mps_rep01/lane_lines.json"
+  },
+  "input_sha256": {
+    "ros2_ws/src/safe_drive_sim/worlds/connected_road.world": "dc0e1b95c51eaeeb0491bfcf4aa4494f893296c7468b32d34b4c719caac6169e",
+    "docs/validation/connected_speed_signal_and_mission_6_20261104/route_variants/continuous_right_6mps_rep01.yaml": "c8645c60556a8a2b38b78e6cba9bca40fe4db98a9bc7e43da897052b62f3c489",
+    "ros2_ws/src/safe_drive_control/config/signal_controller.yaml": "42b4a013becc706d76836d3ad5aa9896de5f72bb2ea9eef297d30adc0020f609",
+    "ros2_ws/src/safe_drive_scenario/config/traffic_signal.yaml": "4f075c20ae1884b90bef1b19604922c0bf009b3312ab92b715950188789393cf",
+    "ros2_ws/src/safe_drive_scenario/config/signal_crossing.yaml": "dfc99d6fa3542654f055ee049c4d53e76909586fafc6434f2e45a2ce5aac7d1e"
+  },
+  "results": {
+    "red_result_file": {
+      "scenario": "fixed_red_stop",
+      "signal_observed": "RED",
+      "start_sim_time": 0.205,
+      "end_sim_time": 10.425,
+      "sample_count": 512,
+      "stop_line_x_m": -9.25,
+      "front_offset_m": 2.1,
+      "required_margin_m": 0.6,
+      "approach_window_m": 3.0,
+      "speed_threshold_mps": 0.15,
+      "settle_seconds": 5.0,
+      "final_center_x_m": -12.196309955221459,
+      "final_front_x_m": -10.096309955221459,
+      "minimum_front_gap_m": 0.846309955221459,
+      "final_speed_mps": 0.0015362912411136032,
+      "max_speed_mps": 0.9868803810875888,
+      "reason": "stopped_with_margin",
+      "passed": true,
+      "measurement": "odometry x plus configured front offset; fixed red signal ROS topic"
+    },
+    "pedestrian_result_file": {
+      "scenario_id": "SIGNAL-CROSSING-0001",
+      "type": "signal_crossing",
+      "crossing_x_m": -5.0,
+      "start_y_m": -4.25,
+      "end_y_m": 5.2,
+      "pedestrian_speed_mps": 1.0,
+      "start_signal": "WALK",
+      "start_vehicle_signal": null,
+      "start_ego_x_m": null,
+      "start_ego_speed_mps": null,
+      "late_trigger_distance_m": 0.0,
+      "late_trigger_min_speed_mps": 0.05,
+      "start_sim_time": 0.4,
+      "end_sim_time": 9.9,
+      "completed": true,
+      "final_y_m": 5.2,
+      "seed": null
+    },
+    "pedestrian_safety_file": {
+      "collision": false,
+      "emergency_braking": true,
+      "min_distance": 7.695091862248596,
+      "min_ttc": 9.277475155060861,
+      "scenario_completed": true,
+      "scenario_id": "SIGNAL-CROSSING-0001",
+      "state": "COMPLETED",
+      "end_sim_time": 9.9
+    },
+    "result_file": {
+      "route_file": "/home/suyeon/workspace/SAFE_DRIVE/docs/validation/connected_speed_signal_and_mission_6_20261104/route_variants/continuous_right_6mps_rep01.yaml",
+      "route_parameters": {
+        "use_sim_time": true,
+        "drive_mode": "ackermann",
+        "wheelbase": 2.5,
+        "max_steer": 0.7,
+        "target_speed": 6.0,
+        "goal_tolerance": 0.7,
+        "lookahead_distance": 1.5,
+        "max_linear_speed": 6.0,
+        "max_angular_speed": 0.8,
+        "max_linear_deceleration": 0.8,
+        "turn_speed": 0.0,
+        "straight_tracking_enabled": false,
+        "control_rate_hz": 20.0,
+        "odom_timeout": 0.5,
+        "waypoint_x": [
+          -25.0,
+          -22.5,
+          -20.0,
+          -17.5,
+          -15.0,
+          -13.0,
+          -11.0,
+          -9.0,
+          -7.25,
+          -5.5,
+          -3.75,
+          -3.055,
+          -2.382,
+          -1.75,
+          -1.179,
+          -0.686,
+          -0.286,
+          0.009,
+          0.189,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.189,
+          0.009,
+          -0.286,
+          -0.686,
+          -1.179,
+          -1.75,
+          -2.382,
+          -3.055,
+          -3.75,
+          -6.0,
+          -8.25,
+          -10.5,
+          -12.75,
+          -15.0,
+          -17.179,
+          -19.357,
+          -21.536,
+          -23.714,
+          -25.893,
+          -28.071,
+          -30.25,
+          -30.945,
+          -31.618,
+          -32.25,
+          -32.821,
+          -33.314,
+          -33.714,
+          -34.009,
+          -34.189,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.25,
+          -34.189,
+          -34.009,
+          -33.714,
+          -33.314,
+          -32.821,
+          -32.25,
+          -31.618,
+          -30.945,
+          -30.25,
+          -28.625,
+          -27.0
+        ],
+        "waypoint_y": [
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.75,
+          -1.811,
+          -1.991,
+          -2.286,
+          -2.686,
+          -3.179,
+          -3.75,
+          -4.382,
+          -5.055,
+          -5.75,
+          -8.125,
+          -10.5,
+          -12.875,
+          -15.25,
+          -17.625,
+          -20.0,
+          -22.5,
+          -25.0,
+          -27.5,
+          -30.0,
+          -32.5,
+          -35.0,
+          -37.5,
+          -40.0,
+          -42.05,
+          -44.1,
+          -46.15,
+          -48.2,
+          -50.25,
+          -50.945,
+          -51.618,
+          -52.25,
+          -52.821,
+          -53.314,
+          -53.714,
+          -54.009,
+          -54.189,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.25,
+          -54.189,
+          -54.009,
+          -53.714,
+          -53.314,
+          -52.821,
+          -52.25,
+          -51.618,
+          -50.945,
+          -50.25,
+          -48.071,
+          -45.893,
+          -43.714,
+          -41.536,
+          -39.357,
+          -37.179,
+          -35.0,
+          -32.5,
+          -30.0,
+          -27.5,
+          -25.0,
+          -22.5,
+          -20.0,
+          -17.5,
+          -15.0,
+          -12.688,
+          -10.375,
+          -8.062,
+          -5.75,
+          -5.055,
+          -4.382,
+          -3.75,
+          -3.179,
+          -2.686,
+          -2.286,
+          -1.991,
+          -1.811,
+          -1.75,
+          -1.75,
+          -1.75
+        ],
+        "path_heading_gain": 1.0,
+        "max_lateral_acceleration": 0.36
+      },
+      "seed": null,
+      "start_sim_time": 0.165,
+      "end_sim_time": 85.645,
+      "sample_count": 4275,
+      "goal_reached": true,
+      "goal_position": {
+        "x": -27.67411640558734,
+        "y": -2.0335005294534474
+      },
+      "goal_distance_m": 0.7313039576553526,
+      "final_speed_mps": 0.014744779834369393,
+      "max_speed_mps": 4.673729263334226,
+      "lane_half_width_m": 1.75,
+      "vehicle_length_m": 4.2,
+      "vehicle_width_m": 1.8,
+      "goal_tolerance_m": 0.75,
+      "max_center_error_m": 0.29409293324619057,
+      "max_corner_error_m": 1.658863243275725,
+      "outside_corridor_samples": 0,
+      "corridor_clear": true,
+      "passed": true,
+      "worst_pose": {
+        "x": -34.031506773329696,
+        "y": -50.93411379247971,
+        "yaw": 2.1302860920764113
+      },
+      "measurement": "distance of chassis corners to configured route polyline",
+      "trace_1hz": [
+        {
+          "sim_time": 0.165,
+          "x": -16.000016314918923,
+          "y": -1.7500001070564841,
+          "yaw": -4.078075196641275e-08,
+          "speed_mps": 0.0017373319622897647
+        },
+        {
+          "sim_time": 1.165,
+          "x": -15.55488382828412,
+          "y": -1.7500002784767716,
+          "yaw": -5.508658162441006e-06,
+          "speed_mps": 0.7169523952008993
+        },
+        {
+          "sim_time": 2.165,
+          "x": -14.667691464710057,
+          "y": -1.7495338959356534,
+          "yaw": 0.0002768692283904695,
+          "speed_mps": 0.9348140091770882
+        },
+        {
+          "sim_time": 3.165,
+          "x": -13.69484330698489,
+          "y": -1.7500894491938515,
+          "yaw": -9.950983963546573e-05,
+          "speed_mps": 0.9205327829123009
+        },
+        {
+          "sim_time": 4.165,
+          "x": -12.857305294623037,
+          "y": -1.7458901030268448,
+          "yaw": 0.002584087811275196,
+          "speed_mps": 0.6736442962220947
+        },
+        {
+          "sim_time": 5.165,
+          "x": -12.360994408563172,
+          "y": -1.7468524214452827,
+          "yaw": 0.0010549588086306008,
+          "speed_mps": 0.2241140037853451
+        },
+        {
+          "sim_time": 6.165,
+          "x": -12.247675053250644,
+          "y": -1.7472463689637758,
+          "yaw": 0.0006628230985033317,
+          "speed_mps": 0.04193861132918931
+        },
+        {
+          "sim_time": 7.165,
+          "x": -12.22082484162941,
+          "y": -1.7473396842340436,
+          "yaw": 0.0005747635195411742,
+          "speed_mps": 0.008013012794159845
+        },
+        {
+          "sim_time": 8.185,
+          "x": -12.210229092844452,
+          "y": -1.747375295536324,
+          "yaw": 0.0005414538639292495,
+          "speed_mps": 0.0011568767972287006
+        },
+        {
+          "sim_time": 9.185,
+          "x": -12.203357303356844,
+          "y": -1.7473975625219735,
+          "yaw": 0.0005199055364555285,
+          "speed_mps": 0.0005829663575589711
+        },
+        {
+          "sim_time": 10.185,
+          "x": -12.197592122990532,
+          "y": -1.7474154737398382,
+          "yaw": 0.0005020430944622552,
+          "speed_mps": 0.001385153362532904
+        },
+        {
+          "sim_time": 11.185,
+          "x": -12.192462145771483,
+          "y": -1.7474315734194497,
+          "yaw": 0.00048678002724690034,
+          "speed_mps": 0.001970570629410947
+        },
+        {
+          "sim_time": 12.185,
+          "x": -12.187840533074121,
+          "y": -1.7474457797626364,
+          "yaw": 0.0004734791897850489,
+          "speed_mps": 0.0024750698470339333
+        },
+        {
+          "sim_time": 13.185,
+          "x": -11.346486211305983,
+          "y": -1.7504149708886063,
+          "yaw": -0.0026703299215463682,
+          "speed_mps": 1.5688835898200315
+        },
+        {
+          "sim_time": 14.185,
+          "x": -9.417925071195482,
+          "y": -1.760254974187446,
+          "yaw": -0.004046782829603945,
+          "speed_mps": 2.1609877276005918
+        },
+        {
+          "sim_time": 15.185,
+          "x": -7.187652451953087,
+          "y": -1.7575427852646983,
+          "yaw": 0.0011399438811289927,
+          "speed_mps": 2.184253880235026
+        },
+        {
+          "sim_time": 16.205,
+          "x": -5.104677538550827,
+          "y": -1.7443228041331749,
+          "yaw": 0.005387988896340767,
+          "speed_mps": 1.815282135529085
+        },
+        {
+          "sim_time": 17.205,
+          "x": -3.499759659825281,
+          "y": -1.810600763280568,
+          "yaw": -0.04395114636131625,
+          "speed_mps": 1.3738762855378768
+        },
+        {
+          "sim_time": 18.205,
+          "x": -2.37817063737191,
+          "y": -2.1849093286314383,
+          "yaw": -0.23367721724731366,
+          "speed_mps": 1.0704791501899549
+        },
+        {
+          "sim_time": 19.205,
+          "x": -1.5186710895090685,
+          "y": -2.759443620150396,
+          "yaw": -0.4450708971026312,
+          "speed_mps": 1.002857638172615
+        },
+        {
+          "sim_time": 20.205,
+          "x": -0.8480268782183227,
+          "y": -3.4334312929744297,
+          "yaw": -0.6388140869566724,
+          "speed_mps": 0.911727840080141
+        },
+        {
+          "sim_time": 21.205,
+          "x": -0.34518828881430036,
+          "y": -4.223709546245278,
+          "yaw": -0.837832920425858,
+          "speed_mps": 0.916428783936385
+        },
+        {
+          "sim_time": 22.205,
+          "x": 0.027823857788537694,
+          "y": -5.231235902208067,
+          "yaw": -1.07237721119167,
+          "speed_mps": 1.2608073823246992
+        },
+        {
+          "sim_time": 23.205,
+          "x": 0.40458176687711206,
+          "y": -7.465301566606718,
+          "yaw": -1.380276986611388,
+          "speed_mps": 3.0409725837276027
+        },
+        {
+          "sim_time": 24.205,
+          "x": 0.27713838141743585,
+          "y": -11.030317869816207,
+          "yaw": -1.6490888434774487,
+          "speed_mps": 3.9348304522482898
+        },
+        {
+          "sim_time": 25.205,
+          "x": 0.08077013921715083,
+          "y": -15.181599415079837,
+          "yaw": -1.5625315861828266,
+          "speed_mps": 4.189126818961603
+        },
+        {
+          "sim_time": 26.205,
+          "x": 0.375237882940214,
+          "y": -19.559482688822627,
+          "yaw": -1.5248746954474852,
+          "speed_mps": 4.451442437225389
+        },
+        {
+          "sim_time": 27.205,
+          "x": 0.10358486178112833,
+          "y": -24.14785717552144,
+          "yaw": -1.6371344508196501,
+          "speed_mps": 4.654216267155867
+        },
+        {
+          "sim_time": 28.205,
+          "x": 0.3302814560403859,
+          "y": -28.755874761852,
+          "yaw": -1.4889247528903597,
+          "speed_mps": 4.594134410593241
+        },
+        {
+          "sim_time": 29.205,
+          "x": 0.22277439902000898,
+          "y": -33.292005743325014,
+          "yaw": -1.6426629437224207,
+          "speed_mps": 4.433524598886766
+        },
+        {
+          "sim_time": 30.205,
+          "x": 0.181146267980977,
+          "y": -37.49505985311599,
+          "yaw": -1.5267186067814582,
+          "speed_mps": 3.883465445735699
+        },
+        {
+          "sim_time": 31.205,
+          "x": 0.3986023429402873,
+          "y": -41.14743584541482,
+          "yaw": -1.553350430696432,
+          "speed_mps": 3.3401884849560495
+        },
+        {
+          "sim_time": 32.205,
+          "x": 0.05886477929043697,
+          "y": -44.262389737957776,
+          "yaw": -1.651295130950914,
+          "speed_mps": 2.80998034739068
+        },
+        {
+          "sim_time": 33.205,
+          "x": 0.33663443055098013,
+          "y": -46.663604191076665,
+          "yaw": -1.4565967584760666,
+          "speed_mps": 2.033407276786035
+        },
+        {
+          "sim_time": 34.205,
+          "x": 0.416942359560313,
+          "y": -48.326558559163395,
+          "yaw": -1.53895320426333,
+          "speed_mps": 1.3463237615731791
+        },
+        {
+          "sim_time": 35.205,
+          "x": 0.23115518504493418,
+          "y": -49.63571602661391,
+          "yaw": -1.648659594697537,
+          "speed_mps": 1.28969451120837
+        },
+        {
+          "sim_time": 36.205,
+          "x": 0.1663826705672373,
+          "y": -50.811726934844366,
+          "yaw": -1.6332683250869022,
+          "speed_mps": 1.0918341798730156
+        },
+        {
+          "sim_time": 37.205,
+          "x": -0.12948602629465988,
+          "y": -51.72353219001966,
+          "yaw": -1.7807993777041333,
+          "speed_mps": 0.9459276302060693
+        },
+        {
+          "sim_time": 38.205,
+          "x": -0.6611323459681898,
+          "y": -52.53013455835061,
+          "yaw": -1.9929505417010207,
+          "speed_mps": 0.9275730535205406
+        },
+        {
+          "sim_time": 39.205,
+          "x": -1.3805371050022368,
+          "y": -53.176588369104195,
+          "yaw": -2.214074501132933,
+          "speed_mps": 0.8934358584750313
+        },
+        {
+          "sim_time": 40.205,
+          "x": -2.220857780744874,
+          "y": -53.67778335205794,
+          "yaw": -2.4303034443425524,
+          "speed_mps": 0.9261172236341249
+        },
+        {
+          "sim_time": 41.205,
+          "x": -3.305032548547386,
+          "y": -54.03141422425835,
+          "yaw": -2.678899711407429,
+          "speed_mps": 1.3858670607674561
+        },
+        {
+          "sim_time": 42.205,
+          "x": -5.699947215713825,
+          "y": -54.404873515588655,
+          "yaw": -2.982301777800927,
+          "speed_mps": 3.152021307667126
+        },
+        {
+          "sim_time": 43.205,
+          "x": -9.382911171903464,
+          "y": -54.18610999371276,
+          "yaw": 3.0552095764533256,
+          "speed_mps": 4.065541777589763
+        },
+        {
+          "sim_time": 44.205,
+          "x": -13.49192434529272,
+          "y": -54.22106142543338,
+          "yaw": -3.0892494445690835,
+          "speed_mps": 4.064711568650771
+        },
+        {
+          "sim_time": 45.205,
+          "x": -17.509810207797894,
+          "y": -54.25699790979074,
+          "yaw": 3.105785969667344,
+          "speed_mps": 3.898125585076589
+        },
+        {
+          "sim_time": 46.205,
+          "x": -21.200810822083188,
+          "y": -54.19506708408522,
+          "yaw": -3.1123468997531054,
+          "speed_mps": 3.409513406848597
+        },
+        {
+          "sim_time": 47.205,
+          "x": -24.290690944887658,
+          "y": -54.43337617776011,
+          "yaw": -3.1046929691888656,
+          "speed_mps": 2.7486202085258684
+        },
+        {
+          "sim_time": 48.205,
+          "x": -26.800857450065884,
+          "y": -54.099835976745815,
+          "yaw": 3.0201371941403514,
+          "speed_mps": 2.240142007029691
+        },
+        {
+          "sim_time": 49.205,
+          "x": -28.57770234620123,
+          "y": -54.196585182136445,
+          "yaw": -3.1027768865702354,
+          "speed_mps": 1.4767523755876102
+        },
+        {
+          "sim_time": 50.205,
+          "x": -29.956973699298327,
+          "y": -54.25070916449498,
+          "yaw": -3.1178859930038305,
+          "speed_mps": 1.239107908965325
+        },
+        {
+          "sim_time": 51.205,
+          "x": -31.10932211073486,
+          "y": -54.02117311828073,
+          "yaw": 3.0213069906218832,
+          "speed_mps": 1.1035513983071024
+        },
+        {
+          "sim_time": 52.205,
+          "x": -32.023925976855224,
+          "y": -53.55241290901654,
+          "yaw": 2.808982512556209,
+          "speed_mps": 0.9372616411801918
+        },
+        {
+          "sim_time": 53.205,
+          "x": -32.81577459101714,
+          "y": -52.92936572742647,
+          "yaw": 2.6243303533235465,
+          "speed_mps": 0.9806554185138279
+        },
+        {
+          "sim_time": 54.205,
+          "x": -33.44189833392765,
+          "y": -52.19524227784638,
+          "yaw": 2.4343833292438615,
+          "speed_mps": 0.9122064094411553
+        },
+        {
+          "sim_time": 55.205,
+          "x": -33.89860707311923,
+          "y": -51.34150305808706,
+          "yaw": 2.2253238629035055,
+          "speed_mps": 1.002764781448914
+        },
+        {
+          "sim_time": 56.205,
+          "x": -34.313209573481004,
+          "y": -49.75594903913266,
+          "yaw": 1.9164628783515505,
+          "speed_mps": 2.394131532070901
+        },
+        {
+          "sim_time": 57.205,
+          "x": -34.52765641333226,
+          "y": -46.623428853834824,
+          "yaw": 1.611939452226691,
+          "speed_mps": 3.630049640080383
+        },
+        {
+          "sim_time": 58.205,
+          "x": -34.072079464547464,
+          "y": -42.615355099387955,
+          "yaw": 1.4553347945939097,
+          "speed_mps": 4.264148909581104
+        },
+        {
+          "sim_time": 59.205,
+          "x": -34.164031350135446,
+          "y": -38.340997535567666,
+          "yaw": 1.6432690574862079,
+          "speed_mps": 4.331447928246771
+        },
+        {
+          "sim_time": 60.205,
+          "x": -34.4016261112099,
+          "y": -33.90765895340473,
+          "yaw": 1.5724350684486232,
+          "speed_mps": 4.4902659855339975
+        },
+        {
+          "sim_time": 61.205,
+          "x": -34.052749390027614,
+          "y": -29.35090677292836,
+          "yaw": 1.5265378785546608,
+          "speed_mps": 4.519851732643348
+        },
+        {
+          "sim_time": 62.205,
+          "x": -34.35732309553864,
+          "y": -24.848900239626552,
+          "yaw": 1.6403026418966606,
+          "speed_mps": 4.456508081750892
+        },
+        {
+          "sim_time": 63.205,
+          "x": -34.16137664753734,
+          "y": -20.49787112677424,
+          "yaw": 1.5023274288366926,
+          "speed_mps": 4.230449183816744
+        },
+        {
+          "sim_time": 64.205,
+          "x": -34.262915721069504,
+          "y": -16.579224118532487,
+          "yaw": 1.6350571635370001,
+          "speed_mps": 3.647155262394758
+        },
+        {
+          "sim_time": 65.205,
+          "x": -34.262704875769415,
+          "y": -13.146023576698253,
+          "yaw": 1.541348405685467,
+          "speed_mps": 3.22457159440006
+        },
+        {
+          "sim_time": 66.205,
+          "x": -34.1999473316045,
+          "y": -10.201720613448632,
+          "yaw": 1.577725470720428,
+          "speed_mps": 2.5652767650791413
+        },
+        {
+          "sim_time": 67.205,
+          "x": -34.26546097934976,
+          "y": -7.868551929277624,
+          "yaw": 1.5782685318380778,
+          "speed_mps": 2.050349221967503
+        },
+        {
+          "sim_time": 68.205,
+          "x": -34.230164338043835,
+          "y": -6.07701910557923,
+          "yaw": 1.5609252944179883,
+          "speed_mps": 1.5426316614165296
+        },
+        {
+          "sim_time": 69.205,
+          "x": -34.044795935131646,
+          "y": -4.775457514661222,
+          "yaw": 1.4563300718212195,
+          "speed_mps": 1.1178876047322341
+        },
+        {
+          "sim_time": 70.205,
+          "x": -33.547079758616434,
+          "y": -3.85221827891861,
+          "yaw": 1.2281216256465093,
+          "speed_mps": 0.9662957062268184
+        },
+        {
+          "sim_time": 71.205,
+          "x": -32.88623409868502,
+          "y": -3.117161360999291,
+          "yaw": 1.01138464823277,
+          "speed_mps": 0.9302450060787645
+        },
+        {
+          "sim_time": 72.205,
+          "x": -32.132047504315224,
+          "y": -2.547037409061069,
+          "yaw": 0.8141883652674962,
+          "speed_mps": 0.8939463584807736
+        },
+        {
+          "sim_time": 73.205,
+          "x": -31.257103398630274,
+          "y": -2.137122215279286,
+          "yaw": 0.6033903434975001,
+          "speed_mps": 0.9985420387235319
+        },
+        {
+          "sim_time": 74.205,
+          "x": -29.972960129144052,
+          "y": -1.902676116135636,
+          "yaw": 0.3175132549499336,
+          "speed_mps": 1.4372167357468737
+        },
+        {
+          "sim_time": 75.205,
+          "x": -28.51193011127594,
+          "y": -1.9858308023606466,
+          "yaw": 0.051085764412201466,
+          "speed_mps": 1.354387243614127
+        },
+        {
+          "sim_time": 76.205,
+          "x": -27.574110993909883,
+          "y": -2.025346197198389,
+          "yaw": 0.020442155398761645,
+          "speed_mps": 0.19201476343804064
+        },
+        {
+          "sim_time": 77.205,
+          "x": -27.570567437075308,
+          "y": -2.0249566629224987,
+          "yaw": 0.023428861755558084,
+          "speed_mps": 0.013069011472271755
+        },
+        {
+          "sim_time": 78.205,
+          "x": -27.57901560658002,
+          "y": -2.0261791272096774,
+          "yaw": 0.022594090829735392,
+          "speed_mps": 0.021169864735119018
+        },
+        {
+          "sim_time": 79.205,
+          "x": -27.59447044209488,
+          "y": -2.027907667440506,
+          "yaw": 0.021466640477081318,
+          "speed_mps": 0.024121920328648745
+        },
+        {
+          "sim_time": 80.205,
+          "x": -27.61054030177835,
+          "y": -2.0293711142445425,
+          "yaw": 0.020552102147069283,
+          "speed_mps": 0.023396210074182983
+        },
+        {
+          "sim_time": 81.205,
+          "x": -27.62606124274834,
+          "y": -2.030559045439474,
+          "yaw": 0.01984180146850629,
+          "speed_mps": 0.02217161737281902
+        },
+        {
+          "sim_time": 82.205,
+          "x": -27.63991821887454,
+          "y": -2.0315296380352392,
+          "yaw": 0.019273234532228362,
+          "speed_mps": 0.019893548244509358
+        },
+        {
+          "sim_time": 83.205,
+          "x": -27.6517256077327,
+          "y": -2.032288401744539,
+          "yaw": 0.018839646019990795,
+          "speed_mps": 0.017710598693839372
+        },
+        {
+          "sim_time": 84.205,
+          "x": -27.661650130178632,
+          "y": -2.0328673747839017,
+          "yaw": 0.018520064287249265,
+          "speed_mps": 0.015974548301808056
+        },
+        {
+          "sim_time": 85.205,
+          "x": -27.67046295011815,
+          "y": -2.033325098587756,
+          "yaw": 0.01827978494191722,
+          "speed_mps": 0.01509942618353042
+        }
+      ]
+    },
+    "lane_result_file": {
+      "measurement": "chassis corners overlapping painted centerline or lane-edge footprints on marked straight arms; unpainted junctions excluded",
+      "markings_file": "/home/suyeon/workspace/SAFE_DRIVE/ros2_ws/install/safe_drive_sim/share/safe_drive_sim/config/connected_road_markings.json",
+      "markings_sha256": "1a3d94e86a2e6934f341d0a272cbe1870f9c2cad471d2aae4fabcacf387e4d3d",
+      "vehicle_length_m": 4.2,
+      "vehicle_width_m": 1.8,
+      "start_sim_time": 0.165,
+      "end_sim_time": 85.925,
+      "odom_samples": 4289,
+      "checked_samples": 4289,
+      "checked_corners": 14636,
+      "centerline_overlap_samples": 0,
+      "edge_line_overlap_samples": 0,
+      "max_centerline_overlap_m": 0.0,
+      "max_edge_line_overlap_m": 0.0,
+      "worst_centerline_pose": null,
+      "worst_edge_pose": null,
+      "measurement_valid": true,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "finished_utc": "2026-11-03T16:08:46+00:00",
+  "elapsed_wall_seconds": 89.964,
+  "requested_speed_mps": 6.0,
+  "route_variant_sha256": "c8645c60556a8a2b38b78e6cba9bca40fe4db98a9bc7e43da897052b62f3c489",
+  "measurements": {
+    "achieved_max_speed_mps": 4.673729263334226,
+    "approach_max_speed_mps": 0.9868803810875888,
+    "minimum_front_gap_m": 0.846309955221459,
+    "stop_line_passed": true,
+    "collision": false,
+    "scenario_completed": true,
+    "goal_reached": true,
+    "max_corner_error_m": 1.658863243275725,
+    "outside_corridor_samples": 0,
+    "corridor_passed": true,
+    "painted_lane_passed": true,
+    "centerline_overlap_samples": 0,
+    "edge_line_overlap_samples": 0,
+    "max_centerline_overlap_m": 0.0,
+    "max_edge_line_overlap_m": 0.0
+  }
+}

@@ -102,7 +102,8 @@ def main():
     straight += [(-37.75, 30.0), (-37.75, 5.75)]
     straight += arc((-30.25, 5.75), 7.5, math.pi, 3 * math.pi / 2)
     straight += finish
-    write_route('straight_loop', straight)
+    write_route('straight_loop', straight,
+                extra_parameters={'max_lateral_acceleration': 0.45})
 
     outer_right = [(12.0, -1.75), (18.0, -1.75), (23.0, -1.75),
                    (29.65, -1.75)]

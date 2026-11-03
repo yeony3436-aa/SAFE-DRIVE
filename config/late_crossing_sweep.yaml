@@ -1,0 +1,6 @@
+# Small deterministic matrix for the connected continuous risk event.
+base_validation_config: config/connected_validation.yaml
+case: continuous_late_crossing
+speeds_mps: [1.2, 1.6]
+trigger_distances_m: [2.0, 4.0, 8.0]
+repeats: 1

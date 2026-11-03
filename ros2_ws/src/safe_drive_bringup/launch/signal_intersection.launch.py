@@ -38,6 +38,10 @@ def generate_launch_description() -> LaunchDescription:
                 FindPackageShare('safe_drive_control'), 'config',
                 'signal_controller.yaml'
             ]),
+            {'pedestrian_stop_enabled': ParameterValue(
+                LaunchConfiguration('pedestrian_stop'), value_type=bool),
+             'pedestrian_stop_margin': ParameterValue(
+                LaunchConfiguration('pedestrian_stop_margin'), value_type=float)},
         ],
     )
     signal = Node(
@@ -139,6 +143,8 @@ def generate_launch_description() -> LaunchDescription:
                               description='World file in safe_drive_sim/worlds.'),
         DeclareLaunchArgument('spawn_x', default_value='-210.0'),
         DeclareLaunchArgument('pedestrian', default_value='false'),
+        DeclareLaunchArgument('pedestrian_stop', default_value='false'),
+        DeclareLaunchArgument('pedestrian_stop_margin', default_value='0.6'),
         DeclareLaunchArgument('crossing_config',
                               default_value='signal_crossing.yaml'),
         DeclareLaunchArgument(

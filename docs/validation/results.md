@@ -432,3 +432,143 @@ overlap samples and zero edge-line overlap samples. The configured risk rule
 to contact. The case's `passed=true` means the event and measurements were
 recorded; the ego did not finish the return route. A first trial waited for
 route completion after the contact, timed out, and is retained separately.
+
+## 2026-11-04 — speed and entry-distance matrix for the late crossing
+
+The [six-run matrix](late_crossing_matrix_20261104/summary.json) repeated the
+same connected green-approach event in a fresh Gazebo process for each
+requested speed and trigger-distance threshold. All six event measurements
+were valid: initial red stop, moving vehicle on GREEN, pedestrian entry on
+DONT_WALK, completed crossing, and finite ground-truth distance. The minimum
+ego speed needed to trigger entry was 0.3 m/s. Actual entry speed and actor
+outcomes are in [runs.csv](late_crossing_matrix_20261104/runs.csv).
+
+| Requested ego speed | Entry threshold | Actual speed at entry | Contact | Minimum actor-center distance |
+| ---: | ---: | ---: | :---: | ---: |
+| 1.2 m/s | 2 m | 0.986 m/s | yes | 1.269 m |
+| 1.2 m/s | 4 m | 0.966 m/s | yes | 2.380 m |
+| 1.2 m/s | 8 m | 0.301 m/s | no | 3.865 m |
+| 1.6 m/s | 2 m | 1.301 m/s | yes | 1.180 m |
+| 1.6 m/s | 4 m | 1.252 m/s | yes | 2.380 m |
+| 1.6 m/s | 8 m | 0.313 m/s | no | 3.013 m |
+
+Contact at 4 m despite more than 2 m actor-center distance reflects body
+footprints; the center-distance threshold alone is not a collision detector.
+The 8 m cases start soon after green at relatively low actual speed, so they
+do not isolate entry distance from speed. Two preliminary 8 m runs started
+while the ego was nearly stationary and were correctly marked invalid; they
+are retained in `late_crossing_early_entry_20261104`. The revised
+minimum-speed trigger passed at 0.08 m/s but was still too slow for the
+intended comparison; those runs are retained in
+`late_crossing_early_entry_moving_20261104`. This final matrix uses the
+0.3 m/s trigger. One run per condition cannot establish a collision
+probability or a general speed effect.
+
+## 2026-11-04 — connected-road speed envelope and braking correction
+
+An [initial straight-loop sweep](connected_speed_envelope_straight_20261104/summary.json)
+at requested 2, 3, and 4 m/s exposed late destination braking: the measured
+goal distances were 0.785, 1.717, and 3.464 m, exceeding the 0.75 m
+acceptance limit. At 4 m/s the route also left its 1.75 m chassis-corner
+corridor and overlapped a painted edge line. These failed records are retained.
+The controller now limits speed from remaining route distance before selecting
+the final waypoint, and the straight loop has a 0.45 m/s² bend limit.
+
+| Requested | Case | Achieved maximum | Destination / red stop | Route and painted lines |
+| ---: | --- | ---: | --- | --- |
+| 2 m/s | [straight loop](connected_speed_final_low_20261104/summary.json) | 1.682 m/s | goal distance 0.205 m | passed; zero overlaps |
+| 3 m/s | [straight loop](connected_speed_final_low_20261104/summary.json) | 2.492 m/s | goal distance 0.531 m | passed; zero overlaps |
+| 4 m/s | [straight loop](connected_speed_curve_cap_4_20261104/summary.json) | 3.321 m/s | goal distance 0.082 m | passed; zero overlaps |
+| 6 m/s | [straight loop](connected_speed_curve_cap_6_20261104/summary.json) | 4.921 m/s | goal distance 0.184 m | passed; zero overlaps |
+| 4 m/s | [fixed red](connected_speed_red_4_20261104/summary.json) | 2.536 m/s | minimum front gap 0.683 m | passed; zero overlaps |
+| 6 m/s | [fixed red](connected_speed_signal_and_mission_6_20261104/summary.json) | 2.535 m/s | minimum front gap 0.708 m | passed; zero overlaps |
+| 4 m/s | [continuous right](connected_speed_continuous_4_20261104/summary.json) | 3.293 m/s | red gap 0.846 m; goal distance 0.732 m | passed; zero overlaps |
+| 6 m/s | [continuous right](connected_speed_signal_and_mission_6_20261104/summary.json) | 4.674 m/s | red gap 0.846 m; goal distance 0.731 m | passed; zero overlaps |
+
+The continuous mission reached only about 0.99 m/s during its initial red
+approach; the table reports its maximum over the complete route. At the
+requested 6 m/s, its maximum corner error was 1.659 m against a 1.75 m limit,
+and its goal distance was 0.731 m against 0.75 m. Those small margins and one
+run per condition call for repeats. The fixed-red approach is too short to
+test red stopping from the requested 6 m/s. Its maximum was only 2.535 m/s.
+Painted-line checks sample vehicle corners on marked straight arms; they do
+not validate unpainted junction interiors or all positions between samples.
+
+## 2026-11-04 — late crossing with non-force contact
+
+The pedestrian is a pose-driven static model. With its old physical collision
+response, the 1.2 m/s request, 2 m entry GUI run recorded contact and 175
+painted-centerline overlap samples; the vehicle was visibly shoved sideways.
+The same model geometry now has SDFormat `collide_without_contact=true`: Gazebo
+still reports contact, but does not generate contact force from the actor.
+A single-case rerun recorded contact with zero painted-line overlaps. The old
+and new runs had similar entry speeds (0.987 and 0.988 m/s), though exact
+timing differed.
+
+The complete [six-condition rerun](late_crossing_no_force_matrix_20261104/summary.json)
+replaced the former contact-physics matrix for current interpretation:
+
+| Requested speed | Entry threshold | Actual speed at entry | Contact | Minimum actor-center distance | Centerline overlap samples |
+| ---: | ---: | ---: | :---: | ---: | ---: |
+| 1.2 m/s | 2 m | 0.986 m/s | yes | 0.325 m | 0 |
+| 1.2 m/s | 4 m | 0.949 m/s | yes | 1.064 m | 0 |
+| 1.2 m/s | 8 m | 0.301 m/s | no | 3.870 m | 0 |
+| 1.6 m/s | 2 m | 1.297 m/s | yes | 0.759 m | 0 |
+| 1.6 m/s | 4 m | 1.259 m/s | yes | 0.397 m | 0 |
+| 1.6 m/s | 8 m | 0.313 m/s | no | 3.017 m | 0 |
+
+All six event-validity checks passed; edge-line overlaps were also zero.
+The [old matrix](late_crossing_matrix_20261104/summary.json) remains as a
+historical record but its post-contact distances and lane deviations include
+the artificial shove and must not be mixed with current results. `collision`
+here is a Gazebo contact/overlap event; the actor may pass through the vehicle
+after first contact. This does not measure impact force, injury, or realistic
+post-impact motion. Each condition still has only one run.
+
+## 2026-11-04 — crossing response and first-contact demo
+
+The opt-in `config/quality_demo.yaml` connects the late pedestrian scenario
+state to a configured front-of-crossing stop. The final 6 m entry
+[braking case](quality_demo_brake_6m_20261104/summary.json) started at a
+measured 0.826 m/s and passed its predefined checks: initial red stop, no
+pedestrian contact, 1.088 m minimum front-bumper-to-crossing gap while the
+pedestrian was active (required at least 0.3 m), and 0.013 m/s absolute speed
+immediately before crossing completion (required at most 0.15 m/s). Zero
+painted-line overlaps were
+recorded. Earlier margins of 0.6 and 0.9 m produced only 0.136 and 0.160 m
+measured gaps and correctly failed in the earlier 8 m entry runs. A 2.5 m
+margin passed but left 2.094 m gap, so the final demonstration uses 1.5 m.
+
+The original 2 m contact-cut attempt
+[passed its sensor criterion](quality_demo_contact_final_20261104/summary.json)
+but first touched the ego side when the pedestrian was still at `y=-2.85 m`.
+That event was visually ambiguous. The revised 5 m entry, no-response
+[contact case](quality_demo_contact_front_final_20261104/summary.json) reached
+the ego lane center (`y=-1.55 m`) and reported contact with a 0.320 m front
+gap at simulation time 18.2 s. The GUI rerun saved `CONTACT`, requested a
+Gazebo physics pause at first contact, and held the paused frame for five
+seconds before closing. The scenario did not finish the crossing. Its final
+acceptance checks now require contact within 0.5 m of the lane center and a
+front gap between -0.3 and 0.6 m. This demonstrates contact detection and
+cutoff, not impact physics. The braking case uses scenario state and a
+configured crossing x, not camera or LiDAR data. These are single deterministic
+demonstrations, not search results.
+Both cases were also launched with Gazebo GUI enabled and completed with saved
+results. A [forward camera frame at contact](quality_demo_contact_front_final_20261104/contact_camera.png)
+was captured and visually inspected: the pedestrian occupies the vehicle's
+forward view at close range. The external Gazebo GUI view could not be
+captured for independent visual assessment. The fixed-pose pedestrian and
+cutoff still do not constitute realistic impact animation.
+
+The user later observed that even the front-contact GUI freeze showed a visible
+gap. The ego visual mesh extends about 2.042 m forward from `base_link`, while
+its box collision extends 2.1 m. The pedestrian jacket extends about 0.215 m
+toward the ego, while the original collision cylinder radius is 0.28 m. Thus
+the old contact event could precede visible mesh contact by roughly 0.12 m
+along the approach, even before sampling and camera effects. An opt-in
+0.14 m collision radius for the contact demo leaves the six-condition matrix
+geometry unchanged. The [rerun](quality_demo_visual_contact_radius_20261104/summary.json)
+still recorded contact near the lane center, with front gap reduced from
+0.318 m to 0.166 m. The [new forward frame](quality_demo_visual_contact_radius_20261104/contact_camera.png)
+shows the pedestrian closer to the camera. The external GUI view remains
+unverified by this agent; visible contact quality is still in progress.
